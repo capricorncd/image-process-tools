@@ -268,6 +268,8 @@ IPTS.prototype.selectFile = function (btnNode, inputNode) {
  * @param {Object} callback 返回img及文件名称对象
  */
 IPTS.prototype.readImageFileData = function (inputId, callback) {
+
+	var me = this;
 	
 	if (typeof FileReader === undefined ) {
 		alert('您的浏览器不支持FileReader接口！\n请升级或更换高版本浏览器！');
@@ -283,6 +285,15 @@ IPTS.prototype.readImageFileData = function (inputId, callback) {
 				console.log('未选中文件！');
 				return false;
 			}
+
+			// 判断文件类型
+			if (!me.isImage(file.name)) {
+                me.options.error && me.options.error({
+                    code: 1,
+                    msg: '只支持图片文件，请重新选择'
+                });
+				return;
+			}
 			
 			// 实例化FileReader
 			var read = new FileReader();
@@ -294,6 +305,13 @@ IPTS.prototype.readImageFileData = function (inputId, callback) {
 				img.setAttribute('alt', file.name);
 				callback(img);
 			}
+
+			read.onerror = function (e) {
+                me.options.error && me.options.error({
+                    code: 1,
+                    msg: '文件读取错误'
+                });
+            }
 	
 		}, false);
 	} else {
@@ -384,6 +402,13 @@ IPTS.prototype.resize = function (img, params, callback) {
 		});
 		
 	}
+
+    img.onerror = function (e) {
+        me.options.error && me.options.error({
+            code: 1,
+            msg: '图片数据加载错误'
+        });
+    }
 	
 	// 超时操作
 	var timer = setTimeout(function() {
@@ -520,7 +545,24 @@ IPTS.prototype.toBlobData = function (data, type) {
 	var blob = new Blob([ia], {type: type});
 	
 	return blob;
-}
+};
+
+/**
+ * 判断文件是否为图片格式
+ * @param file
+ * @return {boolean}
+ */
+IPTS.prototype.isImage = function (file) {
+	// 图片类型
+    var imageType = ['png', 'jpg', 'jpeg', 'gif', 'webp', 'bmp'];
+    // 文件后缀
+    var suf = this.getFileSuffix(file);
+
+    if (imageType.join(',').indexOf(suf) > -1) {
+        return true;
+    }
+	return false;
+};
 
 
 /**

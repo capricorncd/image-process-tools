@@ -22,48 +22,41 @@ Image pre processing for upload (html5 + canvas)
 	var imgTools = new IPTS({
 		// 选择按钮id
 		elm: 'buttonId',
-		// 图片预览容器 id
-		// 容器height!=0
+		// 图片预览容器 id,容器height!=0
 		target: 'imgWrapper',
-		// 是否裁剪图片
-		// 为true时，必须同时设置width、height值大于0
+		// 是否裁剪图片。为true时，必须同时设置width、height值大于0
 		crop: true,
-		// 缩放尺寸：crop为false或不配置此项
-		// 限制宽度缩放，则只需设置width值
-		// 限制高度缩放，则只需设置height值
-		// 若crop为false，同时也设置了width/height值，则只按width缩放，忽略height
+		// 缩放宽高
 		width: 640,
 		height: 640,
-		// 是否转换图片格式
-		// false或不配置此项，则保留原图片格式
-		// 配置后，将所有格式图片转换为配置格式
-		// type值：'jpg', 'png'
-		// HTMLCanvasElement.toDataURL()不支持'gif', 'bmp'
-		// 文件格式为gif转换为png,bmp转换为jpg
+		// 处理后图片的格式，支持jpg、png格式
 		// type: 'jpg',
-		success: function (res) {
-			console.log(res.data);
-			alert('图片文件读取&编码转换成功，\n请详见浏览器控制台！');
+		// 处理完成回调函数
+		success: function (result) {
+		
+			// 所有返回参数
+		    console.log(result);
+
+		    console.log('裁剪或压缩后的图片数据:');
+			console.log(result.data);
+			console.log('处理后图片文件大小为：' + imgTools.conversion(result.size));
+
+            console.log('原图片数据:');
+            console.log(result.rawdata);
+            console.log('原图片文件大小为：' + imgTools.conversion(result.rawdata.size));
+			
 			/**
-			 * data: res.data //待上传的图像数据
-			 * 可将data写入input[value]，利用form表单上传
+			 * result.data //待上传的图像数据
+			 * 可将result.data写入input[value]，利用form表单上传
 			 * 或直接通过如腾讯云接口直接上传，如下：
 			 */
 			/**
 			 * 腾讯云上传实例，详见腾讯云文件上传文档
 			 * https://www.qcloud.com/document/product/436/8095
 			 */
-			// cos.uploadFile(
-				// successCallBack, // 上传成功回调函数
-				// errorCallBack, // 上传失败回调函数
-				// progressCallBack, // 上传进度回调函数
-				// bucket, // 腾讯云对象存储bucket目录
-				// '上传成功后的文件名.jpg', // 腾讯云目录文件夹+上传后的文件名
-				// data, // 图像文件数据
-				// 1 // 若bucket中有同名文件存在，是否覆盖
-			//);
 			
 		},
+		// 处理过程中的错误提示
 		error: function (err) {
 			console.warn(err.msg);
 		}

@@ -43,18 +43,18 @@
 		// 限制宽度缩放，则只需设置width值
 		// 限制高度缩放，则只需设置height值
 		// 若crop为false，同时也设置了width/height值，则只按width缩放，忽略height
-		width: 240,
-//		height: 640,
+		width: 640,
+		height: 640,
 		// 是否转换图片格式
 		// false或不配置此项，则保留原图片格式
 		// 配置后，将所有格式图片转换为配置格式
 		// type值：'jpg', 'png'
 		// HTMLCanvasElement.toDataURL()不支持'gif', 'bmp'
 		// 文件格式为gif转换为png,bmp转换为jpg
-//		type: 'jpg',
+		// type: 'jpg',
 		success: function (result) {
 
-		    // 所以返回参数
+		    // 所有返回参数
 		    console.log(result);
 
 		    console.log('裁剪或压缩后的图片数据:');

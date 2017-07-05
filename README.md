@@ -135,6 +135,11 @@ Image pre processing for upload (html5 + canvas)
 </script>
 ```
 
+修改后的文件生成，并压缩：
+
+```bash
+npm run build
+```
 
 ## 使用效果图
 

@@ -487,6 +487,11 @@ fn.isImage = function (file) {
     // 文件后缀
     var suf = this.getFileSuffix(file);
 
+    // 判断文件名是否带有?search
+	if (/(\w+)\?/.test(suf)) {
+		suf = RegExp.$1;
+	}
+
     if (imageType.join(',').indexOf(suf) > -1) {
         return true;
     }

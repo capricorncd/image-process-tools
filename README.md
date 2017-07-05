@@ -6,6 +6,8 @@ Image pre processing for upload (html5 + canvas)
 
 > 处理完成后，将返回处理完成的数据，及原图片文件的大小、宽度、高度和Base64数据。(详见参数说明)
 
+> 非图片文件将不做处理，返回文件信息
+
 ## 使用方法
 
 ```html
@@ -36,14 +38,16 @@ Image pre processing for upload (html5 + canvas)
 		
 			// 所有返回参数
 		    console.log(result);
+			
+			if (result.code === 0) {
+                console.log('裁剪或压缩后的图片数据:');
+                console.log(result.data);
+                console.log('处理后图片文件大小为：' + imgTools.conversion(result.size));
 
-		    console.log('裁剪或压缩后的图片数据:');
-			console.log(result.data);
-			console.log('处理后图片文件大小为：' + imgTools.conversion(result.size));
-
-            console.log('原图片数据:');
-            console.log(result.rawdata);
-            console.log('原图片文件大小为：' + imgTools.conversion(result.rawdata.size));
+                console.log('原图片数据:');
+                console.log(result.rawdata);
+                console.log('原图片文件大小为：' + imgTools.conversion(result.rawdata.size));
+			}
 			
 			/**
 			 * result.data //待上传的图像数据
@@ -212,3 +216,26 @@ Image pre processing for upload (html5 + canvas)
 * isImage(fileName) // 判断文件是否为图片格式
 
 * toBlobData(Base64Data, type) // 将图片base64数据转换为blob可上传的数据; type可选,默认与Base64Data类型相同,支持类型`image/png`, `image/jpeg`
+
+## 返回code说明
+
+#### 成功code
+
+| code | msg |
+| :---: | --- |
+| 0 | 成功，程序正常完成整套流程，并返回最终结果 |
+| 1 | 选中的文件非图片文件，返回选中文件数据data |
+
+#### 错误code
+
+| code | msg |
+| :---: | --- |
+| 1 | 配置参数未配置或有误 |
+| 2 | 配置图片选择按钮id |
+| 3 | 浏览器不支持addEventListener() |
+| 4 | 浏览器不支持FileReader接口，需升级或更换高版本的浏览器 |
+| 5 | 未选中文件 |
+| 6 | 选中的文件不是图片文件 |
+| 7 | 文件读取错误 |
+| 8 | 图片数据加载错误 |
+| 9 | 当前图片文件尺寸小于裁剪尺寸 |

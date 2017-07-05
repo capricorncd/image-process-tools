@@ -23,6 +23,25 @@ var TYPES = {
 	bmp: 'image/jpeg'
 };
 
+// 成功代码
+var CODE_SUC = {
+	0: '成功，程序正常完成整套流程，并返回最终结果',
+	1: '选中的文件非图片文件，返回选中文件数据data'
+}
+
+// 错误代码
+var CODE_ERR = {
+	1: '配置参数未配置或有误',
+	2: '配置图片选择按钮id',
+	3: '浏览器不支持addEventListener()',
+	4: '浏览器不支持FileReader接口！\n需升级或更换高版本的浏览器',
+	5: '未选中文件',
+	6: '选中的文件不是图片文件',
+	7: '文件读取错误',
+	8: '图片数据加载错误',
+	9: '当前图片文件尺寸小于裁剪尺寸'
+}
+
 /**
  * 图片上传预处理
  * IPTS: imageProcessTools
@@ -37,7 +56,7 @@ function IPTS(options) {
 	if (!options instanceof Object) {
 		options.error && options.error({
 			code: 1,
-			msg: '配置参数未配置或有误！'
+			msg: CODE_ERR[1]
 		});
 		return false;
 	}
@@ -45,8 +64,8 @@ function IPTS(options) {
 	// 按钮id
 	if (!options.elm || typeof options.elm !== 'string') {
 		options.error && options.error({
-			code: 1,
-			msg: '请配置图片选择按钮id！'
+			code: 2,
+			msg: CODE_ERR[2]
 		});
 		return false;
 	}
@@ -123,8 +142,8 @@ fn._selectFile = function (btnNode, inputNode) {
 		}, false);
 	} else {
 		this.options.error && this.options.error({
-			code: 1,
-			msg: '您的浏览器不支持addEventListener！'
+			code: 3,
+			msg: CODE_ERR[3]
 		});
 	}
 };
@@ -140,8 +159,8 @@ fn.readImageFileData = function (inputTempId, callback) {
 	
 	if (typeof FileReader === 'undefined' ) {
 		this.options.error && this.options.error({
-			code: 1,
-			msg: '您的浏览器不支持FileReader接口！\n请升级或更换高版本浏览器！'
+			code: 4,
+			msg: CODE_ERR[4]
 		});
 		return false;
 	}
@@ -154,17 +173,25 @@ fn.readImageFileData = function (inputTempId, callback) {
 			
 			if (!file) {
 				me.options.error && me.options.error({
-					code: 1,
-					msg: '未选中文件'
+					code: 5,
+					msg: CODE_ERR[5]
 				});
 				return;
 			}
 
 			// 判断文件类型
 			if (!me.isImage(file.name)) {
+				
+				// 返回上传文件信息
+				me.options.success && me.options.success({
+		            code: 1,
+		            msg: CODE_SUC[1],
+		            data: file
+		        });
+				
                 me.options.error && me.options.error({
-                    code: 1,
-                    msg: '只支持图片文件，请重新选择'
+                    code: 6,
+                    msg: CODE_ERR[6]
                 });
 				return;
 			}
@@ -190,16 +217,16 @@ fn.readImageFileData = function (inputTempId, callback) {
 
             READ.onerror = function (e) {
                 me.options.error && me.options.error({
-                    code: 1,
-                    msg: '文件读取错误'
+                    code: 7,
+                    msg: CODE_ERR[7]
                 });
             }
 	
 		}, false);
 	} else {
         me.options.error && me.options.error({
-			code: 1,
-			msg: '浏览器版本过低，不支持addEventListener'
+			code: 3,
+			msg: CODE_ERR[3]
 		});
 		return false;
 	}
@@ -234,8 +261,8 @@ fn._getImageInfo = function (img, callback) {
 
     img.onerror = function (e) {
         me.options.error && me.options.error({
-            code: 1,
-            msg: '图片数据加载错误'
+            code: 8,
+            msg: CODE_ERR[8]
         });
     }
 };
@@ -304,8 +331,8 @@ fn._calculateNewData = function (params) {
     // 提示：图片实际尺寸，小于目标尺寸
 	if (iw < targetWidth || ih < targetHeight) {
 		this.options.error && this.options.error({
-			code: 2,
-			msg: '当前图片文件尺寸小于裁剪尺寸'
+			code: 9,
+			msg: CODE_ERR[9]
 		});
 	}
 

@@ -6,7 +6,7 @@ Image pre processing for upload (html5 + canvas)
 
 > 处理完成后，将返回处理完成的数据，及原图片文件的大小、宽度、高度和Base64数据。(详见参数说明)
 
-> 非图片文件将不做处理，返回文件信息
+> 非图片文件将不做处理，返回文件数据data(name, lastModified, lastModifiedDate, size, type)等信息
 
 ## 使用方法
 

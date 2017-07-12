@@ -39,7 +39,7 @@ Image pre processing for upload (html5 + canvas)
 			// 所有返回参数
 		    console.log(result);
 			
-			if (result.code === 0) {
+		    if (result.code === 0) {
                 console.log('裁剪或压缩后的图片数据:');
                 console.log(result.data);
                 console.log('处理后图片文件大小为：' + imgTools.conversion(result.size));

@@ -73,7 +73,7 @@ function IPTS(options) {
     this.options = options;
 	
 	// input[type="file"] id
-	var inputTempId = 'IPTS_' + Date.parse(new Date());
+	var inputTempId = 'IPTS_' + (new Date()).getTime();
 	
 	// 将input节点添加至按钮后面
 	this._createFileInput(options.elm, inputTempId);

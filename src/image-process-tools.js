@@ -45,57 +45,55 @@ var CODE_ERR = {
 /**
  * 图片上传预处理
  * IPTS: imageProcessTools
- * @param {Object} options 配置数据
- * @param {Object} options.success.data 处理成功后的文件数据
+ * @param {Object} opts 配置数据
+ * @param {Object} opts.success.data 处理成功后的文件数据
  */
-function IPTS(options) {
+function IPTS(opts) {
 	
 	var me = this;
 	
 	// 配置参数
-	if (!options instanceof Object) {
-		options.error && options.error({
+	if (!opts instanceof Object) {
+		opts.error && opts.error({
 			code: 1,
 			msg: CODE_ERR[1]
 		});
-		return false;
+		return;
 	}
 	
 	// 按钮id
-	if (!options.elm || typeof options.elm !== 'string') {
-		options.error && options.error({
+	if (!opts.elm || typeof opts.elm !== 'string') {
+		opts.error && opts.error({
 			code: 2,
 			msg: CODE_ERR[2]
 		});
-		return false;
+		return;
 	}
 
-    this.options = options;
+    this.opts = opts;
 	
 	// input[type="file"] id
 	var inputTempId = 'IPTS_' + (new Date()).getTime();
 	
 	// 将input节点添加至按钮后面
-	this._createFileInput(options.elm, inputTempId);
+	this._createFileInput(opts.elm, inputTempId);
 	
 	// 读取图片文件数据
 	// 并显示在指定wrapper内
 	// 将图片写入容器
-	this.readImageFileData(inputTempId, function (imageInfo) {
-
-		// 获取裁剪后的图像数据
-		me.getCropImageData(imageInfo, function (result) {
-			// 是否在targetWrapper容器内显示处理后的图片(canvas)
-			var targetWrapper = options.target;
+	this.readImageFileData(inputTempId, function (imgInfo) {
+		// 处理图片
+		me.handleImageData(imgInfo, function (result) {
+            // 是否在targetWrapper容器内显示处理后的图片(canvas)
+            var targetWrapper = opts.target;
             if (targetWrapper) {
                 $(targetWrapper).innerHTML = '';
                 $(targetWrapper).appendChild(result.element);
             }
 
             // 返回处理完成的数据
-            options.success && options.success(result);
+            opts.success && opts.success(result);
         });
-
 	});
 
 };
@@ -129,7 +127,6 @@ fn._createFileInput = function (elm, inputId) {
  * @param {Object} inputNode input[type="file"]节点
  */
 fn._selectFile = function (btnNode, inputNode) {
-    	
     if (btnNode.addEventListener) {
 		btnNode.addEventListener('click', function (e) {
 			// 模拟input点击事件
@@ -141,7 +138,7 @@ fn._selectFile = function (btnNode, inputNode) {
 			inputNode.dispatchEvent(evt);
 		}, false);
 	} else {
-		this.options.error && this.options.error({
+		this.opts.error && this.opts.error({
 			code: 3,
 			msg: CODE_ERR[3]
 		});
@@ -158,21 +155,21 @@ fn.readImageFileData = function (inputTempId, callback) {
 	var me = this;
 	
 	if (typeof FileReader === 'undefined' ) {
-		this.options.error && this.options.error({
+		this.opts.error && this.opts.error({
 			code: 4,
 			msg: CODE_ERR[4]
 		});
-		return false;
+		return;
 	}
 
 	// 监听input[type="file"]变化，读取文件数据
 	if ($(inputTempId).addEventListener) {
 		$(inputTempId).addEventListener('change', function (e) {
 			// 选中的图片文件
-			var file = e.target.files[0];
+			var file = this.files[0];
 			
 			if (!file) {
-				me.options.error && me.options.error({
+				me.opts.error && me.opts.error({
 					code: 5,
 					msg: CODE_ERR[5]
 				});
@@ -181,15 +178,14 @@ fn.readImageFileData = function (inputTempId, callback) {
 
 			// 判断文件类型
 			if (!me.isImage(file.name)) {
-				
 				// 返回上传文件信息
-				me.options.success && me.options.success({
+				me.opts.success && me.opts.success({
 		            code: 1,
 		            msg: CODE_SUC[1],
 		            data: file
 		        });
 				
-                me.options.error && me.options.error({
+                me.opts.error && me.opts.error({
                     code: 6,
                     msg: CODE_ERR[6]
                 });
@@ -197,26 +193,22 @@ fn.readImageFileData = function (inputTempId, callback) {
 			}
 			
 			// 实例化FileReader
-			var READ = new FileReader();
+			var READER = new FileReader();
 			var img = new Image();
 
 			// readAsDataURL方法用于读取指定Blob或File的内容。
 			// 当读操作完成，readyState变为DONE, loadend被触发，
 			// 此时result属性包含数据：URL以base64编码的字符串表示文件的数据。
-            READ.readAsDataURL(file);
-            READ.onload = function (e) {
-
-				img.src = e.target.result;
+            READER.readAsDataURL(file);
+            READER.onload = function (e) {
+				img.src = this.result;
 				img.setAttribute('alt', file.name);
-
-				// 获取图片信息
-                me._getImageInfo(img, function (imageInfo) {
-                    callback && callback(imageInfo);
-                });
+                // 获取图片信息
+                me._getImageInfo(img, callback);
 			}
 
-            READ.onerror = function (e) {
-                me.options.error && me.options.error({
+            READER.onerror = function (e) {
+                me.opts.error && me.opts.error({
                     code: 7,
                     msg: CODE_ERR[7]
                 });
@@ -224,14 +216,94 @@ fn.readImageFileData = function (inputTempId, callback) {
 	
 		}, false);
 	} else {
-        me.options.error && me.options.error({
+        me.opts.error && me.opts.error({
 			code: 3,
 			msg: CODE_ERR[3]
 		});
-		return false;
 	}
-	
 };
+
+/**
+ * 处理图片数据
+ * @param img image对象
+ * @param callback
+ */
+fn.handleImageData = function (imageInfo, callback) {
+	var me = this;
+    // 文件类型
+    var setType = this.opts.type ? this.opts.type.toLowerCase() : null;
+    var dataType = (setType && TYPES[setType]) ? TYPES[setType] : imageInfo.type;
+
+    this.opts.progress && this.opts.progress(0);
+
+    // 计算图片缩放或裁剪位置、尺寸
+    var res = this.calculateCropInfo(imageInfo.width, imageInfo.height);
+
+    var canvas = imageInfo.element;
+
+    var scaling = 2;
+    var sw = res.sw, sh = res.sh;
+    var sx = res.sx, sy = res.sy;
+    if (res.scaling > scaling) {
+        scaling = res.scaling;
+        do {
+            this.opts.progress && this.opts.progress(2/scaling);
+            canvas = this.createCanvas(canvas, {
+                cw: res.cw * scaling,
+                ch: res.ch * scaling,
+                sx: sx,
+                sy: sy,
+                sw: sw,
+                sh: sh
+            });
+		    sw = canvas.width;
+		    sh = canvas.height;
+            sx = sy = 0;
+            scaling -= 1;
+		} while (scaling > 2);
+    }
+    canvas = this.createCanvas(canvas, {
+        cw: res.cw,
+        ch: res.ch,
+        sx: sx,
+        sy: sy,
+        sw: sw,
+        sh: sh
+    });
+
+    var data = canvas.toDataURL(dataType);
+    	data = this.toBlobData(data, dataType);
+
+    this.opts.progress && this.opts.progress(1);
+
+    callback && callback({
+        code: 0,
+        msg: 'Completed',
+        element: canvas,
+        type: dataType,
+        width: res.cw,
+        height: res.ch,
+        data: data,
+        size: data.size,
+        // 原始图片数据
+        rawdata: imageInfo
+    });
+}
+
+/**
+ * 创建Canvas
+ * @param elm Image对象或Canvas元素
+ * @param p 裁剪参数
+ * @returns {Element}
+ */
+fn.createCanvas = function (elm, p) {
+	var canvas = document.createElement('canvas');
+		canvas.width = p.cw;
+		canvas.height = p.ch;
+    var ctx = canvas.getContext('2d');
+    	ctx.drawImage(elm, p.sx, p.sy, p.sw, p.sh, 0, 0, canvas.width, canvas.height);
+    return canvas;
+}
 
 /**
  * 获取图片信息
@@ -240,14 +312,10 @@ fn.readImageFileData = function (inputTempId, callback) {
  * @private
  */
 fn._getImageInfo = function (img, callback) {
-
 	var me = this;
-
 	// 加载图片
     img.onload = function (e) {
-
     	var data = img.src;
-
         callback && callback({
             element: img,
 			width: img.width,
@@ -256,11 +324,10 @@ fn._getImageInfo = function (img, callback) {
 			data: data,
 			size: me.toBlobData(data).size
 		});
-
     }
 
     img.onerror = function (e) {
-        me.options.error && me.options.error({
+        me.opts.error && me.opts.error({
             code: 8,
             msg: CODE_ERR[8]
         });
@@ -268,99 +335,35 @@ fn._getImageInfo = function (img, callback) {
 };
 
 /**
- * 获取裁剪后图片(canvas)数据
- * @param imageInfo
- * @param callback
- */
-fn.getCropImageData = function (imageInfo, callback) {
-
-    // 文件类型
-	var setType = this.options.type ? this.options.type.toLowerCase() : null;
-    var dataType = (setType && TYPES[setType]) ? TYPES[setType] : imageInfo.type;
-
-    // 图片缩放或裁剪位置、尺寸计算
-    var res = this._calculateNewData({
-        width: imageInfo.width,
-        height: imageInfo.height
-	});
-
-    // 创建canvas图片容器
-    var canvas = document.createElement('canvas');
-		canvas.width = res.cw;
-		canvas.height = res.ch;
-
-    var ctx = canvas.getContext('2d');
-    	ctx.drawImage(imageInfo.element, res.sx, res.sy, res.sw, res.sh, 0, 0, res.cw, res.ch);
-
-    var data = canvas.toDataURL(dataType);
-
-    	data = this.toBlobData(data, dataType);
-
-    callback({
-        code: 0,
-        msg: 'Completed',
-        element: canvas,
-        type: dataType,
-		width: res.cw,
-		height: res.ch,
-		data: data,
-		size: data.size,
-        // 原始图片数据
-        rawdata: imageInfo
-    });
-
-};
-
-/**
- * 计算生成新图片的尺寸
- * @param {Object} params
+ * 计算生成图片裁剪位置及尺寸
+ * @param {Number} iw // 原图宽
+ * @param {Number} ih // 原图高
  * @param {Object} callback 生成图片尺寸、坐标数据
  */
-fn._calculateNewData = function (params) {
+fn.calculateCropInfo = function (iw, ih) {
 
-	var opts = this.options;
-
-    // 原图尺寸
-    var iw = params.width;
-    var ih = params.height;
-
+	var opts = this.opts;
+    // 是否对图片进行裁剪
+    var IS_CROP = typeof opts.crop === 'boolean' ? opts.crop : false;
     // 目标图片尺寸
     var targetWidth = toNumber(opts.width);
     var targetHeight = toNumber(opts.height);
 
     // 提示：图片实际尺寸，小于目标尺寸
 	if (iw < targetWidth || ih < targetHeight) {
-		this.options.error && this.options.error({
+		this.opts.error && this.opts.error({
 			code: 9,
 			msg: CODE_ERR[9]
 		});
 	}
 
-    // 如果图片尺寸与设置尺寸相同时，则不需计算及canvas渲染
-    // if (iw === targetWidth && ih === targetHeight) {
-    //     return {
-    //         sx: 0, // 裁剪起始位置x
-    //         sy: 0, // 裁剪起始位置y
-    //         sw: iw,
-    //         sh: ih,
-    //         cw: targetWidth,
-    //         ch: targetHeight
-    //     }
-    // }
-
-    // 是否对图片进行裁剪
-    var IS_CROP = typeof opts.crop === 'boolean' ? opts.crop : false;
-	
 	// 缩放比列
-	var ratio = 1;
+	var scaling = 1;
 		
-	// 图片开始裁剪位置
-	var sx = 0,
-		sy = 0;
+	// 图片开始裁剪位置 x,y坐标
+	var sx = 0, sy = 0;
 	// canvas 尺寸
-	var cw = iw,
-		ch = ih;
-
+	var canvasWidth = iw, canvasHieght = ih;
     // 等比缩放后的图片尺寸
     var sw = 0, sh = 0;
 	
@@ -368,57 +371,58 @@ fn._calculateNewData = function (params) {
 	// 等比缩放到合适大小，在居中裁剪
 	if (IS_CROP && targetWidth > 0 && targetHeight > 0) {
 		// canvas的尺寸即为裁剪设置尺寸
-		cw = targetWidth;
-		ch = targetHeight;
+        canvasWidth = targetWidth;
+        canvasHieght = targetHeight;
 		
 		// 按目标宽度调整图片尺寸：图片宽度 === 裁剪框宽
 		sw = targetWidth;
 		sh = Math.floor(targetWidth*ih/iw);
-		
-		ratio = this._ratio(iw, targetWidth);
+
+        scaling = this._ratio(iw, targetWidth);
 		
 		// 图片高度超出裁剪框，能正常裁剪
 		if (sh >= targetHeight) {
 			sx = 0;
-			sy = toNumber((sh - targetHeight)/2*ratio);
+			sy = toNumber((sh - targetHeight)/2*scaling);
 		}
 		// 不满足裁剪需求，需重新缩放：图片高度 === 裁剪框高度
 		else {
 			sw = Math.floor(targetHeight*iw/ih);
 			sh = targetHeight;
-			sx = toNumber((sw - targetWidth)/2*ratio);
+			sx = toNumber((sw - targetWidth)/2*scaling);
 			sy = 0;
-			ratio = this._ratio(ih, targetHeight);
+            scaling = this._ratio(ih, targetHeight);
 		}
 		
 	}
 	// 缩放图片代码 **********************************
 	// 只设置了宽度
 	else if (targetWidth > 0) {
-		cw = targetWidth;
-		ch = Math.floor(targetWidth*ih/iw);
-		ratio = this._ratio(iw, targetWidth);
+        canvasWidth = targetWidth;
+        canvasHieght = Math.floor(targetWidth*ih/iw);
+        scaling = this._ratio(iw, targetWidth);
 	}
 	// 只设置了宽度
 	else if (targetHeight > 0) {
-		cw = Math.floor(targetHeight*iw/ih);
-		ch = targetHeight;
-		ratio = this._ratio(ih, targetHeight);
+        canvasWidth = Math.floor(targetHeight*iw/ih);
+        canvasHieght = targetHeight;
+        scaling = this._ratio(ih, targetHeight);
 	}
 	// 不处理图片
 	// if (targetWidth === 0 && targetHeight === 0)
-	else {
-		cw = iw;
-		ch = ih;
-	};
+	// else {
+	// 	canvasWidth = iw;
+	// 	canvasHieght = ih;
+	// }
 	
 	return {
-		sx: sx,
-		sy: sy,
-		sw: toNumber(cw*ratio),
-		sh: toNumber(ch*ratio),
-		cw: cw,
-		ch: ch
+		sx: sx, // 裁剪开始x坐标
+		sy: sy, // 裁剪开始y坐标
+		sw: toNumber(canvasWidth*scaling),
+		sh: toNumber(canvasHieght*scaling),
+        scaling: scaling,
+		cw: canvasWidth,
+		ch: canvasHieght
 	};
 }
 
@@ -469,7 +473,6 @@ fn.getBase64Info = function (data) {
 	if (/data:(\w+\/\w+);base64/.test(arr[0])) {
 		type = RegExp.$1;
 	}
-
 	return {
 		type: type,
 		data: arr[1]
@@ -486,16 +489,9 @@ fn.isImage = function (file) {
     var imageType = ['png', 'jpg', 'jpeg', 'gif', 'webp', 'bmp'];
     // 文件后缀
     var suf = this.getFileSuffix(file);
-
     // 判断文件名是否带有?search
-	if (/(\w+)\?/.test(suf)) {
-		suf = RegExp.$1;
-	}
-
-    if (imageType.join(',').indexOf(suf) > -1) {
-        return true;
-    }
-	return false;
+	if (/(\w+)\?/.test(suf)) suf = RegExp.$1;
+    return imageType.indexOf(suf) > -1 ? true : false;
 };
 
 
@@ -514,10 +510,7 @@ function $(id) {
  */
 function toNumber (n) {
 	var num = parseInt(n);
-	if (isNaN(num)) {
-		return 0;
-	}
-	return num;
+	return isNaN(num) ? 0 : num;
 };
 
 /**
@@ -534,14 +527,9 @@ fn.getFileSuffix = function (fileName) {
  * @return {string}
  */
 fn.conversion = function (size) {
-	size = toNumber(size);
 	// 计算文件大小多少kb
-	var kb = toNumber((size/1024)*100)/100;
-	if (kb >= 1024) {
-		return toNumber((kb/1024)*100)/100 + 'M';
-	} else {
-		return kb + 'KB';
-	}
+	var kb = toNumber((toNumber(size)/1024)*100)/100;
+	return kb >= 1024 ? toNumber((kb/1024)*100)/100 + 'M' : kb + 'KB';
 };
 
 module.exports = IPTS;

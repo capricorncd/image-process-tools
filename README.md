@@ -14,6 +14,9 @@ Image pre processing for upload (html5 + canvas)
 <div id="imgWrapper">
 	<!-- 图片预览容器 -->
 </div>
+<div id="progressElm">
+	<!-- 图片处理进度 -->
+</div>
 <div>
 	<button id="buttonId">选择图片</button>
 </div>
@@ -60,6 +63,13 @@ Image pre processing for upload (html5 + canvas)
 			 */
 			
 		},
+		// 图片处理进度
+        // progress {Number} 0-1范围
+        progress: function (progress) {
+            // 显示进度的元素
+            document.getElementById('progressElm').innerHTML = progress;
+            console.log(progress);
+        },
 		// 处理过程中的错误提示
 		error: function (err) {
 			console.warn(err.msg);

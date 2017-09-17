@@ -220,7 +220,7 @@ npm run build
 >  > type: `image/png`, 原图片格式  
 >  > width: `2000` 原图片宽度   
 
-* progress: `function(progress){ alert(progress); }` 图片处理据进度，范围0-1。仅对处理图片有效，非图片文件没有回调。
+* progress: `function(progress){ console.log(progress); }` 图片处理据进度，范围0-1。仅对处理图片有效，非图片文件没有回调。
 
 * error: `function(err){ alert(err.msg); }` 处理过程中的错误或警告回调函数
 

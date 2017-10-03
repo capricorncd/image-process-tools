@@ -12,37 +12,35 @@ Image pre processing for upload (html5 + canvas)
 
 ```html
 <div id="imgWrapper">
-	<!-- 图片预览容器 -->
+    <!-- 图片预览容器 -->
 </div>
 <div id="progressElm">
-	<!-- 图片处理进度 -->
+    <!-- 图片处理进度 -->
 </div>
 <div>
-	<button id="buttonId">选择图片</button>
+    <button id="buttonId">选择图片</button>
 </div>
 
 <script src="../build/image-process-tools.min.js"></script>
 
 <script>
-	var imgTools = new IPTS({
-		// 选择按钮id
-		elm: 'buttonId',
-		// 图片预览容器 id,容器height!=0
-		target: 'imgWrapper',
-		// 是否裁剪图片。为true时，必须同时设置width、height值大于0
-		crop: true,
-		// 缩放宽高
-		width: 640,
-		height: 640,
-		// 处理后图片的格式，支持jpg、png格式
-		// type: 'jpg',
-		// 处理完成回调函数
-		success: function (result) {
-		
-			// 所有返回参数
-		    console.log(result);
-			
-		    if (result.code === 0) {
+    var imgTools = new IPTS({
+        // 选择按钮id
+        elm: 'buttonId',
+        // 图片预览容器 id,容器height!=0
+        target: 'imgWrapper',
+        // 是否裁剪图片。为true时，必须同时设置width、height值大于0
+        crop: true,
+        // 缩放宽高
+        width: 640,
+        height: 640,
+        // 处理后图片的格式，支持jpg、png格式
+        // type: 'jpg',
+        // 处理完成回调函数
+        success: function (result) {
+        // 所有返回参数
+	    console.log(result);
+	    if (result.code === 0) {
                 console.log('裁剪或压缩后的图片数据:');
                 console.log(result.data);
                 console.log('处理后图片文件大小为：' + imgTools.conversion(result.size));
@@ -50,31 +48,30 @@ Image pre processing for upload (html5 + canvas)
                 console.log('原图片数据:');
                 console.log(result.rawdata);
                 console.log('原图片文件大小为：' + imgTools.conversion(result.rawdata.size));
-			}
+            }
 			
-			/**
-			 * result.data //待上传的图像数据
-			 * 可将result.data写入input[value]，利用form表单上传
-			 * 或直接通过如腾讯云接口直接上传，如下：
-			 */
-			/**
-			 * 腾讯云上传实例，详见腾讯云文件上传文档
-			 * https://www.qcloud.com/document/product/436/8095
-			 */
-			
-		},
-		// 图片处理进度
+            /**
+	     * result.data //待上传的图像数据
+	     * 可将result.data写入input[value]，利用form表单上传
+	     * 或直接通过如腾讯云接口直接上传，如下：
+	     */
+	    /**
+	     * 腾讯云上传实例，详见腾讯云文件上传文档
+	     * https://www.qcloud.com/document/product/436/8095
+	     */
+	},
+	// 图片处理进度
         // progress {Number} 0-1范围
         progress: function (progress) {
             // 显示进度的元素
             document.getElementById('progressElm').innerHTML = progress;
             console.log(progress);
         },
-		// 处理过程中的错误提示
-		error: function (err) {
-			console.warn(err.msg);
-		}
-	});
+	// 处理过程中的错误提示
+	error: function (err) {
+	    console.warn(err.msg);
+	}
+    });
 </script>
 
 ```
@@ -120,32 +117,28 @@ Image pre processing for upload (html5 + canvas)
 
       // 初始化上传数据
       initUploadData () {
-
         let vm = this;
-        
         let imgTools = new IPTS({
-        	elm: 'selectorFileBtn',
-		    target: 'imgWrapper',
-		    crop: true,
-		    width: 640,
-		    height: 640,
-		    success: (res) => {
-			    // 存储数据，方便上传时读取
-	            vm.uploadData = res.data;
-		    },
-		    error: (err) => {
-		    	console.warn(err.msg);
-		    }
-        });
-        
+            elm: 'selectorFileBtn',
+	    target: 'imgWrapper',
+	    crop: true,
+	    width: 640,
+	    height: 640,
+	    success: (res) => {
+	        // 存储数据，方便上传时读取
+	        vm.uploadData = res.data;
+	    },
+	    error: (err) => {
+	        console.warn(err.msg);
+	    }
+        })
       }
-
     }
   }
 </script>
 ```
 
-修改后的文件生成，并压缩：
+修改后的文件生成，并压缩js代码
 
 ```bash
 npm run build

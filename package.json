@@ -1,6 +1,6 @@
 {
-  "name": "image-process-tools",
-  "version": "2.2.1",
+  "name": "image-process",
+  "version": "2.2.2",
   "author": "Capricorncd",
   "devDependencies": {
     "grunt": "^1.0.1",
@@ -17,11 +17,11 @@
     "crop",
     "upload"
   ],
-  "description": "image-process-tools\r ====\r Image pre processing for upload (html5 + canvas)",
+  "description": "image-process-tools. Image pre processing for upload (html5 + canvas)",
   "bugs": {
     "url": "https://github.com/capricorncd/image-process-tools/issues"
   },
-  "homepage": "https://github.com/capricorncd/image-process-tools#readme",
+  "homepage": "https://github.com/capricorncd/image-process-tools",
   "main": "build/image-process-tools.min.js",
   "scripts": {
     "build": "webpack && grunt"

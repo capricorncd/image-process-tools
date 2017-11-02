@@ -315,26 +315,26 @@ fn.calculateCropInfo = function (iw, ih) {
     }
     // 不满足裁剪需求，需重新缩放：图片高度 === 裁剪框高度
     else {
+      scaling = ratio(ih, targetHeight)
       sw = Math.floor(targetHeight*iw/ih)
       sh = targetHeight
       sx = toNumber((sw - targetWidth)/2*scaling)
       sy = 0
-      scaling = ratio(ih, targetHeight)
     }
 
   }
   // 缩放图片代码 **********************************
   // 只设置了宽度
   else if (targetWidth > 0) {
+    scaling = ratio(iw, targetWidth)
     canvasWidth = targetWidth
     canvasHieght = Math.floor(targetWidth*ih/iw)
-    scaling = ratio(iw, targetWidth);
   }
   // 只设置了宽度
   else if (targetHeight > 0) {
+    scaling = ratio(ih, targetHeight)
     canvasWidth = Math.floor(targetHeight*iw/ih)
     canvasHieght = targetHeight
-    scaling = ratio(ih, targetHeight)
   }
 
   return {

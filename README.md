@@ -8,6 +8,12 @@ Image pre processing for upload (html5 + canvas)
 
 > 非图片文件将不做处理，返回文件数据data(name, lastModified, lastModifiedDate, size, type)等信息
 
+## npm
+
+```
+npm install image-process --save-dev
+```
+
 ## 使用方法
 
 ```html

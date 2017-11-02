@@ -32,9 +32,9 @@ npm install image-process --save-dev
 <script>
   var imgTools = new IPTS({
     // 选择按钮id
-    elm: 'buttonId',
+    elm: '#buttonId',
     // 图片预览容器 id,容器height!=0
-    target: 'imgWrapper',
+    target: '#imgWrapper',
     // 是否裁剪图片。为true时，必须同时设置width、height值大于0
     crop: true,
     // 缩放宽高
@@ -120,8 +120,8 @@ npm install image-process --save-dev
       // 初始化上传数据
       initUploadData () {
         let imgTools = new IPTS({
-          elm: 'selectorFileBtn',
-          target: 'imgWrapper',
+          elm: '#selectorFileBtn',
+          target: '#imgWrapper',
           crop: true,
           width: 640,
           height: 640,
@@ -155,9 +155,9 @@ npm run build
 
 ## Options 参数
 
-* elm: `buttonId` 选择图片按钮id(必须)
+* elm: `#buttonId` 选择图片按钮id(必须)，支持id、class选择器
 
-* target: `imgWrapper` 图片预览容器id(可选)
+* target: `#imgWrapper` 图片预览容器id(可选)，支持id、class选择器
 
 * crop: `true` 是否裁剪图片(可选)
 

@@ -87,6 +87,12 @@ npm install image-process --save-dev
 > 需异步初始化
 
 ```html
+<template>
+<div class="wrapper">
+  <div class="imgWrapper"><!--图片预览容器--></div>
+  <button id="selectorFileBtn">选择图片</button>
+</div>
+</template>
 <script type="text/ecmascript-6">
   // 文件路径，根据自己的文件修改
   import IPTS from './path/image-process-tools.min'
@@ -121,7 +127,7 @@ npm install image-process --save-dev
       initUploadData () {
         let imgTools = new IPTS({
           elm: '#selectorFileBtn',
-          target: '#imgWrapper',
+          target: '.imgWrapper',
           crop: true,
           width: 640,
           height: 640,

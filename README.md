@@ -195,23 +195,25 @@ npm run build
 
 * success: `function(result){ console.log(result) }` 图片处理完成后的回调函数
 
+  > base64: `base64` 图片base64数据
+
   > code: `0`  成功代码
 
   > data: `blobData`  处理成功的图片数据，可直接上传至服务器，或赋值给input利用form表单提交。
 
   > element: `canvas` canvas节点对象
+  
+  > height: `640`  处理完成的图片宽度
 
   > msg: `success` 成功消息
 
   > width: `640` 处理完成的图片宽度
-
-  > height: `640`  处理完成的图片宽度
+  
+  > rawdata: `Object` 原图片相关属性(宽高/文件大小/Base64编码数据/类型/元素节点)
 
   > size: `21100` 处理完成的图片文件大小
 
   > type: `image/png`  处理完成的图片类型
-
-  > rawdata: `Object` 原图片相关属性(宽高/文件大小/Base64编码数据/类型/元素节点)
 
   - data: `base64Data`, 原图片base64格式数据
   - element: `image`, 原图片接到对象

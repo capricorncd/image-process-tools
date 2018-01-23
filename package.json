@@ -1,16 +1,18 @@
 {
   "name": "image-process",
-  "version": "2.2.2",
-  "author": "Capricorncd",
+  "version": "2.2.3",
+  "author": "zx1984",
+  "github": "https://github.com/zx1984",
   "devDependencies": {
-    "grunt": "^1.0.1",
-    "grunt-contrib-uglify": "^2.2.0",
-    "grunt-contrib-watch": "^1.0.0",
-    "webpack": "^2.2.1"
+    "gulp": "^3.9.1",
+    "gulp-header": "^2.0.1",
+    "gulp-rename": "^1.2.2",
+    "gulp-uglify": "^3.0.0",
+    "webpack": "^3.10.0"
   },
   "repository": {
     "type": "git",
-    "url": "git+https://github.com/capricorncd/image-process-tools.git"
+    "url": "git+https://github.com/zx1984/image-process-tools.git"
   },
   "keywords": [
     "image",
@@ -19,12 +21,12 @@
   ],
   "description": "image-process-tools. Image pre processing for upload (html5 + canvas)",
   "bugs": {
-    "url": "https://github.com/capricorncd/image-process-tools/issues"
+    "url": "https://github.com/zx1984/image-process-tools/issues"
   },
-  "homepage": "https://github.com/capricorncd/image-process-tools",
+  "homepage": "https://github.com/zx1984/image-process-tools",
   "main": "build/image-process-tools.min.js",
   "scripts": {
-    "build": "webpack && grunt"
+    "build": "webpack && gulp"
   },
   "license": "ISC"
 }

@@ -1,6 +1,6 @@
 /**
- * Create by Capricorncd 2017-10-30
- * https://github.com/capricorncd/image-process-tools
+ * Create by zx1984 2017-10-30
+ * https://github.com/zx1984/image-process-tools
  */
 'use strict';
 
@@ -243,8 +243,8 @@ fn.handleImageData = function (imageInfo, callback) {
     sh: sh
   })
 
-  var data = canvas.toDataURL(dataType)
-  data = toBlobData(data, dataType)
+  var base64 = canvas.toDataURL(dataType)
+  var data = toBlobData(base64, dataType)
 
   opts.progress && opts.progress(1)
 
@@ -256,6 +256,7 @@ fn.handleImageData = function (imageInfo, callback) {
     width: res.cw,
     height: res.ch,
     data: data,
+    base64: base64,
     size: data.size,
     // 原始图片数据
     rawdata: imageInfo

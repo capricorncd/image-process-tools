@@ -202,13 +202,13 @@ npm run build
   > data: `blobData`  处理成功的图片数据，可直接上传至服务器，或赋值给input利用form表单提交。
 
   > element: `canvas` canvas节点对象
-  
+
   > height: `640`  处理完成的图片宽度
 
   > msg: `success` 成功消息
 
   > width: `640` 处理完成的图片宽度
-  
+
   > rawdata: `Object` 原图片相关属性(宽高/文件大小/Base64编码数据/类型/元素节点)
 
   > size: `21100` 处理完成的图片文件大小
@@ -252,3 +252,7 @@ npm run build
 ## 方法
 
 - conversion(size) // 将size单位B转换为KB或M(大于1024KB则返回M)
+
+## Copyright and license
+
+Code and documentation copyright 2018. zx1984. Code released under the MIT License.

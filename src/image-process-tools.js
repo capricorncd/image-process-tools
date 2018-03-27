@@ -51,11 +51,11 @@ var CODE_ERR = {
  * @param opts
  * @constructor
  */
-function IPTS(opts) {
+function IPTS (opts) {
   // 参数是否合法
   var _check = this._checkParameter(opts)
-  if(_check) {
-    opts.error &&opts.error(_check)
+  if (_check) {
+    opts.error && opts.error(_check)
     return
   }
   // 按钮
@@ -158,12 +158,12 @@ fn.getFileData = function (callback) {
     // 当读操作完成，readyState变为DONE, loadend被触发，
     // 此时result属性包含数据：URL以base64编码的字符串表示文件的数据。
     READER.readAsDataURL(file)
-    READER.onload = function (e) {
+    READER.onload = function () {
       // 获取图片信息
       _createImageData(this.result, file)
     }
 
-    READER.onerror = function (e) {
+    READER.onerror = function () {
       self.opts.error && self.opts.error({
         code: 7,
         msg: CODE_ERR[7]
@@ -219,7 +219,7 @@ fn.handleImageData = function (imageInfo, callback) {
   if (res.scaling > scaling) {
     scaling = res.scaling;
     do {
-      opts.progress && opts.progress(2/scaling);
+      opts.progress && opts.progress(2 / scaling);
       canvas = createCanvas(canvas, {
         cw: res.cw * scaling,
         ch: res.ch * scaling,
@@ -305,21 +305,21 @@ fn.calculateCropInfo = function (iw, ih) {
 
     // 按目标宽度调整图片尺寸：图片宽度 === 裁剪框宽
     sw = targetWidth
-    sh = Math.floor(targetWidth*ih/iw)
+    sh = Math.floor(targetWidth * ih / iw)
 
     scaling = ratio(iw, targetWidth)
 
     // 图片高度超出裁剪框，能正常裁剪
     if (sh >= targetHeight) {
       sx = 0
-      sy = toNumber((sh - targetHeight)/2*scaling)
+      sy = toNumber((sh - targetHeight) / 2 * scaling)
     }
     // 不满足裁剪需求，需重新缩放：图片高度 === 裁剪框高度
     else {
       scaling = ratio(ih, targetHeight)
-      sw = Math.floor(targetHeight*iw/ih)
+      sw = Math.floor(targetHeight * iw / ih)
       sh = targetHeight
-      sx = toNumber((sw - targetWidth)/2*scaling)
+      sx = toNumber((sw - targetWidth) / 2 * scaling)
       sy = 0
     }
 
@@ -329,20 +329,20 @@ fn.calculateCropInfo = function (iw, ih) {
   else if (targetWidth > 0) {
     scaling = ratio(iw, targetWidth)
     canvasWidth = targetWidth
-    canvasHieght = Math.floor(targetWidth*ih/iw)
+    canvasHieght = Math.floor(targetWidth * ih / iw)
   }
   // 只设置了宽度
   else if (targetHeight > 0) {
     scaling = ratio(ih, targetHeight)
-    canvasWidth = Math.floor(targetHeight*iw/ih)
+    canvasWidth = Math.floor(targetHeight * iw / ih)
     canvasHieght = targetHeight
   }
 
   return {
     sx: sx, // 裁剪开始x坐标
     sy: sy, // 裁剪开始y坐标
-    sw: toNumber(canvasWidth*scaling),
-    sh: toNumber(canvasHieght*scaling),
+    sw: toNumber(canvasWidth * scaling),
+    sh: toNumber(canvasHieght * scaling),
     scaling: scaling,
     cw: canvasWidth,
     ch: canvasHieght
@@ -352,8 +352,8 @@ fn.calculateCropInfo = function (iw, ih) {
 // 转换文件大小及单位
 fn.conversion = function (size) {
   // 计算文件大小多少kb
-  var kb = toNumber((toNumber(size)/1024)*100)/100;
-  return kb >= 1024 ? toNumber((kb/1024)*100)/100 + 'M' : kb + 'KB'
+  var kb = toNumber((toNumber(size) / 1024) * 100) / 100;
+  return kb >= 1024 ? toNumber((kb / 1024) * 100) / 100 + 'M' : kb + 'KB'
 }
 
 // 初始化
@@ -465,7 +465,7 @@ function toBlobData (data, type) {
  * @param {Number} denominator 分母
  */
 function ratio (numerator, denominator) {
-  return parseInt(numerator/denominator*10000)/10000
+  return parseInt(numerator / denominator * 10000) / 10000
 }
 
 /**

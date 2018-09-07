@@ -1,15 +1,8 @@
 {
   "name": "image-process",
-  "version": "2.2.3",
+  "version": "3.0.0",
   "author": "zx1984",
   "github": "https://github.com/zx1984",
-  "devDependencies": {
-    "gulp": "^3.9.1",
-    "gulp-header": "^2.0.1",
-    "gulp-rename": "^1.2.2",
-    "gulp-uglify": "^3.0.0",
-    "webpack": "^3.10.0"
-  },
   "repository": {
     "type": "git",
     "url": "git+https://github.com/zx1984/image-process-tools.git"
@@ -24,9 +17,31 @@
     "url": "https://github.com/zx1984/image-process-tools/issues"
   },
   "homepage": "https://github.com/zx1984/image-process-tools",
-  "main": "build/image-process-tools.min.js",
+  "main": "dist/image-process-tools.min.js",
   "scripts": {
-    "build": "webpack && gulp"
+    "dev": "cross-env NODE_ENV=development webpack-dev-server --color --config build/webpack/dev.js",
+    "build": "cross-env NODE_ENV=production webpack --progress --inline --color --config build/webpack/prod.js"
   },
-  "license": "ISC"
+  "dependencies": {
+    "webpack": "^4.17.2",
+    "webpack-cli": "^3.1.0",
+    "webpack-dev-server": "^3.1.7"
+  },
+  "devDependencies": {
+    "autoprefixer": "^9.1.5",
+    "babel-core": "^6.26.3",
+    "babel-loader": "^7.1.2",
+    "babel-preset-env": "^1.7.0",
+    "babel-preset-stage-2": "^6.24.1",
+    "cross-env": "^5.2.0",
+    "css-loader": "^1.0.0",
+    "html-webpack-plugin": "^3.2.0",
+    "postcss-loader": "^3.0.0",
+    "style-loader": "^0.23.0",
+    "stylus": "^0.54.5",
+    "stylus-loader": "^3.0.2",
+    "url-loader": "^1.1.1",
+    "webpack-merge": "^4.1.4"
+  },
+  "license": "MIT"
 }

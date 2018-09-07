@@ -1,0 +1,145 @@
+<!DOCTYPE html>
+<html>
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, minimum-scale=1.0, user-scalable=no">
+  <title>image-process-tools</title>
+  <style>
+    * {
+      margin: 0;
+      padding: 0;
+    }
+    body {
+      text-align: center;
+    }
+    #imgWrapper {
+      min-height: 320px;
+      background: #F1F1F1;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+    }
+    #buttonId {
+      display: inline-block;
+      margin-top: 20px;
+      width: 120px;
+      height: 40px;
+      border: 0;
+      background-color: green;
+      color: #FFF;
+      border-radius: 20px;
+      outline: none;
+    }
+    #buttonId:hover {
+      background-color: darkgreen;
+    }
+  </style>
+</head>
+<body>
+<div>
+  <div id="imgWrapper">
+    <!--图片预览容器-->
+  </div>
+  <div>处理进度：<span id="progressElm"></span></div>
+  <div>
+    <button id="buttonId">选择图片</button>
+    <input type="file" id="selectFile" style="display: none">
+  </div>
+</div>
+<script src="<%= htmlWebpackPlugin.files.chunks['image-process-tools'].entry %>"></script>
+<script>
+  // 初始化图片预处理工具
+  var zxImageProcess = new ZxImageProcess({
+    cropWrapper: '#imgWrapper',
+    // 选择按钮id
+    elm: '#buttonId',
+    // 图片预览容器 id
+    // 容器height!=0
+    target: '#imgWrapper',
+    // 是否裁剪图片
+    // 为true时，必须同时设置width、height值大于0
+    crop: true,
+    // 缩放尺寸：crop为false或不配置此项
+    // 限制宽度缩放，则只需设置width值
+    // 限制高度缩放，则只需设置height值
+    // 若crop为false，同时也设置了width/height值，则只按width缩放，忽略height
+    width: 600,
+    height: 400,
+    // 是否转换图片格式
+    // false或不配置此项，则保留原图片格式
+    // 配置后，将所有格式图片转换为配置格式
+    // type值：'jpg', 'png'
+    // HTMLCanvasElement.toDataURL()不支持'gif', 'bmp'
+    // 文件格式为gif转换为png,bmp转换为jpg
+    // type: 'jpg',
+    success: function (result) {
+
+      // 返回数据
+      console.log(result);
+
+      if (result.code === 0) {
+        console.log('裁剪或压缩后的图片数据:');
+        console.log(result.data);
+        console.log('处理后图片文件大小为：' + imgTools.conversion(result.size));
+
+        console.log('原图片数据:');
+        console.log(result.rawdata);
+        console.log('原图片文件大小为：' + imgTools.conversion(result.rawdata.size));
+      }
+
+      /**
+       * data:待上传的图像数据
+       * 可将data写入input[value]，利用form表单上传
+       * 或直接通过如腾讯云接口直接上传，如下：
+       */
+      /**
+       * 腾讯云上传实例，详见腾讯云文件上传文档
+       * https://www.qcloud.com/document/product/436/8095
+       */
+      // cos.uploadFile(
+      // successCallBack, // 上传成功回调函数
+      // errorCallBack, // 上传失败回调函数
+      // progressCallBack, // 上传进度回调函数
+      // bucket, // 腾讯云对象存储bucket目录
+      // '上传成功后的文件名.jpg', // 腾讯云目录文件夹+上传后的文件名
+      // res.data, // 图像文件数据
+      // 1 // 若bucket中有同名文件存在，是否覆盖
+      //);
+
+    },
+    // 图片处理进度
+    // progress {Number} 0-1范围
+    progress: function (progress) {
+      document.getElementById('progressElm').innerHTML = progress;
+      console.log(progress);
+    },
+    error: function (err) {
+      console.error(err);
+      alert(err.msg);
+    }
+  })
+
+  // 图片选择按钮
+  var $btn = document.querySelector('#buttonId');
+  // input[type=file]
+  var $fileInput = document.querySelector('#selectFile');
+
+  // 点击按钮，触发input[type=file]点击
+  $btn.addEventListener('click', function () {
+    $fileInput.click();
+  }, false);
+
+  // 监听input[type=file]改变
+  $fileInput.addEventListener('change', function () {
+    var files = this.files;
+    log(files);
+    zxImageProcess.handle(files[0])
+  })
+
+  // log
+  function log () {
+    console.log.apply(null, arguments);
+  }
+</script>
+</body>
+</html>

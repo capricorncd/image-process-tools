@@ -2,6 +2,7 @@
  * Created by zx1984 9/6/2018
  * https://github.com/zx1984
  */
+const USER_AGENT = navigator.userAgent
 export default {
   /**
    * 强制转换为整型
@@ -20,5 +21,9 @@ export default {
    */
   strToHump (str) {
     return str ? str.toString().replace(/-(\w)/g, (group, item) => item.toUpperCase()) : ''
+  },
+
+  isAndroid () {
+    return USER_AGENT.toLowerCase().indexOf('android') >= 0
   }
 }

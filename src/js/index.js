@@ -4,7 +4,10 @@
  */
 import broadcast from './broadcast'
 import Crop from './crop'
-import { fileToBase64 } from './convert'
+import {
+  blobToUrl,
+  fileToBase64
+} from './convert'
 import '../style/index.styl'
 
 // default options
@@ -23,6 +26,10 @@ let crop = {}
  * ZxImageProcess
  */
 class ZxImageProcess {
+  /**
+   * constructor
+   * @param opts
+   */
   constructor (opts) {
     const options = Object.assign({}, DEFAUTL_OPTIONS, opts)
     console.log(options)
@@ -32,14 +39,30 @@ class ZxImageProcess {
     this.init(options)
   }
 
+  /**
+   * init
+   * @param opts
+   */
   init (opts) {
-    crop = new Crop({
-      wrapper: opts.cropWrapper,
-      width: opts.width,
-      height: opts.height
-    })
+    // 同时设置宽高，视为裁剪图片
+    if (opts.width > 0 && opts.height > 0) {
+      crop = new Crop({
+        wrapper: opts.cropWrapper,
+        width: opts.width,
+        height: opts.height
+      })
+
+      // 裁剪图片
+      broadcast.on('crop-submit', params => {
+        log(params)
+      })
+    }
   }
 
+  /**
+   * 文件处理
+   * @param file
+   */
   handle (file) {
     // 文件类型判断
     fileToBase64(file, (err, base64) => {
@@ -47,8 +70,10 @@ class ZxImageProcess {
         broadcast.emit('error', err)
         return
       }
+      this.file = file
+      this.base64 = base64
       // console.log(base64)
-      crop.updateImage(base64)
+      crop.updateImage(blobToUrl(file))
       crop.show()
     })
   }

@@ -36,3 +36,12 @@ export function fileToBase64 (file, callback) {
     file = null
   }
 }
+
+/**
+ * 创建blob url
+ * @param blob Blob数据
+ * @returns {*}
+ */
+export function blobToUrl (blob) {
+  return URL.createObjectURL(blob)
+}

@@ -5,6 +5,7 @@
 import dom from './dom-core'
 import util from './util'
 import broadcast from './broadcast'
+import { browser, touchEvents } from './event'
 // default options
 const DEFAULT_OPTIONS = {
   width: 750,
@@ -16,10 +17,14 @@ const DEFAULT_OPTIONS = {
 const MIN_SIZE = 60
 // window尺寸
 const WIN_WIDTH = window.innerWidth
-const WIN_HEIGHT = window.innerHeight
+// const WIN_HEIGHT = window.innerHeight
 
 // crop
 class Crop {
+  /**
+   * constructor
+   * @param opts
+   */
   constructor (opts) {
     // 是否显示
     this.visible = false
@@ -62,6 +67,27 @@ class Crop {
           attrs: {
             class: 'zx-image-target'
           }
+        },
+        {
+          attrs: {
+            class: 'zx-crop-btns-wrapper'
+          },
+          child: [
+            {
+              tag: 'button',
+              attrs: {
+                class: '__cancel'
+              },
+              child: '取消'
+            },
+            {
+              tag: 'button',
+              attrs: {
+                class: '__submit'
+              },
+              child: '确定'
+            }
+          ]
         }
       ]
     }
@@ -79,20 +105,13 @@ class Crop {
     this.cropBoxPos = $lineBox.getBoundingClientRect()
   }
 
-  /**
-   * 验证图片缩放移动，与裁剪框的关系
-   * @returns {boolean}
-   * @private
-   */
-  _checkImagePos (isEnlarge) {
-    let cropPos = this.cropBoxPos
-    const box = this.$img.getBoundingClientRect()
-    console.log(box)
-    return !isEnlarge && (cropPos.width >= box.width || cropPos.height >= box.height || cropPos.x <= box.x)
-  }
-
   _initEvent () {
-    const $crop = dom.query('.zx-image-crop-wrapper', this.$wrapper)
+    let $crop
+    if (browser.ie10) {
+      $crop = document
+    } else {
+      $crop = dom.query('.zx-image-crop-wrapper', this.$wrapper)
+    }
     // 移动
     this._move($crop)
     // 缩放
@@ -101,6 +120,16 @@ class Crop {
       // 鼠标滚动方向
       let wheelDelta = e.wheelDelta || -e.detail
       this._scale(wheelDelta)
+    })
+    // 确定
+    const $btnSubmit = dom.query('.__submit', this.$wrapper)
+    dom.addEvent($btnSubmit, 'click', _ => {
+      this.submit()
+    })
+    // 取消
+    const $btnCancel = dom.query('.__cancel', this.$wrapper)
+    dom.addEvent($btnCancel, 'click', _ => {
+      this.hide()
     })
   }
 
@@ -113,37 +142,74 @@ class Crop {
     const $img = this.$img
     // 鼠标在图片上按下
     let isMousedownOnImage = false
+    // isTouchEvent
+    let isTouchEvent = false
     // 鼠标按下位置图片左上角位置
     let moveBeforePostion = {}
     // 开始
-    dom.addEvent($crop, 'mousedown', e => {
+    dom.addEvent($crop, touchEvents.touchStart, e => {
       // log(e.type)
       // 防止触发浏览器图片拖动行为
-      e.preventDefault()
+      // e.preventDefault()
       isMousedownOnImage = true
-      moveBeforePostion.x = e.clientX - $img.offsetLeft
-      moveBeforePostion.y = e.clientY - $img.offsetTop
+      isTouchEvent = e.type === 'touchstart'
+
+      // prevent user enter with right and the swiper move (needs isTouchEvent)
+      if (!isTouchEvent && 'which' in e && e.which === 3) {
+        isMousedownOnImage = false
+        return
+      }
+
+      if (!isTouchEvent || e.targetTouches.length === 1) {
+        if (!isTouchEvent && !util.isAndroid()) {
+          if (e.preventDefault) {
+            e.preventDefault()
+          } else {
+            e.returnValue = false
+          }
+        }
+
+        let pageX = isTouchEvent ? e.targetTouches[0].pageX : (e.pageX || e.clientX)
+        let pageY = isTouchEvent ? e.targetTouches[0].pageY : (e.pageY || e.clientY)
+
+        moveBeforePostion.x = pageX - $img.offsetLeft
+        moveBeforePostion.y = pageY - $img.offsetTop
+      }
     })
 
     let l, t
     // 拖动
-    dom.addEvent(document, 'mousemove', e => {
+    dom.addEvent(document, touchEvents.touchMove, e => {
       if (!isMousedownOnImage) return
-      e.preventDefault()
+      // e.preventDefault()
+      // log(e)
+      if (!isTouchEvent && !util.isAndroid()) {
+        if (e.preventDefault) {
+          e.preventDefault()
+        } else {
+          e.returnValue = false
+        }
+      }
 
-      l = e.clientX - moveBeforePostion.x
-      t = e.clientY - moveBeforePostion.y
+      let pageX = isTouchEvent ? e.targetTouches[0].pageX : (e.pageX || e.clientX)
+      let pageY = isTouchEvent ? e.targetTouches[0].pageY : (e.pageY || e.clientY)
+
+      l = pageX - moveBeforePostion.x
+      t = pageY - moveBeforePostion.y
       // check image position
       let cropBoxPos = this.cropBoxPos
       let imgPos = this.$img.getBoundingClientRect()
-      if (cropBoxPos.x <= l) {
-        l = cropBoxPos.x
+      // log(imgPos)
+      // log(cropBoxPos)
+      // ie11 无x/y属性
+      if (cropBoxPos.left <= l) {
+        l = cropBoxPos.left
       }
       if (l <= cropBoxPos.right - imgPos.width) {
         l = cropBoxPos.right - imgPos.width
       }
-      if (cropBoxPos.y <= t) {
-        t = cropBoxPos.y
+      if (cropBoxPos.top <= t) {
+        t = cropBoxPos.top
       }
       if (t <= cropBoxPos.bottom - imgPos.height) {
         t = cropBoxPos.bottom - imgPos.height
@@ -153,7 +219,7 @@ class Crop {
     })
 
     // 释放鼠标
-    dom.addEvent(document, 'mouseup', _ => {
+    dom.addEvent(document, touchEvents.touchEnd, _ => {
       isMousedownOnImage = false
     })
   }
@@ -206,14 +272,14 @@ class Crop {
     let l = util.int(util.int(css.left) - addW / 2)
     let t = util.int(util.int(css.top) - addH / 2)
     // check image position
-    if (cropBoxPos.x <= l) {
-      l = cropBoxPos.x
+    if (cropBoxPos.left <= l) {
+      l = cropBoxPos.left
     }
     if (l <= cropBoxPos.right - imgPos.width) {
       l = cropBoxPos.right - imgPos.width
     }
-    if (cropBoxPos.y <= t) {
-      t = cropBoxPos.y
+    if (cropBoxPos.top <= t) {
+      t = cropBoxPos.top
     }
     if (t <= cropBoxPos.bottom - imgPos.height) {
       t = cropBoxPos.bottom - imgPos.height
@@ -223,23 +289,50 @@ class Crop {
     $img.style.left = l + 'px'
   }
 
-  updateImage (src) {
+  updateImage (url) {
     if (this.$img === null) {
-      broadcast.emit('error', { msg: `Failed to updateImage(src)`})
+      broadcast.emit('error', { msg: `Failed to updateImage(url)`})
       return
     }
-    this.$img.src = src
+    if (this.$img.src === url) return
+    // 清除样式，防止图片变形
+    this.$img.setAttribute('style', '')
+    this.$img.src = url
+  }
+
+  submit () {
+    // 裁剪框位置
+    let cropBoxPos = this.cropBoxPos
+    // 图片位置
+    let imgPos = this.$img.getBoundingClientRect()
+    let result = {
+      naturalWidth: this.$img.naturalWidth,
+      naturalHeight: this.$img.naturalHeight,
+      currentWidth: imgPos.width,
+      currentHeight: imgPos.height,
+      targetWidth: cropBoxPos.width,
+      targetHeight: cropBoxPos.height,
+      x: cropBoxPos.left - imgPos.left,
+      y: cropBoxPos.top - imgPos.top,
+      base64: this.data
+    }
+    broadcast.emit('crop-submit', result)
+    this.hide()
   }
 
   show () {
     if (this.visible) return
+    this.visible = true
     this.$wrapper.style.display = ''
     this._initLineBoxPos()
+    dom.lock(this.$docBody)
   }
 
   hide () {
     if (this.visible) {
+      this.visible = false
       this.$wrapper.style.display = 'none'
+      dom.unlock(this.$docBody)
     }
   }
 }

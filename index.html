@@ -46,6 +46,7 @@
     <input type="file" id="selectFile" style="display: none">
   </div>
 </div>
+<script src="https://cdn.bootcss.com/js-polyfills/0.1.42/polyfill.min.js"></script>
 <script src="<%= htmlWebpackPlugin.files.chunks['image-process-tools'].entry %>"></script>
 <script>
   // 初始化图片预处理工具
@@ -57,8 +58,6 @@
     // 容器height!=0
     target: '#imgWrapper',
     // 是否裁剪图片
-    // 为true时，必须同时设置width、height值大于0
-    crop: true,
     // 缩放尺寸：crop为false或不配置此项
     // 限制宽度缩放，则只需设置width值
     // 限制高度缩放，则只需设置height值
@@ -78,13 +77,13 @@
       console.log(result);
 
       if (result.code === 0) {
-        console.log('裁剪或压缩后的图片数据:');
-        console.log(result.data);
-        console.log('处理后图片文件大小为：' + imgTools.conversion(result.size));
+        log('裁剪或压缩后的图片数据:');
+        log(result.data);
+        log('处理后图片文件大小为：' + imgTools.conversion(result.size));
 
-        console.log('原图片数据:');
-        console.log(result.rawdata);
-        console.log('原图片文件大小为：' + imgTools.conversion(result.rawdata.size));
+        log('原图片数据:');
+        log(result.rawdata);
+        log('原图片文件大小为：' + imgTools.conversion(result.rawdata.size));
       }
 
       /**
@@ -111,7 +110,7 @@
     // progress {Number} 0-1范围
     progress: function (progress) {
       document.getElementById('progressElm').innerHTML = progress;
-      console.log(progress);
+      log(progress);
     },
     error: function (err) {
       console.error(err);
@@ -130,10 +129,14 @@
   }, false);
 
   // 监听input[type=file]改变
-  $fileInput.addEventListener('change', function () {
+  $fileInput.addEventListener('change', function (e) {
     var files = this.files;
     log(files);
     zxImageProcess.handle(files[0])
+  })
+  // 清空value
+  $fileInput.addEventListener('click', function (e) {
+    this.value = ''
   })
 
   // log

@@ -108,6 +108,32 @@ const dom = {
   },
 
   /**
+   * overflow: hidden
+   * @param $el
+   */
+  lock ($el) {
+    if (typeof $el === 'undefined') {
+      $el = dom.query('body')
+    }
+    if (dom.isHTMLElement($el)) {
+      $el.style.overflow = 'hidden'
+    }
+  },
+
+  /**
+   * overflow: ''
+   * @param $el
+   */
+  unlock ($el) {
+    if (typeof $el === 'undefined') {
+      $el = dom.query('body')
+    }
+    if (dom.isHTMLElement($el)) {
+      $el.style.overflow = ''
+    }
+  },
+
+  /**
    * 事件绑定
    * @param $el
    * @param eventName 事件名称

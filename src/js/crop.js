@@ -5,13 +5,12 @@
 import dom from './dom-core'
 import util from './util'
 import broadcast from './broadcast'
-import { browser, touchEvents } from './event'
+import { browser, touchEvents } from './touch-event'
 // default options
 const DEFAULT_OPTIONS = {
   width: 750,
   height: 750,
-  // 裁剪框容器
-  wrapper: null
+  body: null
 }
 
 const MIN_SIZE = 60
@@ -26,22 +25,31 @@ class Crop {
    * @param opts
    */
   constructor (opts) {
-    // 是否显示
+    // 裁剪框缩放比例
+    this.cropRatio = 1
+    // 显示状态
     this.visible = false
+    // 裁剪框容器
     this.$wrapper = null
+    // image
     this.$img = null
-    this.$docBody = null
     // 裁剪框位置信息
     this.cropBoxPos = {}
     this.options = Object.assign({}, DEFAULT_OPTIONS, opts)
     // init
-    this.init(this.options)
+    this._init(this.options)
   }
 
-  init (opts) {
+  _init (opts) {
+    // 禁用选中图片
+    dom.addEvent(document, 'selectstart', e => {
+      e.preventDefault()
+    })
     // 裁剪框尺寸计算
     let cropLineWidth = Math.min(opts.width, WIN_WIDTH * 0.8)
     let cropLineHeight = opts.height / opts.width * cropLineWidth
+    // 裁剪比例
+    this.cropRatio = opts.width / cropLineWidth
     // 裁剪容器
     const cropVnode = {
       attrs: {
@@ -93,19 +101,19 @@ class Crop {
     }
     // 创建创建容器
     this.$wrapper = dom.createVdom(cropVnode)
-    this.$docBody = dom.query('body')
-    this.$docBody.appendChild(this.$wrapper)
+    this.options.body.appendChild(this.$wrapper)
     this.$img = dom.query('.zx-image-target', this.$wrapper)
     // 初始化事件
     this._initEvent()
   }
 
-  _initLineBoxPos (cropLineWidth, cropLineHeight) {
-    const $lineBox = dom.query('.crop-line-box')
+  _initLineBoxPos () {
+    const $lineBox = dom.query('.crop-line-box', this.$wrapper)
     this.cropBoxPos = $lineBox.getBoundingClientRect()
   }
 
   _initEvent () {
+    // 裁剪框
     let $crop
     if (browser.ie10) {
       $crop = document
@@ -124,7 +132,7 @@ class Crop {
     // 确定
     const $btnSubmit = dom.query('.__submit', this.$wrapper)
     dom.addEvent($btnSubmit, 'click', _ => {
-      this.submit()
+      this._submit()
     })
     // 取消
     const $btnCancel = dom.query('.__cancel', this.$wrapper)
@@ -147,7 +155,7 @@ class Crop {
     // 鼠标按下位置图片左上角位置
     let moveBeforePostion = {}
     // 开始
-    dom.addEvent($crop, touchEvents.touchStart, e => {
+    dom.addEvent($crop, touchEvents.start, e => {
       // log(e.type)
       // 防止触发浏览器图片拖动行为
       // e.preventDefault()
@@ -179,7 +187,7 @@ class Crop {
 
     let l, t
     // 拖动
-    dom.addEvent(document, touchEvents.touchMove, e => {
+    dom.addEvent(document, touchEvents.move, e => {
       if (!isMousedownOnImage) return
       // e.preventDefault()
       // log(e)
@@ -198,7 +206,7 @@ class Crop {
       t = pageY - moveBeforePostion.y
       // check image position
       let cropBoxPos = this.cropBoxPos
-      let imgPos = this.$img.getBoundingClientRect()
+      let imgPos = $img.getBoundingClientRect()
       // log(imgPos)
       // log(cropBoxPos)
       // ie11 无x/y属性
@@ -219,7 +227,7 @@ class Crop {
     })
 
     // 释放鼠标
-    dom.addEvent(document, touchEvents.touchEnd, _ => {
+    dom.addEvent(document, touchEvents.end, _ => {
       isMousedownOnImage = false
     })
   }
@@ -289,18 +297,21 @@ class Crop {
     $img.style.left = l + 'px'
   }
 
-  updateImage (url) {
-    if (this.$img === null) {
+  handleImage (url) {
+    if (!this.$img || !url) {
       broadcast.emit('error', { msg: `Failed to updateImage(url)`})
       return
     }
+    this.show()
     if (this.$img.src === url) return
     // 清除样式，防止图片变形
     this.$img.setAttribute('style', '')
     this.$img.src = url
   }
 
-  submit () {
+  _submit () {
+    // 缩放比例
+    let ratio = this.cropRatio
     // 裁剪框位置
     let cropBoxPos = this.cropBoxPos
     // 图片位置
@@ -308,13 +319,12 @@ class Crop {
     let result = {
       naturalWidth: this.$img.naturalWidth,
       naturalHeight: this.$img.naturalHeight,
-      currentWidth: imgPos.width,
-      currentHeight: imgPos.height,
-      targetWidth: cropBoxPos.width,
-      targetHeight: cropBoxPos.height,
-      x: cropBoxPos.left - imgPos.left,
-      y: cropBoxPos.top - imgPos.top,
-      base64: this.data
+      currentWidth: util.int(imgPos.width * ratio),
+      currentHeight: util.int(imgPos.height * ratio),
+      targetWidth: this.options.width,
+      targetHeight: this.options.height,
+      x: util.int((cropBoxPos.left - imgPos.left) * ratio),
+      y: util.int((cropBoxPos.top - imgPos.top) * ratio)
     }
     broadcast.emit('crop-submit', result)
     this.hide()
@@ -325,14 +335,14 @@ class Crop {
     this.visible = true
     this.$wrapper.style.display = ''
     this._initLineBoxPos()
-    dom.lock(this.$docBody)
+    dom.lock(this.options.body)
   }
 
   hide () {
     if (this.visible) {
       this.visible = false
       this.$wrapper.style.display = 'none'
-      dom.unlock(this.$docBody)
+      dom.unlock(this.options.body)
     }
   }
 }

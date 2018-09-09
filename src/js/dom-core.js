@@ -55,6 +55,21 @@ const dom = {
   },
 
   /**
+   * 创建canvas
+   * @param $el image/canvas 对象
+   * @param params canvas创建参数
+   * @returns {*|Element}
+   */
+  createCanvas ($el, params) {
+    const $canvas = document.createElement('canvas')
+    $canvas.width = params.dw
+    $canvas.height = params.dh
+    const ctx = $canvas.getContext('2d')
+    ctx.drawImage($el, params.sx, params.sy, params.sw, params.sh, params.dx, params.dy, params.dw, params.dh)
+    return $canvas
+  },
+
+  /**
    * 获取$el的css样式
    * @param $el
    * @param prop 指定属性

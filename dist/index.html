@@ -13,8 +13,25 @@
       text-align: center;
     }
     #imgWrapper {
-      min-height: 320px;
+      position: relative;
+      min-height: 400px;
       background: #F1F1F1;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      cursor: pointer;
+    }
+    #imgWrapper:after {
+      content: '点选择图片';
+      color: #999;
+    }
+    #imgWrapper div {
+      position: absolute;
+      z-index: 1;
+      top: 0;
+      left: 0;
+      width: 100%;
+      height: 100%;
       display: flex;
       align-items: center;
       justify-content: center;
@@ -38,30 +55,31 @@
 <body>
 <div>
   <div id="imgWrapper">
-    <!--图片预览容器-->
+    <div class="view-wrapper">
+      <!--图片预览容器-->
+      <img src="" alt="" style="display: none">
+    </div>
   </div>
-  <div>处理进度：<span id="progressElm"></span></div>
-  <div>
-    <button id="buttonId">选择图片</button>
-  </div>
+  <!--<div>-->
+    <!--<button id="buttonId">选择图片</button>-->
+  <!--</div>-->
 </div>
+<script src="https://cdn.bootcss.com/js-polyfills/0.1.42/polyfill.min.js"></script>
 <script src="image-process-tools.min.js"></script>
 <script>
-  var imgTools = new ZxImageProcess({
-    // 选择按钮id
-    elm: '#buttonId',
-    // 图片预览容器 id
-    // 容器height!=0
-    target: '#imgWrapper',
-    // 是否裁剪图片
-    // 为true时，必须同时设置width、height值大于0
-    crop: true,
-    // 缩放尺寸：crop为false或不配置此项
+  var imgWrapper = document.querySelector('#imgWrapper')
+  var img = imgWrapper.querySelector('img')
+  // 初始化图片预处理工具
+  var zxImageProcess = new ZxImageProcess({
+    // 触发文件选择的元素
+    selector: '#imgWrapper',
+    // 图片处理完成显示的容器
+//    target: '#imgWrapper',
     // 限制宽度缩放，则只需设置width值
     // 限制高度缩放，则只需设置height值
-    // 若crop为false，同时也设置了width/height值，则只按width缩放，忽略height
-    width: 200,
-    height: 200,
+    // 同时设置了width、height值，则会对图片按尺寸裁剪
+    width: 600,
+    height: 400,
     // 是否转换图片格式
     // false或不配置此项，则保留原图片格式
     // 配置后，将所有格式图片转换为配置格式
@@ -73,15 +91,18 @@
 
       // 返回数据
       console.log(result);
+      // 添加图片至目标容器
+      img.src = result.base64
+      img.style.display = ''
 
       if (result.code === 0) {
-        console.log('裁剪或压缩后的图片数据:');
-        console.log(result.data);
-        console.log('处理后图片文件大小为：' + imgTools.conversion(result.size));
+        log('裁剪或压缩后的图片数据:');
+        log(result.data);
+        log('处理后图片文件大小为：' + zxImageProcess.conversion(result.size));
 
-        console.log('原图片数据:');
-        console.log(result.rawdata);
-        console.log('原图片文件大小为：' + imgTools.conversion(result.rawdata.size));
+        log('原图片数据:');
+        log(result.rawdata);
+        log('原图片文件大小为：' + zxImageProcess.conversion(result.rawdata.size));
       }
 
       /**
@@ -89,32 +110,20 @@
        * 可将data写入input[value]，利用form表单上传
        * 或直接通过如腾讯云接口直接上传，如下：
        */
-      /**
-       * 腾讯云上传实例，详见腾讯云文件上传文档
-       * https://www.qcloud.com/document/product/436/8095
-       */
-      // cos.uploadFile(
-      // successCallBack, // 上传成功回调函数
-      // errorCallBack, // 上传失败回调函数
-      // progressCallBack, // 上传进度回调函数
-      // bucket, // 腾讯云对象存储bucket目录
-      // '上传成功后的文件名.jpg', // 腾讯云目录文件夹+上传后的文件名
-      // res.data, // 图像文件数据
-      // 1 // 若bucket中有同名文件存在，是否覆盖
-      //);
-
-    },
-    // 图片处理进度
-    // progress {Number} 0-1范围
-    progress: function (progress) {
-      document.getElementById('progressElm').innerHTML = progress;
-      console.log(progress);
     },
     error: function (err) {
       console.error(err);
-//      alert(err.msg);
+      if (err.code !== 9)
+        alert(err.msg);
     }
-  });
+  })
+
+  log(zxImageProcess)
+
+  // log
+  function log () {
+    console.log.apply(null, arguments);
+  }
 </script>
 </body>
 </html>

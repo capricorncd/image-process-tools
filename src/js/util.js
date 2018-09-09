@@ -25,5 +25,22 @@ export default {
 
   isAndroid () {
     return USER_AGENT.toLowerCase().indexOf('android') >= 0
+  },
+
+  isArray (arr) {
+    return Array.isArray(arr)
+  },
+
+  isObject (o) {
+    return o && typeof o === 'object' && !this.isArray(o)
+  },
+
+  /**
+   * 生成随机id字符串
+   * @param prefix
+   * @returns {string}
+   */
+  randomId (prefix = '') {
+    return 'zxipt_' + prefix + '_' + (+new Date())
   }
 }

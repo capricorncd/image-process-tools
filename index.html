@@ -15,22 +15,32 @@
       background: #F1F1F1;
       cursor: pointer;
       text-align: center;
+      line-height: 0;
     }
     #imgWrapper:after {
+      display: inline-block;
       content: '+ 点选择图片';
-      padding: 100px 200px;
-      line-height: 400px;
+      margin-top: 100px;
+      width: 80%;
+      max-width: 600px;
+      line-height: 200px;
       color: #999;
       border: 1px dashed #ccc;
       border-radius: 10px;
     }
-    #imgWrapper div {
+    #imgWrapper.hide:after {
+      display: none;
+    }
+    #imgWrapper .view-wrapper {
       position: absolute;
       z-index: 1;
       top: 0;
       left: 0;
       width: 100%;
       background: #F1F1F1;
+    }
+    .view-wrapper img {
+      max-width: 100%;
     }
   </style>
 </head>
@@ -61,8 +71,9 @@
       // 返回数据
       log(result);
       // 添加图片至目标容器
-      img.src = result.base64
-      img.style.display = ''
+      img.src = result.base64;
+      img.style.display = '';
+      imgWrapper.className += ' hide';
     },
     error: function (err) {
       console.error(err);

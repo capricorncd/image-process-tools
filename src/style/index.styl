@@ -4,7 +4,7 @@
   left 0
   width 100%
   height 100%
-  background-color rgba(0, 0, 0, .5)
+  background-color rgba(0, 0, 0, .95)
   *
     margin 0
     padding 0
@@ -15,13 +15,13 @@
     left 0
     width 100%
     height 100%
-    display: flex
-    align-items center
     cursor move
     .crop-line-box
+      position absolute
       margin 0 auto
-      box-sizing border-box
-      border 1px dashed #fff
+      border-style solid
+      border-color rgba(0, 0, 0, .5)
+      box-sizing content-box
   .zx-image-target
     position absolute
     z-index 1
@@ -31,18 +31,20 @@
   .zx-crop-btns-wrapper
     position absolute
     z-index 3
-    right 20px
-    top 20px
+    bottom 50px
+    left 50%
+    transform translateX(-50%)
     button
       display inline-block
       margin 0 10px
-      padding 0 10px
+      padding 0 20px
       height 32px
       border-radius 4px
       color #fff
       border 0
       background-color royalblue
       cursor: pointer
+      box-shadow 0 5px 10px rgba(0, 0, 0, .5)
       &.__cancel
         background-color: #666
 

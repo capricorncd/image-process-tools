@@ -3,27 +3,26 @@
 <head>
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, minimum-scale=1.0, user-scalable=no">
-  <title>image-process-tools</title>
+  <title>image-process zx1984</title>
   <style>
     * {
       margin: 0;
       padding: 0;
     }
-    body {
-      text-align: center;
-    }
     #imgWrapper {
       position: relative;
       min-height: 400px;
       background: #F1F1F1;
-      display: flex;
-      align-items: center;
-      justify-content: center;
       cursor: pointer;
+      text-align: center;
     }
     #imgWrapper:after {
-      content: '点选择图片';
+      content: '+ 点选择图片';
+      padding: 100px 200px;
+      line-height: 400px;
       color: #999;
+      border: 1px dashed #ccc;
+      border-radius: 10px;
     }
     #imgWrapper div {
       position: absolute;
@@ -31,24 +30,7 @@
       top: 0;
       left: 0;
       width: 100%;
-      height: 100%;
-      display: flex;
-      align-items: center;
-      justify-content: center;
-    }
-    #buttonId {
-      display: inline-block;
-      margin-top: 20px;
-      width: 120px;
-      height: 40px;
-      border: 0;
-      background-color: green;
-      color: #FFF;
-      border-radius: 20px;
-      outline: none;
-    }
-    #buttonId:hover {
-      background-color: darkgreen;
+      background: #F1F1F1;
     }
   </style>
 </head>
@@ -57,12 +39,9 @@
   <div id="imgWrapper">
     <div class="view-wrapper">
       <!--图片预览容器-->
-      <img src="" alt="" style="display: none">
+      <img src="" style="display: none">
     </div>
   </div>
-  <!--<div>-->
-    <!--<button id="buttonId">选择图片</button>-->
-  <!--</div>-->
 </div>
 <script src="https://cdn.bootcss.com/js-polyfills/0.1.42/polyfill.min.js"></script>
 <script src="image-process-tools.min.js"></script>
@@ -73,43 +52,17 @@
   var zxImageProcess = new ZxImageProcess({
     // 触发文件选择的元素
     selector: '#imgWrapper',
-    // 图片处理完成显示的容器
-//    target: '#imgWrapper',
     // 限制宽度缩放，则只需设置width值
     // 限制高度缩放，则只需设置height值
     // 同时设置了width、height值，则会对图片按尺寸裁剪
     width: 600,
     height: 400,
-    // 是否转换图片格式
-    // false或不配置此项，则保留原图片格式
-    // 配置后，将所有格式图片转换为配置格式
-    // type值：'jpg', 'png'
-    // HTMLCanvasElement.toDataURL()不支持'gif', 'bmp'
-    // 文件格式为gif转换为png,bmp转换为jpg
-    // type: 'jpg',
     success: function (result) {
-
       // 返回数据
-      console.log(result);
+      log(result);
       // 添加图片至目标容器
       img.src = result.base64
       img.style.display = ''
-
-      if (result.code === 0) {
-        log('裁剪或压缩后的图片数据:');
-        log(result.data);
-        log('处理后图片文件大小为：' + zxImageProcess.conversion(result.size));
-
-        log('原图片数据:');
-        log(result.rawdata);
-        log('原图片文件大小为：' + zxImageProcess.conversion(result.rawdata.size));
-      }
-
-      /**
-       * data:待上传的图像数据
-       * 可将data写入input[value]，利用form表单上传
-       * 或直接通过如腾讯云接口直接上传，如下：
-       */
     },
     error: function (err) {
       console.error(err);

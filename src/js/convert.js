@@ -2,8 +2,6 @@
  * Created by zx1984 9/7/2018
  * https://github.com/zx1984
  */
-// import broadcast from './broadcast'
-
 /**
  * 文件数据转为base64
  * @param file 需要转换的原始文件对象

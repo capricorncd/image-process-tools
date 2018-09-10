@@ -61,9 +61,10 @@ const dom = {
    * @returns {*|Element}
    */
   createCanvas ($el, params) {
-    const $canvas = document.createElement('canvas')
-    $canvas.width = params.dw
-    $canvas.height = params.dh
+    const $canvas = this.createElm('canvas', {
+      width: params.dw,
+      height: params.dh
+    })
     const ctx = $canvas.getContext('2d')
     ctx.drawImage($el, params.sx, params.sy, params.sw, params.sh, params.dx, params.dy, params.dw, params.dh)
     return $canvas

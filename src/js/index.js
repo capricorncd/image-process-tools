@@ -8,7 +8,8 @@ import Crop from './crop'
 import { initInput } from './input'
 import {
   blobToUrl,
-  fileToBase64
+  fileToBase64,
+  toBlobData
 } from './convert'
 import { handerBase64 } from './handler-base64'
 import { conversion } from './calculator'
@@ -121,5 +122,6 @@ class ZxImageProcess {
 
 ZxImageProcess.prototype.conversion = conversion
 ZxImageProcess.prototype.fileToBase64 = fileToBase64
+ZxImageProcess.prototype.toBlobData = toBlobData
 
 export { ZxImageProcess }

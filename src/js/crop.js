@@ -14,9 +14,6 @@ const DEFAULT_OPTIONS = {
 }
 
 const MIN_SIZE = 60
-// window尺寸
-const WIN_WIDTH = window.innerWidth
-// const WIN_HEIGHT = window.innerHeight
 
 // crop
 class Crop {
@@ -38,6 +35,9 @@ class Crop {
     this.options = Object.assign({}, DEFAULT_OPTIONS, opts)
     // init
     this._init(this.options)
+    dom.addEvent(window, 'resize', _ => {
+      this._initCropBosPosition(this.options)
+    })
   }
 
   _init (opts) {
@@ -45,11 +45,6 @@ class Crop {
     dom.addEvent(document, 'selectstart', e => {
       e.preventDefault()
     })
-    // 裁剪框尺寸计算
-    let cropLineWidth = Math.min(opts.width, WIN_WIDTH * 0.8)
-    let cropLineHeight = opts.height / opts.width * cropLineWidth
-    // 裁剪比例
-    this.cropRatio = opts.width / cropLineWidth
     // 裁剪容器
     const cropVnode = {
       attrs: {
@@ -64,8 +59,7 @@ class Crop {
           child: [
             {
               attrs: {
-                class: 'crop-line-box',
-                style: `width:${cropLineWidth}px;height:${cropLineHeight}px;`
+                class: 'crop-line-box'
               }
             }
           ]
@@ -86,14 +80,14 @@ class Crop {
               attrs: {
                 class: '__cancel'
               },
-              child: '取消'
+              child: '取 消'
             },
             {
               tag: 'button',
               attrs: {
                 class: '__submit'
               },
-              child: '确定'
+              child: '确 定'
             }
           ]
         }
@@ -105,11 +99,42 @@ class Crop {
     this.$img = dom.query('.zx-image-target', this.$wrapper)
     // 初始化事件
     this._initEvent()
+    this._initCropBosPosition(opts)
   }
 
-  _initLineBoxPos () {
+  /**
+   * 初始化裁剪框位置
+   * @param opts
+   * @private
+   */
+  _initCropBosPosition (opts) {
+    let winWidth = window.innerWidth
+    let winHeight = window.innerHeight
+    let width = Math.min(opts.width, winWidth * 0.8)
+    let height = opts.height / opts.width * width
+    let top = (winHeight - height) / 2
+    let left = (winWidth - width) / 2
+    let borderWidth = Math.max(top, left)
+    // 裁剪比例
+    this.cropRatio = opts.width / width
+    // 尺寸信息
+    this.cropBoxPos = {
+      winWidth,
+      winHeight,
+      width,
+      height,
+      borderWidth,
+      top,
+      left,
+      bottom: top + height,
+      right: left + width
+    }
     const $lineBox = dom.query('.crop-line-box', this.$wrapper)
-    this.cropBoxPos = $lineBox.getBoundingClientRect()
+    $lineBox.style.top = (top - borderWidth) + 'px'
+    $lineBox.style.left = (left - borderWidth) + 'px'
+    $lineBox.style.width = width + 'px'
+    $lineBox.style.height = height + 'px'
+    $lineBox.style.borderWidth = borderWidth + 'px'
   }
 
   _initEvent () {
@@ -304,9 +329,18 @@ class Crop {
     }
     this.show()
     if (this.$img.src === url) return
+    dom.removeEvent(this.$img, 'load', _imageHander)
     // 清除样式，防止图片变形
     this.$img.setAttribute('style', '')
     this.$img.src = url
+    dom.addEvent(this.$img, 'load', _imageHander)
+
+    let _this = this
+    let cropBoxPos = _this.cropBoxPos
+    function _imageHander () {
+      let pos = this.getBoundingClientRect()
+      this.style.top = (cropBoxPos.winHeight - pos.height) / 2 + 'px'
+    }
   }
 
   _submit () {
@@ -334,7 +368,6 @@ class Crop {
     if (this.visible) return
     this.visible = true
     this.$wrapper.style.display = ''
-    this._initLineBoxPos()
     dom.lock(this.options.body)
   }
 

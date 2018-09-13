@@ -6,6 +6,8 @@ import dom from './dom-core'
 import util from './util'
 import broadcast from './broadcast'
 import { browser, touchEvents } from './touch-event'
+import { handleTouches, getTouches } from './touch-zoom'
+
 // default options
 const DEFAULT_OPTIONS = {
   width: 750,
@@ -45,11 +47,15 @@ class Crop {
     dom.addEvent(document, 'selectstart', e => {
       e.preventDefault()
     })
+
+    // let zIndex = 1
+    let zIndex = dom.maxZIndex() + 1
+
     // 裁剪容器
     const cropVnode = {
       attrs: {
         class: 'zx-image-crop-container',
-        style: `z-index:${dom.maxZIndex() + 1};display:none;`
+        style: `z-index:${zIndex};display:none;`
       },
       child: [
         {
@@ -135,6 +141,9 @@ class Crop {
     $lineBox.style.width = width + 'px'
     $lineBox.style.height = height + 'px'
     $lineBox.style.borderWidth = borderWidth + 'px'
+    // 按钮位置
+    const $btnsWrapper = dom.query('.zx-crop-btns-wrapper', this.$wrapper)
+    $btnsWrapper.style.top = this.cropBoxPos.bottom + 20 + 'px'
   }
 
   _initEvent () {
@@ -179,6 +188,9 @@ class Crop {
     let isTouchEvent = false
     // 鼠标按下位置图片左上角位置
     let moveBeforePostion = {}
+    // 手指数量
+    let fingers = 0
+    let startTouches = []
     // 开始
     dom.addEvent($crop, touchEvents.start, e => {
       // log(e.type)
@@ -186,6 +198,14 @@ class Crop {
       // e.preventDefault()
       isMousedownOnImage = true
       isTouchEvent = e.type === 'touchstart'
+
+      if (isTouchEvent) {
+        fingers = e.touches.length
+      }
+
+      if (fingers > 1) {
+        startTouches = getTouches(e, $img)
+      }
 
       // prevent user enter with right and the swiper move (needs isTouchEvent)
       if (!isTouchEvent && 'which' in e && e.which === 3) {
@@ -210,7 +230,6 @@ class Crop {
       }
     })
 
-    let l, t
     // 拖动
     dom.addEvent(document, touchEvents.move, e => {
       if (!isMousedownOnImage) return
@@ -224,48 +243,33 @@ class Crop {
         }
       }
 
-      let pageX = isTouchEvent ? e.targetTouches[0].pageX : (e.pageX || e.clientX)
-      let pageY = isTouchEvent ? e.targetTouches[0].pageY : (e.pageY || e.clientY)
-
-      l = pageX - moveBeforePostion.x
-      t = pageY - moveBeforePostion.y
-      // check image position
-      let cropBoxPos = this.cropBoxPos
-      let imgPos = $img.getBoundingClientRect()
-      // log(imgPos)
-      // log(cropBoxPos)
-      // ie11 无x/y属性
-      if (cropBoxPos.left <= l) {
-        l = cropBoxPos.left
+      if (fingers > 1) {
+        let scale = handleTouches(e, startTouches)
+        this._scaleHandler(scale > 1, 0.02)
+      } else {
+        handleMove(e, $img, this.cropBoxPos, moveBeforePostion, isTouchEvent)
       }
-      if (l <= cropBoxPos.right - imgPos.width) {
-        l = cropBoxPos.right - imgPos.width
-      }
-      if (cropBoxPos.top <= t) {
-        t = cropBoxPos.top
-      }
-      if (t <= cropBoxPos.bottom - imgPos.height) {
-        t = cropBoxPos.bottom - imgPos.height
-      }
-      $img.style.left = l + 'px'
-      $img.style.top = t + 'px'
     })
 
     // 释放鼠标
-    dom.addEvent(document, touchEvents.end, _ => {
+    dom.addEvent(document, touchEvents.end, e => {
       isMousedownOnImage = false
+      if (isTouchEvent) {
+        fingers = e.touches.length
+      }
     })
   }
 
   _scale (wheelDelta) {
-    this._scaleHandler(wheelDelta > 0)
+    this._scaleHandler(wheelDelta > 0, 0.1)
   }
 
   /**
    * @param isEnlarge 是否放大
+   * @param ratio 缩放系数
    * @private
    */
-  _scaleHandler (isEnlarge) {
+  _scaleHandler (isEnlarge, ratio) {
     const $img = this.$img
     let naturalWidth = $img.naturalWidth
     // let naturalHeight = $img.naturalHeight
@@ -273,13 +277,13 @@ class Crop {
     let imgHeight = $img.height
     let iw, ih
     if (isEnlarge) {
-      iw = imgWidth * 1.1
+      iw = imgWidth * (1 + ratio)
       // 最大放大2倍
       if (iw >= naturalWidth * 3) return
     } else {
       // 图片实际尺寸小于最小限制尺寸
       if (naturalWidth < MIN_SIZE) return
-      iw = imgWidth * 0.9
+      iw = imgWidth * (1 - ratio)
       if (iw <= MIN_SIZE) return
     }
     ih = iw * imgHeight / imgWidth
@@ -378,6 +382,39 @@ class Crop {
       dom.unlock(this.options.body)
     }
   }
+}
+
+/**
+ * 移动处理
+ * @param e
+ * @param cropBoxPos
+ * @param $img
+ */
+function handleMove (e, $img, cropBoxPos, moveBeforePostion, isTouchEvent) {
+  let pageX = isTouchEvent ? e.targetTouches[0].pageX : (e.pageX || e.clientX)
+  let pageY = isTouchEvent ? e.targetTouches[0].pageY : (e.pageY || e.clientY)
+
+  let l = pageX - moveBeforePostion.x
+  let t = pageY - moveBeforePostion.y
+  // check image position
+  let imgPos = $img.getBoundingClientRect()
+  // log(imgPos)
+  // log(cropBoxPos)
+  // ie11 无x/y属性
+  if (cropBoxPos.left <= l) {
+    l = cropBoxPos.left
+  }
+  if (l <= cropBoxPos.right - imgPos.width) {
+    l = cropBoxPos.right - imgPos.width
+  }
+  if (cropBoxPos.top <= t) {
+    t = cropBoxPos.top
+  }
+  if (t <= cropBoxPos.bottom - imgPos.height) {
+    t = cropBoxPos.bottom - imgPos.height
+  }
+  $img.style.left = l + 'px'
+  $img.style.top = t + 'px'
 }
 
 /**

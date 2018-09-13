@@ -42,6 +42,14 @@
     .view-wrapper img {
       max-width: 100%;
     }
+    /*#xxxxx {*/
+      /*position: fixed;*/
+      /*z-index: 100;*/
+      /*text-align: center;*/
+      /*width: 100%;*/
+      /*bottom: 80px;*/
+      /*color: aquamarine;*/
+    /*}*/
   </style>
 </head>
 <body>
@@ -52,12 +60,14 @@
       <img src="" style="display: none">
     </div>
   </div>
+  <!--<div id="xxxxx">5455</div>-->
 </div>
 <script src="https://cdn.bootcss.com/js-polyfills/0.1.42/polyfill.min.js"></script>
 <script src="image-process-tools.min.js"></script>
 <script>
   var imgWrapper = document.querySelector('#imgWrapper')
   var img = imgWrapper.querySelector('img')
+  // var $xxxxx = document.getElementById('xxxxx')
   // 初始化图片预处理工具
   var zxImageProcess = new ZxImageProcess({
     // 触发文件选择的元素

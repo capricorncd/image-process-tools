@@ -15,6 +15,18 @@ export default {
   },
 
   /**
+   * 将伪数组，转换为数组
+   * @param pseudoArray 伪数组
+   * @returns {*}
+   */
+  slice (pseudoArray, index = 0) {
+    if (pseudoArray.length && pseudoArray[0]) {
+      return Array.prototype.slice.call(pseudoArray, index)
+    }
+    return []
+  },
+
+  /**
    * 字符串'font-size'转换为驼峰
    * @param str
    * @returns {string}

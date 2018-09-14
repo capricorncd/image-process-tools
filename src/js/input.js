@@ -10,12 +10,13 @@ import broadcast from './broadcast'
  */
 export function initInput (_this) {
   let opts = _this.options
+  let selector = opts.selector
 
-  const $btn = dom.query(opts.selector)
+  const $btn = dom.isHTMLElement(selector) ? selector : dom.query(selector)
   if ($btn === null) {
     broadcast.emit('error', {
       code: 3,
-      msg: `Element ${opts.selector} is not found in document!`
+      msg: `Element ${selector} is not found in document!`
     })
     return
   }

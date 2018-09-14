@@ -87,7 +87,31 @@ https://zx1984.github.io/image-process-tools/dist
 
 ## 方法
 
-- conversion(size) // 将size单位B转换为KB或M(大于1024KB则返回M)
+- blobToUrl(file|blob) 文件数据转blob url
+
+- conversion(size) 将size单位B转换为KB或M(大于1024KB则返回M)
+
+- fileToBase64(file) 文件数据转base64。返回Promise对象实例
+
+- reCrop() 重新显示图片裁剪窗口，重新调整裁剪图片
+
+- toBlobData(base64) base64数据转为blob文件数据
+
+## Error
+
+|code|说明|
+|:--:|:--|
+|1|初始化参数`selector`不合法，非有效字符串|
+|2|未获取到body元素|
+|3|未获取到`selector`对应DOM元素|
+|4|未选中任何文件|
+|5|调用方法`reCrop()`时，未获取到之前的文件数据|
+|6|调用方法`fileToBase64(file)`时，file类型不合法|
+|7|处理的file非图片文件|
+|8|读取file文件数据出错|
+|9|被裁剪的图片尺寸，小于设置尺寸|
+|10|`toBlobData(data)`，data非base64数据|
+|11|预加载图片数据出错|
 
 ## Copyright and license
 

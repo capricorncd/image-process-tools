@@ -53,7 +53,7 @@ https://zx1984.github.io/image-process-tools/dist
 
 ## Options 参数
 
-* selector: `#buttonId` 选择图片按钮id(必须)，支持id、class选择器
+* selector: `#buttonId` 选择图片按钮id，支持id、class选择器
 
 * width: `640` 裁剪或缩放宽度为640px(可选)
 

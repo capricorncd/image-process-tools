@@ -93,7 +93,7 @@ https://zx1984.github.io/image-process-tools/dist
 
 - fileToBase64(file) 文件数据转base64。返回Promise对象实例
 
-- handle(file) 文件处理。处理参数为初始化`ZxImageProcess`时传入的参数。
+- handle(file) 文件处理。处理参数为初始化`ZxImageProcess`时传入的参数。通过初始化参数`success`返回处理结果。
 
 - reCrop() 重新显示图片裁剪窗口，重新调整裁剪图片
 

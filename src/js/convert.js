@@ -9,7 +9,10 @@
 export function fileToBase64 (file) {
   return new Promise((resolve, reject) => {
     if (!file && typeof file !== 'object') {
-      reject({ msg: `fileToBase64(file)::file is ${file}` })
+      reject({
+        code: 6,
+        msg: `fileToBase64(file)::file is ${file}`
+      })
       return
     }
     // 实例化FileReader
@@ -24,13 +27,21 @@ export function fileToBase64 (file) {
       if (/^data:image\//i.test(base64)) {
         resolve(base64)
       } else {
-        reject({msg: `${file.name} is not Image File!`})
+        reject({
+          code: 7,
+          msg: `${file.name} is not Image File!`,
+          base64
+        })
       }
       file = null
     }
 
     reader.onerror = function (e) {
-      reject({msg: `Error, FileReader "${file.name}"!`, data: e})
+      reject({
+        code: 8,
+        msg: `Error, FileReader "${file.name}"!`,
+        data: e
+      })
       file = null
     }
   })
@@ -59,6 +70,7 @@ export function toBlobData (base64Data) {
     onlyData = RegExp.$2
   } else {
     broadcast.emit('error', {
+      code: 10,
       msg: `toBlobData(data):: ${base64Data} is not base64 data!`
     })
     return null

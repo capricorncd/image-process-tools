@@ -36,11 +36,17 @@ class ZxImageProcess {
    * @param opts
    */
   constructor (opts) {
+    // 参数处理
+    this.options = Object.assign({}, DEFAUTL_OPTIONS, opts)
     // check selector
     if (!opts.selector || typeof opts.selector !== 'string') {
-      throw `The selector "${opts.selector}" is not valid in initialization parameter.`
+      this.options.error({
+        code: 1,
+        msg: `The selector "${opts.selector}" is not valid in initialization parameter.`
+      })
+      return
     }
-    this.init(opts)
+    this.init(this.options)
   }
 
   /**
@@ -48,8 +54,6 @@ class ZxImageProcess {
    * @param opts
    */
   init (opts) {
-    // 参数处理
-    this.options = Object.assign({}, DEFAUTL_OPTIONS, opts)
     // error notify
     broadcast.on('error', err => {
       this.options.error(err)
@@ -67,7 +71,10 @@ class ZxImageProcess {
     // body Element
     this.$body = dom.query('body')
     if (this.$body === null) {
-      throw `Failed to initialize, Element body is not found in document!`
+      broadcast.emit('error', {
+        code: 2,
+        msg: `Failed to initialize, Element body is not found in document!`
+      })
     }
     // 同时设置宽高，视为裁剪图片
     if (this.crop) {
@@ -114,6 +121,7 @@ class ZxImageProcess {
       crop.show()
     } else {
       broadcast.emit('error', {
+        code: 5,
         msg: '请先选择图片文件'
       })
     }

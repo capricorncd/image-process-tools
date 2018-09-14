@@ -13,7 +13,11 @@ export function initInput (_this) {
 
   const $btn = dom.query(opts.selector)
   if ($btn === null) {
-    throw `Element ${opts.selector} is not found in document!`
+    broadcast.emit('error', {
+      code: 3,
+      msg: `Element ${opts.selector} is not found in document!`
+    })
+    return
   }
 
   const $input = dom.createElm('input', {
@@ -33,7 +37,7 @@ export function initInput (_this) {
     let files = $input.files || []
     if (files.length === 0) {
       broadcast.emit('error', {
-        code: 1,
+        code: 4,
         msg: 'Any file is not selected!'
       })
     } else {

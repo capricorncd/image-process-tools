@@ -150,7 +150,7 @@ function loadImage (base64, file) {
 
     $img.onerror = function (e) {
       reject({
-        code: 8,
+        code: 11,
         msg: 'Error of loading image data!'
       })
     }

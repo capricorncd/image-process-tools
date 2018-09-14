@@ -39,7 +39,7 @@ class ZxImageProcess {
     // 参数处理
     this.options = Object.assign({}, DEFAUTL_OPTIONS, opts)
     // check selector
-    if (!opts.selector || typeof opts.selector !== 'string') {
+    if (!opts.selector || (typeof opts.selector !== 'string' && !dom.isHTMLElement(opts.selector))) {
       this.options.error({
         code: 1,
         msg: `The selector "${opts.selector}" is not valid in initialization parameter.`

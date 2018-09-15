@@ -1,6 +1,6 @@
 /**
- * Created by zx1984 9/13/2018
- * https://github.com/zx1984
+ * Created by capricorncd 9/13/2018
+ * https://github.com/capricorncd
  */
 import util from './util'
 

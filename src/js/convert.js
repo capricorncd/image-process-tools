@@ -1,6 +1,6 @@
 /**
- * Created by zx1984 9/7/2018
- * https://github.com/zx1984
+ * Created by capricorncd 9/7/2018
+ * https://github.com/capricorncd
  */
 /**
  * 文件数据转为base64

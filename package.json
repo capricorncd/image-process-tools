@@ -1,11 +1,11 @@
 {
   "name": "image-process",
-  "version": "3.0.3",
-  "author": "zx1984",
-  "github": "https://github.com/zx1984",
+  "version": "3.0.4",
+  "author": "capricorncd",
+  "github": "https://github.com/capricorncd",
   "repository": {
     "type": "git",
-    "url": "git+https://github.com/zx1984/image-process-tools.git"
+    "url": "git+https://github.com/capricorncd/image-process-tools.git"
   },
   "keywords": [
     "image",
@@ -14,9 +14,9 @@
   ],
   "description": "image-process-tools. Image pre processing for upload (html5 + canvas)",
   "bugs": {
-    "url": "https://github.com/zx1984/image-process-tools/issues"
+    "url": "https://github.com/capricorncd/image-process-tools/issues"
   },
-  "homepage": "https://github.com/zx1984/image-process-tools",
+  "homepage": "https://github.com/capricorncd/image-process-tools",
   "main": "dist/image-process-tools.min.js",
   "scripts": {
     "dev": "cross-env NODE_ENV=development webpack-dev-server --color --config build/webpack/dev.js",

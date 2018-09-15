@@ -1,6 +1,6 @@
 /**
- * Created by zx1984 5/30/2018
- * https://github.com/zx1984
+ * Created by capricorncd 5/30/2018
+ * https://github.com/capricorncd
  */
 export default {
   /**

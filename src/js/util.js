@@ -1,6 +1,6 @@
 /**
- * Created by zx1984 9/6/2018
- * https://github.com/zx1984
+ * Created by capricorncd 9/6/2018
+ * https://github.com/capricorncd
  */
 const USER_AGENT = navigator.userAgent
 export default {

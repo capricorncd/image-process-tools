@@ -49,7 +49,7 @@ browser
 
 ## 使用效果
 
-https://zx1984.github.io/image-process-tools/dist
+https://capricorncd.github.io/image-process-tools/dist
 
 ## Options 参数
 
@@ -117,4 +117,4 @@ https://zx1984.github.io/image-process-tools/dist
 
 ## Copyright and license
 
-Code and documentation copyright 2018. zx1984. Code released under the MIT License.
+Code and documentation copyright 2018. capricorncd. Code released under the MIT License.

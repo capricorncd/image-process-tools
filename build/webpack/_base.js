@@ -1,6 +1,6 @@
 /**
  * Created by Capricorncd 2018/09/06
- * https://github.com/zx1984
+ * https://github.com/capricorncd
  */
 const path = require('path')
 const HtmlWebpackPlugin = require('html-webpack-plugin')

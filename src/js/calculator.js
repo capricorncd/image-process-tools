@@ -1,6 +1,6 @@
 /**
- * Created by zx1984 9/9/2018
- * https://github.com/zx1984
+ * Created by capricorncd 9/9/2018
+ * https://github.com/capricorncd
  */
 import util from './util'
 import broadcast from './broadcast'
@@ -20,12 +20,12 @@ export default {
     let ih = info.height
 
     // 提示：图片实际尺寸，小于目标尺寸
-    if (iw < targetWidth || ih < targetHeight) {
-      broadcast.emit('error', {
-        code: 9,
-        msg: 'The size of the current image file is smaller than the crop size.'
-      })
-    }
+    // if (iw < targetWidth || ih < targetHeight) {
+    //   broadcast.emit('error', {
+    //     code: 9,
+    //     msg: 'The size of the current image file is smaller than the crop size.'
+    //   })
+    // }
 
     // 缩放比列
     let scaling = 1

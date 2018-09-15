@@ -1,7 +1,7 @@
 /**
- * Create by zx1984
+ * Create by capricorncd
  * 2018/08/29 0022.
- * https://github.com/zx1984
+ * https://github.com/capricorncd
  */
 const merge = require('webpack-merge')
 const webpack = require('webpack')

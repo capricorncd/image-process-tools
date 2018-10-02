@@ -2,7 +2,7 @@
  * Created by capricorncd 9/13/2018
  * https://github.com/capricorncd
  */
-import util from './util'
+import util from '../util'
 
 /**
  * 处理touches

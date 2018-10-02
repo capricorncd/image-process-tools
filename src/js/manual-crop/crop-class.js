@@ -2,23 +2,27 @@
  * Created by capricorncd 9/7/2018
  * https://github.com/capricorncd
  */
-import dom from './dom-core'
-import util from './util'
-import broadcast from './broadcast'
+import dom from '../dom-core'
+import util from '../util'
+import broadcast from '../broadcast'
 import { browser, touchEvents } from './touch-event'
 import { handleTouches, getTouches } from './touch-zoom'
+
+const MIN_SIZE = 60
 
 // default options
 const DEFAULT_OPTIONS = {
   width: 750,
   height: 750,
-  body: null
+  // 确定按钮样式
+  submitStyle: '',
+  // 取消按钮样式
+  cancelStyle: ''
 }
 
-const MIN_SIZE = 60
 
-// crop
-class Crop {
+// crop class
+class CropClass {
   /**
    * constructor
    * @param opts
@@ -38,7 +42,7 @@ class Crop {
     // init
     this._init(this.options)
     dom.addEvent(window, 'resize', _ => {
-      this._initCropBosPosition(this.options)
+      this.initCropBosPosition()
     })
   }
 
@@ -84,14 +88,16 @@ class Crop {
             {
               tag: 'button',
               attrs: {
-                class: '__cancel'
+                class: '__cancel',
+                style: opts.cancelStyle
               },
               child: '取 消'
             },
             {
               tag: 'button',
               attrs: {
-                class: '__submit'
+                class: '__submit',
+                style: opts.submitStyle
               },
               child: '确 定'
             }
@@ -101,19 +107,21 @@ class Crop {
     }
     // 创建创建容器
     this.$wrapper = dom.createVdom(cropVnode)
-    this.options.body.appendChild(this.$wrapper)
+    const $body = dom.query('body')
+    $body.appendChild(this.$wrapper)
     this.$img = dom.query('.zx-image-target', this.$wrapper)
     // 初始化事件
     this._initEvent()
-    this._initCropBosPosition(opts)
+    this.initCropBosPosition()
   }
 
   /**
    * 初始化裁剪框位置
-   * @param opts
+   * @param newOpts 新参数
    * @private
    */
-  _initCropBosPosition (opts) {
+  initCropBosPosition (newOpts) {
+    let opts = newOpts ? Object.assign({}, DEFAULT_OPTIONS, newOpts) : this.options
     let winWidth = window.innerWidth
     let winHeight = window.innerHeight
     let width = Math.min(opts.width, winWidth * 0.8)
@@ -171,6 +179,7 @@ class Crop {
     // 取消
     const $btnCancel = dom.query('.__cancel', this.$wrapper)
     dom.addEvent($btnCancel, 'click', _ => {
+      broadcast.emit('crop-cancel')
       this.hide()
     })
   }
@@ -326,9 +335,16 @@ class Crop {
     $img.style.left = l + 'px'
   }
 
-  handleImage (url) {
+  /**
+   *
+   * @param url 图片地址或base64
+   */
+  setImageSrc (url) {
     if (!this.$img || !url) {
-      broadcast.emit('error', { msg: `Failed to updateImage(url)`})
+      broadcast.emit('error', {
+        code: 21,
+        message: `Failed to setImageSrc(url)`
+      })
       return
     }
     this.show()
@@ -429,4 +445,4 @@ export function mouseWheel ($el, wheelHandler) {
   dom.addEvent($el, 'DOMMouseScroll', wheelHandler)
 }
 
-export default Crop
+export default CropClass

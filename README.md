@@ -102,7 +102,7 @@ https://capricorncd.github.io/image-process-tools/dist
 
   > type: `image/png`  处理完成的图片类型
 
-* error: `function(err){ alert(err.msg); }` 处理过程中的错误或警告回调函数
+* error: `function(err){ alert(err.message); }` 处理过程中的错误或警告回调函数
 
 ## 方法
 

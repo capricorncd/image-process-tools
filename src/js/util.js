@@ -25,15 +25,15 @@ const util = {
   },
   /**
    * 将数据转换为可上传用数据
-   * @param {String} data
+   * @param {String} base64
    * @param {String} type 生成文件类型
    * @return blob数据
    */
-  toBlobData (data, type) {
+  toBlobData (base64, type) {
     // 获取base64数据
     // data = data.split(',')[1]
-    let dataInfo = getBase64Info(data)
-    data = window.atob(dataInfo.data)
+    let dataInfo = getBase64Info(base64)
+    let data = window.atob(dataInfo.data)
     type = type || dataInfo.type
 
     let ia = new Uint8Array(data.length)

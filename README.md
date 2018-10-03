@@ -40,6 +40,8 @@ const zxImageProcess = new ZxImageProcess({
     // 裁剪容器按钮样式
     submitStyle： '',
     cancelStyle: 'color: red',
+    // 最大文件限制
+    maxSize: 50,
     success: function (result) {
       // 返回数据
       console.log(result);
@@ -53,7 +55,23 @@ const zxImageProcess = new ZxImageProcess({
 不初始化ZxImageProcess，直接使用期内部方法`handleImageFile(file, options)`和`handleVideoFile(file, options)`，返回`promise对象`
 
 ```
-import { handleImageFile, handleVideoFile } from 'image-process'
+import { handleMediaFile } from 'image-process'
+
+const options = {
+  width: 600,
+  height: 400,
+  // 文件大小限制50M
+  maxSize: 50
+}
+
+// 处理图片或视频文件
+handleMediaFile(file, options)
+  .then(res => {
+    console.log(res)
+  })
+  .catch (err => {
+    console.error(err)
+  })
 ```
 
 browser
@@ -70,7 +88,7 @@ https://capricorncd.github.io/image-process-tools/dist
 
 * auto `true|false` 自动处理图片，裁剪时不弹出手动位置调整框。默认为false。
 
-* selector: `#buttonId` 选择图片按钮id，支持id、class选择器，或者`HTMLElement`对象
+* selector: `#buttonId` 选择图片按钮id，支持id、class选择器，或者`HTMLElement`对象（仅ZxImageProcess实例化时有效）
 
 * width: `640` 裁剪或缩放宽度为640px(可选)
 
@@ -82,7 +100,9 @@ https://capricorncd.github.io/image-process-tools/dist
 
 * height: `640` 裁剪或缩放高度为640px(可选)
 
-* success: `function(result){ console.log(result) }` 图片处理完成后的回调函数
+* maxSize: `50` 文件大小最大限制，单位M（兆）
+
+* success: `function(result){ console.log(result) }` 图片处理完成后的回调函数（仅ZxImageProcess实例化时有效）
 
   > base64: `base64` 图片base64数据
 
@@ -102,13 +122,18 @@ https://capricorncd.github.io/image-process-tools/dist
 
   > type: `image/png`  处理完成的图片类型
 
-* error: `function(err){ alert(err.message); }` 处理过程中的错误或警告回调函数
+* error: `function(err){ alert(err.message); }` 处理过程中的错误或警告回调函数（仅ZxImageProcess实例化时有效）
+
+* submitStyle: `color: #f00` 裁剪框确认按钮样式（仅ZxImageProcess实例化时有效）
+* cancelStyle: `color: #f00` 裁剪框取消按钮样式（仅ZxImageProcess实例化时有效）
 
 ## 方法
 
-- toBlobUrl(file|blob) 文件数据转blob url
-
 - conversion(size) 将size单位B转换为KB或M(大于1024KB则返回M)
+
+- toBlobData(base64) base64转blob
+
+- toBlobUrl(file|blob) 文件数据转blob url
 
 - reCrop() 重新显示图片裁剪窗口，重新调整裁剪图片
 

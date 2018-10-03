@@ -7,8 +7,7 @@ import broadcast from './broadcast'
 import dom from './dom-core'
 import util from "./util"
 import { initInput } from './input'
-import { handleImageFile } from './handler/image'
-import { handleVideoFile } from './handler/video'
+import { handleMediaFile } from './handler/index'
 import '../style/index.styl'
 
 // default options
@@ -100,12 +99,11 @@ class ZxImageProcess {
 }
 
 ZxImageProcess.prototype.toBlobData = util.toBlobData
+ZxImageProcess.prototype.toBlobUrl = util.toBlobUrl
 ZxImageProcess.prototype.conversion = util.conversion
-ZxImageProcess.prototype.handleImageFile = handleImageFile
-ZxImageProcess.prototype.handleVideoFile = handleVideoFile
+ZxImageProcess.prototype.handleMediaFile = handleMediaFile
 
 export {
   ZxImageProcess,
-  handleImageFile,
-  handleVideoFile
+  handleMediaFile
 }

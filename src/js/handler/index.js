@@ -4,15 +4,45 @@
  * 2018-10-02 22:05
  */
 import util from '../util'
-import broadcast from '../broadcast'
 import { handleVideoFile } from './video'
 import { handleImageFile } from './image'
-export function handleMediaFile (file, type, opts) {
+
+/**
+ * 处理媒体文件
+ * @param file 文件
+ * @param opts 处理参数
+ * @returns {Promise}
+ */
+export function handleMediaFile (file, opts) {
+  return new Promise((resolve, reject) => {
+    // check file type
+    let fileType = file.type
+    if (/^(image|video)/.test(fileType)) {
+      _handlerFile(file, RegExp.$1, opts, resolve, reject)
+    } else {
+      reject({
+        code: 7,
+        message: 'Incorrect file type'
+      })
+    }
+  })
+}
+
+/**
+ * 处理视频截图或图片
+ * @param file
+ * @param type
+ * @param opts
+ * @param resolve
+ * @param reject
+ * @private
+ */
+function _handlerFile (file, type, opts, resolve, reject) {
   // check file size
   let fileSize = util.bitToKib(file.size)
   let maxSize = util.int(opts.maxSize) * 1024
   if (maxSize && maxSize < fileSize) {
-    broadcast.emit('error', {
+    reject({
       code: 12,
       message: `The file is too large, exceeding the maximum limit of ${opts.maxSize}M.`
     })
@@ -20,18 +50,10 @@ export function handleMediaFile (file, type, opts) {
   }
   switch (type) {
     case 'image':
-      handleImageFile(file, opts).then(res => {
-        broadcast.emit('success', res)
-      }).catch(err => {
-        broadcast.emit('error', err)
-      })
+      handleImageFile(file, opts).then(resolve).catch(reject)
       break
     case 'video':
-      handleVideoFile(file, opts).then(res => {
-        broadcast.emit('success', res)
-      }).catch(err => {
-        broadcast.emit('error', err)
-      })
+      handleVideoFile(file, opts).then(resolve).catch(reject)
       break
   }
 }

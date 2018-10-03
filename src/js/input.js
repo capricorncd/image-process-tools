@@ -48,18 +48,16 @@ export function initInput (_this, opts) {
       })
     } else {
       let file = files[0]
-      // check file type
-      let fileType = file.type
-      if (/^(image|video)/.test(fileType)) {
-        // 重新裁剪时使用
-        _this.file = file
-        handleMediaFile(file, RegExp.$1, opts)
-      } else {
-        broadcast.emit('error', {
-          code: 7,
-          message: 'Incorrect file type'
+      // 重新裁剪时使用
+      _this.file = file
+      // 处理文件
+      handleMediaFile(file, opts)
+        .then(res => {
+          broadcast.emit('success', res)
         })
-      }
+        .catch(err => {
+          broadcast.emit('error', err)
+        })
     }
   })
 

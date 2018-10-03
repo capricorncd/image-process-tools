@@ -67,7 +67,7 @@ class ZxImageProcess {
     }
     this.options = opts
     // id
-    this.id = util.randomId()
+    this.id = util.randomStr()
     // body Element
     this.$body = dom.query('body')
     // check body

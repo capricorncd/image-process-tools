@@ -59,7 +59,7 @@ function readFile (file) {
  */
 function handleBase64 (base64, opts, resolve, reject) {
   let type = /^data:(.+?);base64/.test(base64) ? RegExp.$1 : 'image/jpeg'
-  const blob = util.toBlobData(base64, type)
+  let blob = util.toBlobData(base64, type)
   let $img = craeteImage(base64)
   // onload
   $img.onload = function () {

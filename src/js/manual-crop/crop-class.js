@@ -107,8 +107,8 @@ class CropClass {
     }
     // 创建创建容器
     this.$wrapper = dom.createVdom(cropVnode)
-    const $body = dom.query('body')
-    $body.appendChild(this.$wrapper)
+    this.$body = dom.query('body')
+    this.$body.appendChild(this.$wrapper)
     this.$img = dom.query('.zx-image-target', this.$wrapper)
     // 初始化事件
     this._initEvent()
@@ -121,7 +121,11 @@ class CropClass {
    * @private
    */
   initCropBosPosition (newOpts) {
-    let opts = newOpts ? Object.assign({}, DEFAULT_OPTIONS, newOpts) : this.options
+    // 更新this.options
+    if (newOpts) {
+      this.options = Object.assign({}, this.options, newOpts)
+    }
+    let opts = this.options
     let winWidth = window.innerWidth
     let winHeight = window.innerHeight
     let width = Math.min(opts.width, winWidth * 0.8)
@@ -388,14 +392,14 @@ class CropClass {
     if (this.visible) return
     this.visible = true
     this.$wrapper.style.display = ''
-    dom.lock(this.options.body)
+    dom.lock(this.$body)
   }
 
   hide () {
     if (this.visible) {
       this.visible = false
       this.$wrapper.style.display = 'none'
-      dom.unlock(this.options.body)
+      dom.unlock(this.$body)
     }
   }
 }

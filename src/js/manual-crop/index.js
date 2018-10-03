@@ -24,11 +24,16 @@ export function manualCrop (info, opts, resolve, reject) {
       code: 22,
       message: 'Clipping is cancelled'
     })
+    broadcast.off('crop-submit')
+    broadcast.off('crop-cancel')
   })
   // clipping is submited
   broadcast.on('crop-submit', res => {
     handleCrop(info, res, resolve)
+    broadcast.off('crop-submit')
+    broadcast.off('crop-cancel')
   })
+
   // 实例化CropClass
   if (cropClass === null) {
     cropClass = new CropClass({

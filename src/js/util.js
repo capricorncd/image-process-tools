@@ -110,8 +110,8 @@ const util = {
    * @param prefix
    * @returns {string}
    */
-  randomId (prefix = '') {
-    return 'zximageprocess_' + prefix + '_' + (+new Date())
+  randomStr (prefix = 'zximageprocess') {
+    return prefix + '_' + (+new Date())
   }
 }
 

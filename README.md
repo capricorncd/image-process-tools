@@ -52,12 +52,16 @@ const zxImageProcess = new ZxImageProcess({
   })
 ```
 
-不初始化ZxImageProcess，直接使用期内部方法`handleImageFile(file, options)`和`handleVideoFile(file, options)`，返回`promise对象`
+不初始化ZxImageProcess，直接使用期内部方法`handleMediaFile(file, options)`，返回`promise对象`
 
 ```
 import { handleMediaFile } from 'image-process'
 
 const options = {
+  // 默认为空，图片和视频文件，前提是浏览器支持input[accept=]
+  accept: 'video/*',
+  // 自动裁剪
+  auto: false,
   width: 600,
   height: 400,
   // 文件大小限制50M
@@ -100,7 +104,7 @@ https://capricorncd.github.io/image-process-tools/dist
 
 * height: `640` 裁剪或缩放高度为640px(可选)
 
-* maxSize: `50` 文件大小最大限制，单位M（兆）
+* maxSize: `50` 文件大小最大限制，单位M（兆）。默认50M
 
 * success: `function(result){ console.log(result) }` 图片处理完成后的回调函数（仅ZxImageProcess实例化时有效）
 
@@ -141,7 +145,7 @@ https://capricorncd.github.io/image-process-tools/dist
 
 |code|message说明|
 |:--:|:--|
-|1|初始化参数`selector`不合法，非有效字符串|
+|1|初始化参数`selector`不合法，非有效字符串或DOM元素|
 |2|未获取到body元素|
 |3|未获取到`selector`对应DOM元素|
 |4|未选中任何文件|
@@ -152,7 +156,7 @@ https://capricorncd.github.io/image-process-tools/dist
 |12|文件太大，超过了最大限制|
 |13|视频截图失败，视频资源可能不在同域中|
 |21|图片手动裁剪，设置预览图片src失败|
-|22|用户取消了手动裁剪|
+|22|用户取消了裁剪位置设置|
 
 ## Copyright and license
 

@@ -56,8 +56,16 @@ export function manualCrop (info, opts, resolve, reject) {
  * @param info
  */
 function handleCrop (info, params, resolve) {
+  let $el
+  // 旋转图片
+  if (params.angle > 0) {
+    $el = rotateImage(info.element, params.angle)
+    info.width = params.naturalWidth
+    info.height = params.naturalHeight
+    info.element = $el
+  }
   // 等比缩放
-  let $el = handleScale(info, {width: params.currentWidth})
+  $el = handleScale(info, {width: params.currentWidth})
   const $canvas = dom.createCanvas($el, {
     sx: params.x,
     sy: params.y,
@@ -131,4 +139,43 @@ function handleScale (info, opts) {
     sh: sh
   })
   return $el
+}
+
+/**
+ * 旋转图片
+ * @param $img
+ * @param angle
+ * @returns {Element}
+ */
+function rotateImage ($img, angle) {
+  const $canvas = document.createElement('canvas')
+  const ctx = $canvas.getContext('2d')
+  let imgWidth = $img.width
+  let imgHeight = $img.height
+  $canvas.width = imgWidth
+  $canvas.height = imgHeight
+  switch(angle) {
+    // 旋转90度
+    case 90:
+      $canvas.width = imgHeight
+      $canvas.height = imgWidth
+      ctx.rotate(Math.PI / 2)
+      // (0, -imgHeight) 从旋转原理图那里获得的起始点
+      ctx.drawImage($img, 0, -imgHeight, imgWidth, imgHeight)
+      break
+    // 旋转180度
+    case 180:
+      ctx.rotate(Math.PI)
+      ctx.drawImage($img, -imgWidth, -imgHeight, imgWidth, imgHeight)
+      break;
+    case 270:     // 旋转-90(270)度
+      $canvas.width = imgHeight
+      $canvas.height = imgWidth
+      ctx.rotate(3 * Math.PI / 2)
+      ctx.drawImage($img, -imgWidth, 0, imgWidth, imgHeight)
+      break
+    default:
+      ctx.drawImage($img, 0, 0, imgWidth, imgHeight)
+  }
+  return $canvas
 }

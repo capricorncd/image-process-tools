@@ -8,6 +8,35 @@
   *
     margin 0
     padding 0
+  .__close
+    position: absolute;
+    z-index: 5;
+    top: 0;
+    right: 0;
+    width: 64px;
+    height: 64px;
+    cursor: pointer;
+    transition: all .5s;
+    opacity: .6;
+    transform: rotate(45deg);
+    &:before, &:after
+      content: '';
+      position: absolute;
+      background-color: #fff;
+      border-radius: 2px;
+    &:before
+      top: 31px;
+      left: 16px;
+      width: 32px;
+      height: 2px;
+    &:after
+      top: 16px;
+      left: 31px;
+      width: 2px;
+      height: 32px;
+    &:hover
+      transform: rotate(225deg);
+      opacity: .8;
   .zx-image-crop-wrapper
     position absolute
     z-index 2
@@ -28,6 +57,7 @@
     top 0
     left 0
     width: 100%
+    transition: transform .3s;
   .zx-crop-btns-wrapper
     position absolute
     z-index 3
@@ -35,7 +65,6 @@
     transform translateX(-50%)
     button
       display inline-block
-      margin 0 10px
       padding 0 20px
       height 32px
       border-radius 4px
@@ -44,6 +73,9 @@
       background-color royalblue
       cursor: pointer
       box-shadow 0 5px 10px rgba(0, 0, 0, .5)
-      &.__cancel
+      &.__submit
+        margin-left: 10px;
+      &.__rotate
+        margin-right: 10px;
         background-color: #666
 

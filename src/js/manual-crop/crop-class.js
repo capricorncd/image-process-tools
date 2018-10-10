@@ -88,10 +88,10 @@ class CropClass {
             {
               tag: 'button',
               attrs: {
-                class: '__cancel',
+                class: '__rotate',
                 style: opts.cancelStyle
               },
-              child: '取 消'
+              child: '旋转90度'
             },
             {
               tag: 'button',
@@ -102,6 +102,11 @@ class CropClass {
               child: '确 定'
             }
           ]
+        },
+        {
+          attrs: {
+            class: '__close'
+          }
         }
       ]
     }
@@ -111,7 +116,7 @@ class CropClass {
     this.$body.appendChild(this.$wrapper)
     this.$img = dom.query('.zx-image-target', this.$wrapper)
     // 初始化事件
-    this._initEvent()
+    this._initEvent(this.$img)
     this.initCropBosPosition()
   }
 
@@ -158,7 +163,11 @@ class CropClass {
     $btnsWrapper.style.top = this.cropBoxPos.bottom + 20 + 'px'
   }
 
-  _initEvent () {
+  /**
+   * 初始化事件
+   * @private
+   */
+  _initEvent ($img) {
     // 裁剪框
     let $crop
     if (browser.ie10) {
@@ -170,18 +179,24 @@ class CropClass {
     this._move($crop)
     // 缩放
     mouseWheel($crop, e => {
+      let isRotate = !!(util.int($img.getAttribute('data-angle')) % 180)
       // 浏览器兼容处理
       // 鼠标滚动方向
       let wheelDelta = e.wheelDelta || -e.detail
-      this._scale(wheelDelta)
+      this._scale(wheelDelta, isRotate)
     })
     // 确定
     const $btnSubmit = dom.query('.__submit', this.$wrapper)
     dom.addEvent($btnSubmit, 'click', _ => {
       this._submit()
     })
+    // 旋转
+    const $btnRotate = dom.query('.__rotate', this.$wrapper)
+    dom.addEvent($btnRotate, 'click', _ => {
+      this._rotate()
+    })
     // 取消
-    const $btnCancel = dom.query('.__cancel', this.$wrapper)
+    const $btnCancel = dom.query('.__close', this.$wrapper)
     dom.addEvent($btnCancel, 'click', _ => {
       broadcast.emit('crop-cancel')
       this.hide()
@@ -204,6 +219,8 @@ class CropClass {
     // 手指数量
     let fingers = 0
     let startTouches = []
+    // 是否旋转
+    let isRotate = false
     // 开始
     dom.addEvent($crop, touchEvents.start, e => {
       // log(e.type)
@@ -211,6 +228,8 @@ class CropClass {
       // e.preventDefault()
       isMousedownOnImage = true
       isTouchEvent = e.type === 'touchstart'
+
+      isRotate = !!(util.int($img.getAttribute('data-angle')) % 180)
 
       if (isTouchEvent) {
         fingers = e.touches.length
@@ -258,9 +277,9 @@ class CropClass {
 
       if (fingers > 1) {
         let scale = handleTouches(e, startTouches)
-        this._scaleHandler(scale > 1, 0.02)
+        this._scaleHandler(scale > 1, 0.02, isRotate)
       } else {
-        handleMove(e, $img, this.cropBoxPos, moveBeforePostion, isTouchEvent)
+        handleMove(e, this, moveBeforePostion, isTouchEvent, isRotate)
       }
     })
 
@@ -273,16 +292,112 @@ class CropClass {
     })
   }
 
-  _scale (wheelDelta) {
-    this._scaleHandler(wheelDelta > 0, 0.1)
+  /**
+   * _scale
+   * @param wheelDelta
+   * @param isRotate
+   * @private
+   */
+  _scale (wheelDelta, isRotate) {
+    this._scaleHandler(wheelDelta > 0, 0.1, isRotate)
+  }
+
+  /**
+   * rotate
+   * @private
+   */
+  _rotate () {
+    const $img = this.$img
+    let rotate = util.int($img.getAttribute('data-angle')) + 90
+    $img.setAttribute('data-angle', rotate)
+    $img.style.transform = `rotate(${rotate}deg)`
+    let timer = setTimeout(_ => {
+      let isRotate = !!(rotate % 180)
+      this._checkPosition($img, isRotate)
+      clearTimeout(timer)
+      timer = null
+    }, 300)
+  }
+
+  /**
+   * check img position && size
+   * @param $img
+   * @private
+   */
+  _checkPosition ($img, isRotate) {
+    let box = this.cropBoxPos
+    let pos = $img.getBoundingClientRect()
+    // log(pos, box)
+    // check size
+    let iw, ih
+    if (isRotate) {
+      if (pos.width < box.width) {
+        ih = box.width
+        iw = pos.height * ih / pos.width
+      }
+      if (pos.height < box.height) {
+        iw = box.height
+        ih = pos.width * iw / pos.height
+      }
+    } else {
+      if (pos.width < box.width) {
+        iw = box.width
+        ih = pos.height * iw / pos.width
+      }
+      if (pos.height < box.height) {
+        ih = box.height
+        iw = pos.width * ih / pos.height
+      }
+    }
+    $img.style.width = iw + 'px'
+    $img.style.height = ih + 'px'
+
+    // check position
+    pos = $img.getBoundingClientRect()
+    let l, t
+    if (isRotate) {
+      // 左边界
+      if (pos.left > box.left) {
+        // 窗口宽度 - 当前img rect height(非图片高度) 的一半
+        l = (box.winWidth - pos.height) / 2
+      }
+      // 上边界
+      if (pos.top > box.top) {
+        t = (box.winHeight - pos.width) / 2
+      }
+      // 右边界
+      if (pos.right < box.right) {
+        l = (box.winWidth - pos.height) / 2
+      }
+      // 下边界
+      if (pos.bottom < box.bottom) {
+        t = (box.winHeight - pos.width) / 2
+      }
+    } else {
+      if (pos.left > box.left) {
+        l = box.left
+      }
+      if (pos.top > box.top) {
+        t = box.top
+      }
+      if (pos.right < box.right) {
+        l = box.left
+      }
+      if (pos.bottom < box.bottom) {
+        t = box.top
+      }
+    }
+    $img.style.left = l + 'px'
+    $img.style.top = t + 'px'
   }
 
   /**
    * @param isEnlarge 是否放大
    * @param ratio 缩放系数
+   * @param isRotate 是否被旋转
    * @private
    */
-  _scaleHandler (isEnlarge, ratio) {
+  _scaleHandler (isEnlarge, ratio, isRotate) {
     const $img = this.$img
     let naturalWidth = $img.naturalWidth
     // let naturalHeight = $img.naturalHeight
@@ -301,42 +416,13 @@ class CropClass {
     }
     ih = iw * imgHeight / imgWidth
     // check
-    let cropBoxPos = this.cropBoxPos
-    let imgPos = this.$img.getBoundingClientRect()
-    // check image size
-    if (iw <= cropBoxPos.width) {
-      iw = cropBoxPos.width
-      ih = imgPos.height / imgPos.width * iw
+    let box = this.cropBoxPos
+    let pos = this.$img.getBoundingClientRect()
+    if (isRotate) {
+      _scaleByRotate(this, box, pos, iw, ih)
+    } else {
+      _scaleByNotRotate(this, box, pos, iw, ih)
     }
-    if (ih <= cropBoxPos.height) {
-      ih = cropBoxPos.height
-      iw = imgPos.width / imgPos.height * ih
-    }
-    $img.style.width = iw + 'px'
-    $img.style.height = ih + 'px'
-
-    // 图片增加的宽度、高度
-    let addW = iw - imgWidth
-    let addH = ih - imgHeight
-    let css = dom.getStyle($img)
-    let l = util.int(util.int(css.left) - addW / 2)
-    let t = util.int(util.int(css.top) - addH / 2)
-    // check image position
-    if (cropBoxPos.left <= l) {
-      l = cropBoxPos.left
-    }
-    if (l <= cropBoxPos.right - imgPos.width) {
-      l = cropBoxPos.right - imgPos.width
-    }
-    if (cropBoxPos.top <= t) {
-      t = cropBoxPos.top
-    }
-    if (t <= cropBoxPos.bottom - imgPos.height) {
-      t = cropBoxPos.bottom - imgPos.height
-    }
-
-    $img.style.top = t + 'px'
-    $img.style.left = l + 'px'
   }
 
   /**
@@ -356,33 +442,40 @@ class CropClass {
     dom.removeEvent(this.$img, 'load', _imageHander)
     // 清除样式，防止图片变形
     this.$img.setAttribute('style', '')
+    this.$img.setAttribute('data-angle', 0)
     this.$img.src = url
     dom.addEvent(this.$img, 'load', _imageHander)
 
     let _this = this
-    let cropBoxPos = _this.cropBoxPos
+    let box = _this.cropBoxPos
     function _imageHander () {
       let pos = this.getBoundingClientRect()
-      this.style.top = (cropBoxPos.winHeight - pos.height) / 2 + 'px'
+      this.style.top = (box.winHeight - pos.height) / 2 + 'px'
     }
   }
 
   _submit () {
+    const $img = this.$img
+    const opts = this.options
     // 缩放比例
     let ratio = this.cropRatio
     // 裁剪框位置
-    let cropBoxPos = this.cropBoxPos
+    let box = this.cropBoxPos
     // 图片位置
-    let imgPos = this.$img.getBoundingClientRect()
+    let pos = $img.getBoundingClientRect()
+    // 旋转角度
+    let angle = util.int($img.getAttribute('data-angle')) % 360
+    let isRotate = angle % 180
     let result = {
-      naturalWidth: this.$img.naturalWidth,
-      naturalHeight: this.$img.naturalHeight,
-      currentWidth: util.int(imgPos.width * ratio),
-      currentHeight: util.int(imgPos.height * ratio),
-      targetWidth: this.options.width,
-      targetHeight: this.options.height,
-      x: util.int((cropBoxPos.left - imgPos.left) * ratio),
-      y: util.int((cropBoxPos.top - imgPos.top) * ratio)
+      angle,
+      naturalWidth: isRotate ? $img.naturalHeight : $img.naturalWidth,
+      naturalHeight: isRotate ? $img.naturalWidth : $img.naturalHeight,
+      currentWidth: util.int(pos.width * ratio),
+      currentHeight: util.int(pos.height * ratio),
+      targetWidth: opts.width,
+      targetHeight: opts.height,
+      x: util.int((box.left - pos.left) * ratio),
+      y: util.int((box.top - pos.top) * ratio)
     }
     broadcast.emit('crop-submit', result)
     this.hide()
@@ -407,32 +500,55 @@ class CropClass {
 /**
  * 移动处理
  * @param e
- * @param cropBoxPos
- * @param $img
+ * @param _this
+ * @param moveBeforePostion 移动前所在坐标
+ * @param isTouchEvent
+ * @param isRotate
  */
-function handleMove (e, $img, cropBoxPos, moveBeforePostion, isTouchEvent) {
+function handleMove (e, _this, moveBeforePostion, isTouchEvent, isRotate) {
+  const box = _this.cropBoxPos
+  const $img = _this.$img
   let pageX = isTouchEvent ? e.targetTouches[0].pageX : (e.pageX || e.clientX)
   let pageY = isTouchEvent ? e.targetTouches[0].pageY : (e.pageY || e.clientY)
 
   let l = pageX - moveBeforePostion.x
   let t = pageY - moveBeforePostion.y
   // check image position
-  let imgPos = $img.getBoundingClientRect()
-  // log(imgPos)
-  // log(cropBoxPos)
+  let pos = $img.getBoundingClientRect()
+  // log(pos)
+  // log(l, t)
   // ie11 无x/y属性
-  if (cropBoxPos.left <= l) {
-    l = cropBoxPos.left
+  if (isRotate) {
+    // 左边界
+    let left = (box.winWidth + pos.width - pos.height - box.width) / 2
+    if (left <= l) {
+      l = left
+    }
+    // 上边界
+    let top = (box.winHeight + pos.height - pos.width - box.height) / 2
+    if (top <= t) {
+      t = top
+    }
+    // 右边界
+    // let right = (box.winWidth + pos.width - pos.height + box.width) / 2
+    // if (right <= l) {
+    //   l = right
+    // }
+  } else {
+    if (box.left <= l) {
+      l = box.left
+    }
+    if (l <= box.right - pos.width) {
+      l = box.right - pos.width
+    }
+    if (box.top <= t) {
+      t = box.top
+    }
+    if (t <= box.bottom - pos.height) {
+      t = box.bottom - pos.height
+    }
   }
-  if (l <= cropBoxPos.right - imgPos.width) {
-    l = cropBoxPos.right - imgPos.width
-  }
-  if (cropBoxPos.top <= t) {
-    t = cropBoxPos.top
-  }
-  if (t <= cropBoxPos.bottom - imgPos.height) {
-    t = cropBoxPos.bottom - imgPos.height
-  }
+
   $img.style.left = l + 'px'
   $img.style.top = t + 'px'
 }
@@ -447,6 +563,58 @@ export function mouseWheel ($el, wheelHandler) {
   dom.addEvent($el, 'mousewheel', wheelHandler)
   // 火狐鼠标滚动事件
   dom.addEvent($el, 'DOMMouseScroll', wheelHandler)
+}
+
+/**
+ * 旋转后的图片缩放处理
+ * @param _this
+ * @param box
+ * @param pos
+ * @param iw
+ * @param ih
+ * @private
+ */
+function _scaleByRotate (_this, box, pos, iw, ih) {
+  const $img = _this.$img
+  // check image size
+  if (iw <= box.height) {
+    iw = box.height
+    ih = pos.width / pos.height * iw
+  }
+  if (ih <= box.width) {
+    ih = box.width
+    iw = pos.height / pos.width * ih
+  }
+  $img.style.width = iw + 'px'
+  $img.style.height = ih + 'px'
+
+  _this._checkPosition($img, true)
+}
+
+/**
+ * 未旋转图片缩放处理
+ * @param _this
+ * @param box
+ * @param pos
+ * @param iw
+ * @param ih
+ * @private
+ */
+function _scaleByNotRotate (_this, box, pos, iw, ih) {
+  const $img = _this.$img
+  // check image size
+  if (iw <= box.width) {
+    iw = box.width
+    ih = pos.height / pos.width * iw
+  }
+  if (ih <= box.height) {
+    ih = box.height
+    iw = pos.width / pos.height * ih
+  }
+  $img.style.width = iw + 'px'
+  $img.style.height = ih + 'px'
+
+  _this._checkPosition($img, false)
 }
 
 export default CropClass

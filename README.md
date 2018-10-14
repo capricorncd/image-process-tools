@@ -2,7 +2,7 @@
 
 Image pre processing for upload (html5 + canvas), ie10+
 
-解决图片上传前裁剪、等比缩放，支持本地视频、同域视频文件截图功能等。
+解决图片上传前裁剪、等比缩放，压缩，支持本地视频、同域视频文件截图功能等。
 
 * 裁剪图片：同时设置参数width, height
 

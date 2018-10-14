@@ -87,8 +87,8 @@
     },
     error: function (err) {
       console.error(err);
-      if (err.code !== 9)
-        alert(err.msg);
+      if (err.code === 9 || err.code === 22) return
+      alert(err.msg);
     }
   })
 
@@ -97,6 +97,10 @@
   // log
   function log () {
     console.log.apply(null, arguments);
+  }
+
+  function logStr (o) {
+    log(JSON.stringify(o, null, 2))
   }
 </script>
 </body>

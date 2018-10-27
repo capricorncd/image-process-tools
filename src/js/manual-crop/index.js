@@ -36,14 +36,7 @@ export function manualCrop (info, opts, resolve, reject) {
 
   // 实例化CropClass
   if (cropClass === null) {
-    cropClass = new CropClass({
-      width: opts.width,
-      height: opts.height,
-      // 确定按钮样式
-      submitStyle: opts.submitStyle || '',
-      // 取消按钮样式
-      cancelStyle: opts.cancelStyle || ''
-    })
+    cropClass = new CropClass(opts)
   } else {
     cropClass.initCropBosPosition(opts)
   }

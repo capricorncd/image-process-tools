@@ -15,7 +15,9 @@ const DEFAULT_OPTIONS = {
   // 确定按钮样式
   submitStyle: '',
   // 取消按钮样式
-  cancelStyle: ''
+  cancelStyle: '',
+  submitText: '确 定',
+  rotateText: '旋转90度'
 }
 
 
@@ -97,7 +99,7 @@ class CropClass {
                 class: '__rotate',
                 style: opts.cancelStyle
               },
-              child: '旋转90度'
+              child: opts.rotateText
             },
             {
               tag: 'button',
@@ -105,7 +107,7 @@ class CropClass {
                 class: '__submit',
                 style: opts.submitStyle
               },
-              child: '确 定'
+              child: opts.submitText
             }
           ]
         },

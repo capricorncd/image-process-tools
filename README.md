@@ -37,9 +37,13 @@ const zxImageProcess = new ZxImageProcess({
     // 同时设置了width、height值，则会对图片按尺寸裁剪
     width: 600,
     height: 400,
+    // 裁剪按钮名称
+    submitText: '确 定',
     // 裁剪容器按钮样式
     submitStyle： '',
     cancelStyle: 'color: red',
+    // 旋转按钮名称
+    rotateText: '旋转90度',
     // 最大文件限制
     maxSize: 50,
     success: function (result) {
@@ -128,7 +132,12 @@ https://capricorncd.github.io/image-process-tools/dist
 
 * error: `function(err){ alert(err.message); }` 处理过程中的错误或警告回调函数（仅ZxImageProcess实例化时有效）
 
+* submitText '确 定' 裁剪框`确定`按钮名称
+
+* rotateText: '旋转90度' 裁剪框`旋转90度`按钮名称
+
 * submitStyle: `color: #f00` 裁剪框确认按钮样式（仅ZxImageProcess实例化时有效）
+
 * cancelStyle: `color: #f00` 裁剪框取消按钮样式（仅ZxImageProcess实例化时有效）
 
 ## 方法

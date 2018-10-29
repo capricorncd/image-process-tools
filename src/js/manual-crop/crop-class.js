@@ -175,7 +175,7 @@ class CropClass {
    * 初始化事件
    * @private
    */
-  _initEvent ($img) {
+  _initEvent () {
     // 裁剪框
     let $crop
     if (browser.ie10) {
@@ -583,11 +583,42 @@ class CropClass {
     let _this = this
     let box = _this.cropBoxPos
     function _imageHander () {
-      let pos = this.getBoundingClientRect()
-      let y = (box.winHeight - pos.height) / 2
-      _this.$img.style.transform = `translate(0, ${y}px) rotate(0)`
+      let $img = _this.$img
+      // window
+      let winRatio = box.winWidth / box.winHeight
+      // 图片尺寸重置
+      let imgWidth = $img.naturalWidth
+      let imgHeight = $img.naturalHeight
+      let imgRatio = imgWidth / imgHeight
+      let iw, ih
+      // 屏幕尺寸限制，保证图片任意边不大于屏幕对应边
+      if (imgRatio > winRatio && imgWidth > box.winWidth) {
+        iw = box.winWidth
+        ih = imgHeight * iw / imgWidth
+      } else if (imgRatio < winRatio && imgHeight > box.winHeight) {
+        ih = box.winHeight
+        iw = imgWidth * ih / imgHeight
+      } else {
+        iw = imgWidth
+        ih = imgHeight
+      }
+      // 裁剪框限制，保证图片任意边不小于裁剪框对应边
+      let boxRatio = box.width / box.height
+      if (imgRatio > boxRatio && imgHeight < box.height) {
+        ih = box.height
+        iw = imgWidth * ih / imgHeight
+      } else if (imgRatio < boxRatio && imgWidth < box.width) {
+        iw = box.width
+        ih = imgHeight * iw / imgWidth
+      }
+      // 设置图尺寸
+      $img.style.width = iw + 'px'
+      $img.style.height = ih + 'px'
+      let x = (box.winWidth - iw) / 2
+      let y = (box.winHeight - ih) / 2
+      $img.style.transform = `translate(${x}px, ${y}px) rotate(0)`
       _this.translate = {
-        x: 0,
+        x,
         y,
       }
     }

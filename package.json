@@ -1,6 +1,6 @@
 {
   "name": "image-process",
-  "version": "3.3.2",
+  "version": "3.3.3",
   "author": "capricorncd",
   "github": "https://github.com/capricorncd",
   "repository": {
@@ -12,7 +12,7 @@
     "crop",
     "upload"
   ],
-  "description": "image-process-tools. Image pre processing for upload (html5 + canvas)",
+  "description": "Local image processing, video screenshots (html5 + canvas)",
   "bugs": {
     "url": "https://github.com/capricorncd/image-process-tools/issues"
   },

@@ -3,6 +3,7 @@
  * https://github.com/capricorncd
  */
 import util from './util'
+import { document, window } from 'ssr-window'
 // document
 const d = document
 

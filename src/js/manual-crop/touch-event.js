@@ -2,6 +2,7 @@
  * Created by capricorncd 9/8/2018
  * https://github.com/capricorncd
  */
+import { window } from 'ssr-window'
 const na = window.navigator
 /**
  * ************************************

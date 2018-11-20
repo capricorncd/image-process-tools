@@ -3,6 +3,7 @@
  * User: https://github.com/capricorncd
  * Date: 2018/9/28 10:31
  */
+import { document } from 'ssr-window'
 import util from '../util'
 import calculator from '../calculator'
 import { manualCrop } from '../manual-crop/index'

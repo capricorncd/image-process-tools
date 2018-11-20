@@ -2,6 +2,7 @@
  * Created by capricorncd 9/6/2018
  * https://github.com/capricorncd
  */
+import { window } from 'ssr-window'
 const USER_AGENT = navigator.userAgent
 const util = {
   /**

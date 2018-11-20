@@ -3,6 +3,7 @@
  * https://github.com/capricorncd
  * 2018-10-02 22:48
  */
+import { document } from 'ssr-window'
 import CropClass from './crop-class'
 import broadcast from '../broadcast'
 import calculator from '../calculator'

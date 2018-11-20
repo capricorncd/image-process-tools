@@ -7,6 +7,7 @@ import util from '../util'
 import broadcast from '../broadcast'
 import { browser, touchEvents } from './touch-event'
 import { handleTouches, getTouches } from './touch-zoom'
+import { window, document } from 'ssr-window'
 
 // default options
 const DEFAULT_OPTIONS = {

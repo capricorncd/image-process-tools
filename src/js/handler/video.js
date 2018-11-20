@@ -3,6 +3,7 @@
  * User: https://github.com/capricorncd
  * Date: 2018/9/28 10:15
  */
+import { document } from 'ssr-window'
 import util from '../util'
 import { handleImageFile } from './image'
 /**

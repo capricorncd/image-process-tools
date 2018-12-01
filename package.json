@@ -23,9 +23,7 @@
     "build": "cross-env NODE_ENV=production webpack --progress --inline --color --config build/webpack/prod.js"
   },
   "dependencies": {
-    "webpack": "^4.17.2",
-    "webpack-cli": "^3.1.0",
-    "webpack-dev-server": "^3.1.7"
+    "ssr-window": "^1.0.1"
   },
   "devDependencies": {
     "autoprefixer": "^9.1.5",
@@ -37,11 +35,13 @@
     "css-loader": "^1.0.0",
     "html-webpack-plugin": "^3.2.0",
     "postcss-loader": "^3.0.0",
-    "ssr-window": "^1.0.1",
     "style-loader": "^0.23.0",
     "stylus": "^0.54.5",
     "stylus-loader": "^3.0.2",
     "url-loader": "^1.1.1",
+    "webpack": "^4.17.2",
+    "webpack-cli": "^3.1.0",
+    "webpack-dev-server": "^3.1.7",
     "webpack-merge": "^4.1.4"
   },
   "license": "MIT"

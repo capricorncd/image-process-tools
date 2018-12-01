@@ -24,7 +24,13 @@ module.exports = {
         exclude: path.resolve(__dirname, 'node_modules'),
         // include: path.resolve(__dirname, 'src'),
         query: {
-          presets: ['env', 'stage-2']
+          presets: [
+            [
+              'env',
+              { modules: false }
+            ],
+            'stage-2'
+          ]
         }
       },
       {

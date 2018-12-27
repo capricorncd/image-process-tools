@@ -20,7 +20,7 @@ npm install image-process --save-dev
 
 ## 使用方法
 
-ES6+
+#### ES6+
 
 ```
 import { ZxImageProcess } from 'image-process'
@@ -56,7 +56,9 @@ const zxImageProcess = new ZxImageProcess({
   })
 ```
 
-不初始化ZxImageProcess，直接使用期内部方法`handleMediaFile(file, options)`，返回`promise对象`
+#### 不实例化
+
+不实例化ZxImageProcess，直接使用期内部方法`handleMediaFile(file, options)`，返回`promise对象`
 
 ```
 import { handleMediaFile } from 'image-process'

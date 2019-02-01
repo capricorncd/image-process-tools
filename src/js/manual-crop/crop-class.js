@@ -142,8 +142,14 @@ class CropClass {
     let opts = this.options
     let winWidth = window.innerWidth
     let winHeight = window.innerHeight
+    // 宽度取设置宽度和屏幕宽度的最小值
     let width = Math.min(opts.width, winWidth * 0.8)
     let height = opts.height / opts.width * width
+    // 边界判断，如果高度超高（确定按钮不能显示），则重新计算裁剪框尺寸
+    if (height > winHeight * 0.8) {
+      height = winHeight * 0.8
+      width = opts.width / opts.height * height
+    }
     let top = (winHeight - height) / 2
     let left = (winWidth - width) / 2
     let borderWidth = Math.max(top, left)

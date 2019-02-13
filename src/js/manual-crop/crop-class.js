@@ -56,11 +56,6 @@ class CropClass {
   }
 
   _init (opts) {
-    // 禁用选中图片
-    dom.addEvent(document, 'selectstart', e => {
-      e.preventDefault()
-    })
-
     // let zIndex = 1
     let zIndex = dom.maxZIndex() + 1
 
@@ -127,6 +122,10 @@ class CropClass {
     // 初始化事件
     this._initEvent(this.$img)
     this.initCropBosPosition()
+    // 禁用$wrapper中的图片被选中
+    dom.addEvent(this.$wrapper, 'selectstart', e => {
+      e.preventDefault()
+    })
   }
 
   /**

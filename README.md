@@ -14,7 +14,7 @@ Image pre processing for upload (html5 + canvas), ie10+
 
 ## npm
 
-```
+```bash
 npm install image-process --save-dev
 ```
 
@@ -22,7 +22,7 @@ npm install image-process --save-dev
 
 #### ES6+
 
-```
+```javascript
 import { ZxImageProcess } from 'image-process'
 
 const zxImageProcess = new ZxImageProcess({
@@ -46,6 +46,8 @@ const zxImageProcess = new ZxImageProcess({
     rotateText: '旋转90度',
     // 最大文件限制
     maxSize: 50,
+    // image/jpeg quality，图片压缩质量0-1
+    quality: 0.8,
     success: function (result) {
       // 返回数据
       console.log(result);
@@ -60,7 +62,7 @@ const zxImageProcess = new ZxImageProcess({
 
 不实例化ZxImageProcess，直接使用期内部方法`handleMediaFile(file, options)`，返回`promise对象`
 
-```
+```javascript
 import { handleMediaFile } from 'image-process'
 
 const options = {
@@ -71,7 +73,8 @@ const options = {
   width: 600,
   height: 400,
   // 文件大小限制50M
-  maxSize: 50
+  maxSize: 50,
+  quality: 0.8
 }
 
 // 处理图片或视频文件

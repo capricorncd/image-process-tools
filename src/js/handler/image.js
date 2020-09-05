@@ -61,7 +61,7 @@ function readFile (file) {
 function handleBase64 (base64, opts, resolve, reject) {
   const type = /^data:(.+?);base64/.test(base64) ? RegExp.$1 : 'image/jpeg'
   const blob = util.toBlobData(base64, type)
-  const $img = craeteImage(base64)
+  const $img = createImage(base64)
   // onload
   $img.onload = function () {
     const info = {
@@ -70,7 +70,8 @@ function handleBase64 (base64, opts, resolve, reject) {
       width: $img.naturalWidth || $img.width,
       height: $img.naturalHeight || $img.height,
       type: blob.type,
-      size: blob.size
+      size: blob.size,
+      quality: opts.quality
     }
     // 是否裁剪图片
     const isCrop = opts.width > 0 && opts.height > 0
@@ -92,7 +93,7 @@ function handleBase64 (base64, opts, resolve, reject) {
  * @param url
  * @return {Element}
  */
-function craeteImage (url) {
+function createImage (url) {
   const $image = document.createElement('img')
   $image.src = url
   return $image
@@ -141,7 +142,7 @@ function autoCropImage (info, opts, resolve) {
     sh: sh
   })
 
-  const base64 = $canvas.toDataURL(info.type)
+  const base64 = $canvas.toDataURL(info.type, info.quality)
   const blob = util.toBlobData(base64, info.type)
 
   resolve({

@@ -15,6 +15,10 @@ import { handleImageFile } from './image'
  */
 export function handleMediaFile (file, opts) {
   return new Promise((resolve, reject) => {
+    // quality
+    if (!util.hasOwn(opts, 'quality') || (opts.quality <= 0 || opts.quality > 1)) {
+      opts.quality = 0.8
+    }
     // check file type
     const fileType = file.type
     if (/^(image|video)/.test(fileType)) {

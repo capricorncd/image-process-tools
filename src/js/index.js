@@ -22,7 +22,9 @@ const DEFAULT_OPTIONS = {
   // 最大文件大小50M
   maxSize: 50,
   error () {},
-  success () {}
+  success () {},
+  // image/jpeg quality
+  quality: 0.8
 }
 
 const crop = {}
@@ -37,7 +39,10 @@ class ZxImageProcess {
    */
   constructor (opts) {
     // 参数处理
-    const options = Object.assign({}, DEFAULT_OPTIONS, opts)
+    const options = {
+      ...DEFAULT_OPTIONS,
+      ...opts
+    }
     // error notify
     broadcast.on('error', err => {
       err.msg = err.message

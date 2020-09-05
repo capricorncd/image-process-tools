@@ -34,24 +34,12 @@
       display: none;
     }
     #imgWrapper .view-wrapper {
-      position: absolute;
-      z-index: 1;
-      top: 0;
-      left: 0;
       width: 100%;
       background: #F1F1F1;
     }
     .view-wrapper img {
       max-width: 100%;
     }
-    /*#xxxxx {*/
-      /*position: fixed;*/
-      /*z-index: 100;*/
-      /*text-align: center;*/
-      /*width: 100%;*/
-      /*bottom: 80px;*/
-      /*color: aquamarine;*/
-    /*}*/
   </style>
 </head>
 <body>
@@ -64,6 +52,8 @@
   </div>
   <!--<div id="xxxxx">5455</div>-->
 </div>
+<textarea id="info" style="width: 100%;overflow-x: auto" readonly rows="10"></textarea>
+
 <script src="https://cdnjs.cloudflare.com/ajax/libs/js-polyfills/0.1.42/polyfill.min.js"></script>
 <script src="image-process-tools.min.js"></script>
 <script>
@@ -77,17 +67,29 @@
     // 限制宽度缩放，则只需设置width值
     // 限制高度缩放，则只需设置height值
     // 同时设置了width、height值，则会对图片按尺寸裁剪
-    width: 600,
-    height: 400,
+    width: 720,
+    height: 720,
     submitText: 'submit',
     rotateText: 'rotate 90',
+    quality: 0.7,
     success: function (result) {
       // 返回数据
       log(result);
       // 添加图片至目标容器
-      img.src = result.base64;
+      img.src = result.url;
       img.style.display = '';
       imgWrapper.className += ' hide';
+      // print info
+      const info = {
+        ...result,
+        blob: '...',
+        data: '...',
+        base64: '...',
+        element: '...'
+      }
+      info.raw.base64 = '...'
+      info.raw.element = '...'
+      document.getElementById('info').value = JSON.stringify(info, null, 2)
     },
     error: function (err) {
       console.error(err);

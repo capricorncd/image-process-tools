@@ -21,7 +21,7 @@ const util = {
    */
   conversion (size) {
     // 计算文件大小多少kb
-    let kb = util.bitToKib(size)
+    const kb = util.bitToKib(size)
     return kb >= 1024 ? util.int(kb / 1024 * 100) / 100 + 'M' : util.int(kb) + 'KB'
   },
   /**
@@ -33,16 +33,16 @@ const util = {
   toBlobData (base64, type) {
     // 获取base64数据
     // data = data.split(',')[1]
-    let dataInfo = getBase64Info(base64)
-    let data = window.atob(dataInfo.data)
+    const dataInfo = getBase64Info(base64)
+    const data = window.atob(dataInfo.data)
     type = type || dataInfo.type
 
-    let ia = new Uint8Array(data.length)
+    const ia = new Uint8Array(data.length)
     for (let i = 0; i < data.length; i++) {
       ia[i] = data.charCodeAt(i)
     }
     // canvas.toDataURL 返回的默认格式是 image/png
-    return new Blob([ia], {type: type})
+    return new Blob([ia], { type: type })
   },
 
   /**
@@ -69,7 +69,7 @@ const util = {
    * @returns {*}
    */
   int (m) {
-    let n = parseInt(m)
+    const n = parseInt(m)
     return isNaN(n) ? 0 : n
   },
 
@@ -113,6 +113,10 @@ const util = {
    */
   randomStr (prefix = 'zximageprocess') {
     return prefix + '_' + (+new Date())
+  },
+
+  hasOwn(o, key) {
+    return Object.prototype.hasOwnProperty.call(o, key)
   }
 }
 
@@ -123,7 +127,7 @@ const util = {
 function getBase64Info (data) {
   // base64数据格式:
   // "data:image/jpeg;base64,/9j/4AAQSkZJRgABAQEASABIAAD/2wBDAAkGB+wgHBgkIBwgKCgkLDRYPDQw//9k="
-  let arr = data.split(',')
+  const arr = data.split(',')
   let type = ''
   if (/data:(\w+\/\w+);base64/.test(arr[0])) {
     type = RegExp.$1

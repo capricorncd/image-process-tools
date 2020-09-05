@@ -20,7 +20,7 @@ export function handleTouches (e, startTouches) {
  * @returns {Array}
  */
 export function getTouches (event, $container) {
-  let position = $container.getBoundingClientRect()
+  const position = $container.getBoundingClientRect()
   return util.slice(event.touches).map(touch => {
     return {
       x: touch.pageX - position.left,
@@ -36,14 +36,14 @@ export function getTouches (event, $container) {
  * @returns {number}
  */
 function calculateScale (startTouches, endTouches) {
-  let startDistance = getDistance(startTouches[0], startTouches[1])
-  let endDistance = getDistance(endTouches[0], endTouches[1])
+  const startDistance = getDistance(startTouches[0], startTouches[1])
+  const endDistance = getDistance(endTouches[0], endTouches[1])
   return endDistance / startDistance
 }
 
 function getDistance (a, b) {
-  let x = a.x - b.x
-  let y = a.y - b.y
+  const x = a.x - b.x
+  const y = a.y - b.y
   return Math.sqrt(x * x + y * y)
 }
 

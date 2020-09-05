@@ -15,8 +15,8 @@ export default {
     let targetWidth = util.int(opts.width)
     let targetHeight = util.int(opts.height)
 
-    let iw = info.width
-    let ih = info.height
+    const iw = info.width
+    const ih = info.height
 
     // 提示：图片实际尺寸，小于目标尺寸
     // if (iw < targetWidth || ih < targetHeight) {
@@ -65,8 +65,8 @@ export default {
    */
   autoCropInfo (iw, ih, opts) {
     // 目标图片尺寸
-    let targetWidth = util.int(opts.width)
-    let targetHeight = util.int(opts.height)
+    const targetWidth = util.int(opts.width)
+    const targetHeight = util.int(opts.height)
 
     // 缩放比列
     let scaling = 1

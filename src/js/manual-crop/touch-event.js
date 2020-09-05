@@ -19,7 +19,7 @@ export const browser = {
  * support touch
  * ************************************
  */
-const supportTouch = !!(('ontouchstart' in window) || window.DocumentTouch && document instanceof DocumentTouch)
+const supportTouch = !!(('ontouchstart' in window) || (window.DocumentTouch && document instanceof DocumentTouch))
 
 /**
  * ************************************
@@ -31,7 +31,7 @@ if (browser.ie10) desktopEvents = ['MSPointerDown', 'MSPointerMove', 'MSPointerU
 if (browser.ie11) desktopEvents = ['pointerdown', 'pointermove', 'pointerup']
 
 export const touchEvents = {
-  start : supportTouch ? 'touchstart' : desktopEvents[0],
-  move : supportTouch ? 'touchmove' : desktopEvents[1],
-  end : supportTouch ? 'touchend' : desktopEvents[2]
+  start: supportTouch ? 'touchstart' : desktopEvents[0],
+  move: supportTouch ? 'touchmove' : desktopEvents[1],
+  end: supportTouch ? 'touchend' : desktopEvents[2]
 }

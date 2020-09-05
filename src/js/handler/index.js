@@ -16,14 +16,14 @@ import { handleImageFile } from './image'
 export function handleMediaFile (file, opts) {
   return new Promise((resolve, reject) => {
     // check file type
-    let fileType = file.type
+    const fileType = file.type
     if (/^(image|video)/.test(fileType)) {
       _handlerFile(file, RegExp.$1, opts, resolve, reject)
     } else {
-      reject({
+      reject(new Error({
         code: 7,
         message: 'Incorrect file type'
-      })
+      }))
     }
   })
 }
@@ -39,8 +39,8 @@ export function handleMediaFile (file, opts) {
  */
 function _handlerFile (file, type, opts, resolve, reject) {
   // check file size
-  let fileSize = util.bitToKib(file.size)
-  let maxSize = util.int(opts.maxSize) * 1024
+  const fileSize = util.bitToKib(file.size)
+  const maxSize = util.int(opts.maxSize) * 1024
   if (maxSize && maxSize < fileSize) {
     reject({
       code: 12,

@@ -13,7 +13,7 @@ import { handleImageFile } from './image'
  * @return promise
  */
 export function handleVideoFile (file, opts = {}) {
-  let blobUrl = util.toBlobUrl(file)
+  const blobUrl = util.toBlobUrl(file)
   let $video = createVideo(blobUrl)
   return new Promise((resolve, reject) => {
     $video.onerror = function (err) {
@@ -21,13 +21,13 @@ export function handleVideoFile (file, opts = {}) {
       $video = null
     }
     $video.oncanplay = function () {
-      let info = {
+      const info = {
         videoFile: file,
         videoWidth: $video.videoWidth,
         videoHeight: $video.videoHeight,
         duration: $video.duration
       }
-      let { base64, err } = getVideoCapture($video)
+      const { base64, err } = getVideoCapture($video)
       if (err) {
         reject(err)
         $video = null
@@ -57,10 +57,10 @@ function getVideoCapture ($video, start = 0) {
   // 暂停视频
   $video.pause()
   // 生成图片类型
-  let dataType = 'image/jpeg'
+  const dataType = 'image/jpeg'
   // 创建canvas
-  let $canvas = document.createElement('canvas')
-  let ctx = $canvas.getContext('2d')
+  const $canvas = document.createElement('canvas')
+  const ctx = $canvas.getContext('2d')
 
   $canvas.width = $video.videoWidth
   $canvas.height = $video.videoHeight

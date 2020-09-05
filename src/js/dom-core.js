@@ -16,10 +16,10 @@ const dom = {
    * @returns {Element}
    */
   createElm (tag = 'div', opts) {
-    let $el = d.createElement(tag)
+    const $el = d.createElement(tag)
     if (opts && opts instanceof Object) {
-      for (let key in opts) {
-        if (opts.hasOwnProperty(key)) {
+      for (const key in opts) {
+        if (util.hasOwn(opts, key)) {
           $el.setAttribute(key, opts[key])
         }
       }
@@ -37,9 +37,9 @@ const dom = {
     if (typeof vnode === 'string') {
       return d.createTextNode(vnode)
     }
-    let tag = vnode.tag
-    let attrs = vnode.attrs
-    let child = vnode.child
+    const tag = vnode.tag
+    const attrs = vnode.attrs
+    const child = vnode.child
     if (!tag && !attrs && !child) return null
     // 创建dom
     const $el = dom.createElm(tag || 'div', attrs)
@@ -98,7 +98,7 @@ const dom = {
   maxZIndex () {
     const $els = d.getElementsByTagName('*')
     let $el, css, zindex
-    let arr = []
+    const arr = []
     for (let i = 0; i < $els.length; i++) {
       $el = $els[i]
       if ($el.nodeType !== 1) continue

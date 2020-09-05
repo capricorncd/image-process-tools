@@ -11,7 +11,7 @@ import { handleMediaFile } from './handler/index'
  * @param _this
  */
 export function initInput (_this, opts) {
-  let selector = opts.selector
+  const selector = opts.selector
   // 触发input[type=file]的按钮
   const $btn = dom.isHTMLElement(selector) ? selector : dom.query(selector)
   if ($btn === null) {
@@ -40,14 +40,14 @@ export function initInput (_this, opts) {
 
   // 监听input change
   dom.addEvent($input, 'change', _ => {
-    let files = $input.files || []
+    const files = $input.files || []
     if (files.length === 0) {
       broadcast.emit('error', {
         code: 4,
         message: 'Any file is not selected!'
       })
     } else {
-      let file = files[0]
+      const file = files[0]
       // 重新裁剪时使用
       _this.file = file
       // 处理文件

@@ -14,10 +14,10 @@ export default {
    * @param fn
    */
   on (notifyName, fn) {
-    if (!notifyName
-      || typeof notifyName !== 'string'
-      || !fn
-      || typeof fn !== 'function') return
+    if (!notifyName ||
+      typeof notifyName !== 'string' ||
+      !fn ||
+      typeof fn !== 'function') return
     if (!this.broadcast[notifyName]) {
       this.broadcast[notifyName] = []
     }
@@ -29,9 +29,9 @@ export default {
    * @param notifyName
    */
   emit (notifyName) {
-    let notifyArr = this.broadcast[notifyName]
+    const notifyArr = this.broadcast[notifyName]
     if (!notifyArr) return
-    let args = Array.prototype.slice.call(arguments, 1)
+    const args = Array.prototype.slice.call(arguments, 1)
     for (let i = 0; i < notifyArr.length; i++) {
       try {
         notifyArr[i].apply(null, args)
@@ -56,4 +56,3 @@ export default {
     }
   }
 }
-

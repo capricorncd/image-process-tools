@@ -59,12 +59,12 @@ function readFile (file) {
  * @param reject 错误回调
  */
 function handleBase64 (base64, opts, resolve, reject) {
-  let type = /^data:(.+?);base64/.test(base64) ? RegExp.$1 : 'image/jpeg'
-  let blob = util.toBlobData(base64, type)
-  let $img = craeteImage(base64)
+  const type = /^data:(.+?);base64/.test(base64) ? RegExp.$1 : 'image/jpeg'
+  const blob = util.toBlobData(base64, type)
+  const $img = craeteImage(base64)
   // onload
   $img.onload = function () {
-    let info = {
+    const info = {
       element: $img,
       base64,
       width: $img.naturalWidth || $img.width,
@@ -73,7 +73,7 @@ function handleBase64 (base64, opts, resolve, reject) {
       size: blob.size
     }
     // 是否裁剪图片
-    let isCrop = opts.width > 0 && opts.height > 0
+    const isCrop = opts.width > 0 && opts.height > 0
     // 自动裁剪或等比缩放
     if (opts.auto || !isCrop) {
       autoCropImage(info, opts, resolve)
@@ -105,9 +105,9 @@ function craeteImage (url) {
  * @param resolve 回调函数
  */
 function autoCropImage (info, opts, resolve) {
-  let clipInfo, $canvas, scaling, sw, sh, sx, sy
+  let $canvas, scaling, sw, sh, sx, sy
   // 计算图片缩放或裁剪位置、尺寸
-  clipInfo = calculator.autoCropInfo(info.width, info.height, opts)
+  const clipInfo = calculator.autoCropInfo(info.width, info.height, opts)
   // App.log(clipInfo)
   $canvas = info.element
   scaling = 2
@@ -141,8 +141,8 @@ function autoCropImage (info, opts, resolve) {
     sh: sh
   })
 
-  let base64 = $canvas.toDataURL(info.type)
-  let blob = util.toBlobData(base64, info.type)
+  const base64 = $canvas.toDataURL(info.type)
+  const blob = util.toBlobData(base64, info.type)
 
   resolve({
     element: $canvas,

@@ -59,7 +59,7 @@ function handleCrop (info, params, resolve) {
     info.element = $el
   }
   // 等比缩放
-  $el = handleScale(info, {width: params.currentWidth})
+  $el = handleScale(info, { width: params.currentWidth })
   const $canvas = dom.createCanvas($el, {
     sx: params.x,
     sy: params.y,
@@ -70,9 +70,9 @@ function handleCrop (info, params, resolve) {
     dw: params.targetWidth,
     dh: params.targetHeight
   })
-  let dataType = info.type
-  let base64 = $canvas.toDataURL(dataType)
-  let blob = util.toBlobData(base64, dataType)
+  const dataType = info.type
+  const base64 = $canvas.toDataURL(dataType)
+  const blob = util.toBlobData(base64, dataType)
 
   resolve && resolve({
     element: $canvas,
@@ -96,13 +96,13 @@ function handleCrop (info, params, resolve) {
  * @returns {*}
  */
 function handleScale (info, opts) {
-  let res = calculator.scaleInfo(opts, info)
+  const res = calculator.scaleInfo(opts, info)
   // image/canvas 元素
   let $el = info.element
   // 缩放比例
   let scaling
-  let sw = res.sw,
-    sh = res.sh
+  let sw = res.sw
+  let sh = res.sh
   // 逐级缩放，防止出现像素锯齿
   if (res.scaling > 2) {
     scaling = res.scaling
@@ -144,11 +144,11 @@ function handleScale (info, opts) {
 function rotateImage ($img, angle) {
   const $canvas = document.createElement('canvas')
   const ctx = $canvas.getContext('2d')
-  let imgWidth = $img.width
-  let imgHeight = $img.height
+  const imgWidth = $img.width
+  const imgHeight = $img.height
   $canvas.width = imgWidth
   $canvas.height = imgHeight
-  switch(angle) {
+  switch (angle) {
     // 旋转90度
     case 90:
       $canvas.width = imgHeight
@@ -161,8 +161,8 @@ function rotateImage ($img, angle) {
     case 180:
       ctx.rotate(Math.PI)
       ctx.drawImage($img, -imgWidth, -imgHeight, imgWidth, imgHeight)
-      break;
-    case 270:     // 旋转-90(270)度
+      break
+    case 270: // 旋转-90(270)度
       $canvas.width = imgHeight
       $canvas.height = imgWidth
       ctx.rotate(3 * Math.PI / 2)

@@ -23,14 +23,15 @@ module.exports = {
         loader: 'babel-loader',
         exclude: path.resolve(__dirname, 'node_modules'),
         // include: path.resolve(__dirname, 'src'),
-        query: {
-          presets: [
-            [
-              'env',
-              { modules: false }
-            ],
-            'stage-2'
-          ]
+      },
+      {
+        enforce: 'pre',
+        test: /\.jsx?$/,
+        loader: 'eslint-loader',
+        exclude: /node_modules/,
+        options: {
+          extensions: ['js', 'vue', 'jsx'],
+          fix: true
         }
       },
       {

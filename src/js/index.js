@@ -5,13 +5,13 @@
  */
 import broadcast from './broadcast'
 import dom from './dom-core'
-import util from "./util"
+import util from './util'
 import { initInput } from './input'
 import { handleMediaFile } from './handler/index'
 import '../style/index.styl'
 
 // default options
-const DEFAUTL_OPTIONS = {
+const DEFAULT_OPTIONS = {
   // image, video
   accept: '',
   // 自动处理
@@ -25,7 +25,7 @@ const DEFAUTL_OPTIONS = {
   success () {}
 }
 
-let crop = {}
+const crop = {}
 
 /**
  * ZxImageProcess
@@ -37,7 +37,7 @@ class ZxImageProcess {
    */
   constructor (opts) {
     // 参数处理
-    let options = Object.assign({}, DEFAUTL_OPTIONS, opts)
+    const options = Object.assign({}, DEFAULT_OPTIONS, opts)
     // error notify
     broadcast.on('error', err => {
       err.msg = err.message
@@ -74,7 +74,7 @@ class ZxImageProcess {
     if (this.$body === null) {
       broadcast.emit('error', {
         code: 2,
-        message: `Failed to initialize, Element body is not found in document!`
+        message: 'Failed to initialize, Element body is not found in document!'
       })
       return
     }

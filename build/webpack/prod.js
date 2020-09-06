@@ -10,6 +10,9 @@ const banner = require('../banner')
 
 module.exports = merge(webpackBase, {
   mode: 'production',
+  entry: {
+    'image-process-tools': './src/index.js'
+  },
   output: {
     filename: '[name].min.js'
   },

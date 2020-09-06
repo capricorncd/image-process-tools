@@ -8,13 +8,12 @@ const HtmlWebpackPlugin = require('html-webpack-plugin')
 const isDev = process.env.NODE_ENV === 'development'
 
 module.exports = {
-  entry: {
-    'image-process-tools': './src/js/index.js'
-  },
   output: {
     path: path.resolve(__dirname, '../../dist'),
     filename: '[name].js',
-    libraryTarget: 'umd'
+    // library: 'ZxImageProcess',
+    libraryTarget: 'umd',
+    // libraryExport: 'default',
   },
   module: {
     rules: [

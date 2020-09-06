@@ -1,4 +1,4 @@
-# image-process-tools
+# image-process
 
 Image pre processing for upload (html5 + canvas), ie10+
 
@@ -12,6 +12,14 @@ Image pre processing for upload (html5 + canvas), ie10+
 
 * 视频截图返回数据中含有字段`videoFile`, `videoWidth`, `videoHeight`, `duration`。其他参数为截图参数
 
+https://capricorncd.github.io/image-process-tools/dist
+
+> v4.x.x 暂时无图片裁剪控制视图
+
+## 旧版（带图片裁剪控制视图功能）
+
+https://github.com/capricorncd/image-process-tools/tree/v3.x.x
+
 ## npm
 
 ```bash
@@ -22,58 +30,15 @@ npm install image-process --save-dev
 
 #### ES6+
 
-```javascript
-import { ZxImageProcess } from 'image-process'
-
-const zxImageProcess = new ZxImageProcess({
-    // 默认为空，图片和视频文件，前提是浏览器支持input[accept=]
-    accept: 'video/*',
-    // 自动裁剪
-    auto: false,
-    // 触发文件选择的元素
-    selector: '#buttonId',
-    // 限制宽度等比缩放，则只需设置width值
-    // 限制高度等比缩放，则只需设置height值
-    // 同时设置了width、height值，则会对图片按尺寸裁剪
-    width: 600,
-    height: 400,
-    // 裁剪按钮名称
-    submitText: '确 定',
-    // 裁剪容器按钮样式
-    submitStyle： '',
-    cancelStyle: 'color: red',
-    // 旋转按钮名称
-    rotateText: '旋转90度',
-    // 最大文件限制
-    maxSize: 50,
-    // image/jpeg quality，图片压缩质量0-1
-    quality: 0.8,
-    success: function (result) {
-      // 返回数据
-      console.log(result);
-    },
-    error: function (err) {
-      console.error(err);
-    }
-  })
-```
-
-#### 不实例化
-
 不实例化ZxImageProcess，直接使用期内部方法`handleMediaFile(file, options)`，返回`promise对象`
 
 ```javascript
 import { handleMediaFile } from 'image-process'
 
 const options = {
-  // 默认为空，图片和视频文件，前提是浏览器支持input[accept=]
-  accept: 'video/*',
-  // 自动裁剪
-  auto: false,
+  mimeType: 'image/jpeg',
   width: 600,
   height: 400,
-  // 文件大小限制50M
-  maxSize: 50,
   quality: 0.8
 }
 
@@ -93,15 +58,35 @@ browser
 <script src="./dist/image-process-tools.min.js"></script>
 ```
 
-## 使用效果
-
-https://capricorncd.github.io/image-process-tools/dist
-
 ## Options 参数
 
-* auto `true|false` 自动处理图片，裁剪时不弹出手动位置调整框。默认为false。
+|名称|类型|默认|说明|
+|:--|:--|:--|:--|
+|width|number|0|返回裁剪图片的宽度|
+|height|number|0|返回裁剪图片高度|
+|isForce|boolean|false|图片小于目标尺寸时，强制放大或裁剪|
+|enableDevicePixelRatio|boolean|false|是否启用设备像素比，2倍时，范围的图片尺寸x2|
+|mimeType|string|image/jpeg|返回截图文件类型|
+|perResize|number|500|大图缩小时，为防止出现锯齿，每次缩小像素|
+|quality|number|0.8|可选值范围0-1|
+|cropInfo|object|undefined|图片裁剪参数|
 
-* selector: `#buttonId` 选择图片按钮id，支持id、class选择器，或者`HTMLElement`对象（仅ZxImageProcess实例化时有效）
+### cropInfo
+
+裁剪图片时，以下参数为必须项：
+
+|名称|类型|默认|说明|
+|:--|:--|:--|:--|
+|sx|number|undefined|原始图片相对于左上角的x坐标|
+|sy|number|undefined|原始图片相对于左上角的y坐标|
+|sw|number|undefined|从sx开始需要截取的宽度|
+|sh|number|undefined|从sy开始需要截取的高度|
+
+![canvas-drawimage](./canvas-drawimage.jpg)
+
+参数说明：
+
+https://developer.mozilla.org/en-US/docs/Web/API/CanvasRenderingContext2D/drawImage
 
 * width: `640` 裁剪或缩放宽度为640px(可选)
 
@@ -113,9 +98,7 @@ https://capricorncd.github.io/image-process-tools/dist
 
 * height: `640` 裁剪或缩放高度为640px(可选)
 
-* maxSize: `50` 文件大小最大限制，单位M（兆）。默认50M
-
-* success: `function(result){ console.log(result) }` 图片处理完成后的回调函数（仅ZxImageProcess实例化时有效）
+* then: `function(result){ console.log(result) }` 图片处理完成后的回调函数
 
   > base64: `base64` 图片base64数据
 
@@ -135,43 +118,10 @@ https://capricorncd.github.io/image-process-tools/dist
 
   > type: `image/png`  处理完成的图片类型
 
-* error: `function(err){ alert(err.message); }` 处理过程中的错误或警告回调函数（仅ZxImageProcess实例化时有效）
-
-* submitText '确 定' 裁剪框`确定`按钮名称
-
-* rotateText: '旋转90度' 裁剪框`旋转90度`按钮名称
-
-* submitStyle: `color: #f00` 裁剪框确认按钮样式（仅ZxImageProcess实例化时有效）
-
-* cancelStyle: `color: #f00` 裁剪框取消按钮样式（仅ZxImageProcess实例化时有效）
+* catch: `function(err){ alert(err.message); }` 处理过程中的错误或警告回调函数
 
 ## 方法
 
-- conversion(size) 将size单位B转换为KB或M(大于1024KB则返回M)
-
-- toBlobData(base64) base64转blob
-
-- toBlobUrl(file|blob) 文件数据转blob url
-
-- reCrop() 重新显示图片裁剪窗口，重新调整裁剪图片
-
-## Error
-
-|code|message说明|
-|:--:|:--|
-|1|初始化参数`selector`不合法，非有效字符串或DOM元素|
-|2|未获取到body元素|
-|3|未获取到`selector`对应DOM元素|
-|4|未选中任何文件|
-|5|调用方法`reCrop()`时，未获取到之前的文件数据|
-|7|处理的file非图片或视频文件|
-|8|读取file文件数据出错|
-|11|预加载图片数据出错|
-|12|文件太大，超过了最大限制|
-|13|视频截图失败，视频资源可能不在同域中|
-|21|图片手动裁剪，设置预览图片src失败|
-|22|用户取消了裁剪位置设置|
-
 ## Copyright and license
 
-Code and documentation copyright 2018. capricorncd. Code released under the MIT License.
+Code and documentation copyright 2018-2021. capricorncd. Code released under the MIT License.

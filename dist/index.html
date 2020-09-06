@@ -62,8 +62,10 @@
 </div>
 
 <script src="https://cdnjs.cloudflare.com/ajax/libs/js-polyfills/0.1.42/polyfill.min.js"></script>
+<script src="https://cdnjs.cloudflare.com/ajax/libs/vConsole/3.3.4/vconsole.min.js"></script>
 <script src="image-process-tools.min.js"></script>
 <script>
+  new VConsole()
   const img = utils.createElement('img')
   const input = utils.createElement('input', { type: 'file'})
   const body = document.querySelector('#app')

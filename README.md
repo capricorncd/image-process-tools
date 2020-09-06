@@ -102,9 +102,9 @@ https://developer.mozilla.org/en-US/docs/Web/API/CanvasRenderingContext2D/drawIm
 ## 返回数据结构
 
 |名称|类型|说明|
-|:--|:--|:--|:--|
+|:--|:--|:--|
 |base64| `base64` | 图片base64数据|
-|blob| `blobData`  | 处理成功的图片数据，可直接上传至服务器，或赋值给input利用form表单提交。|
+|blob| `blobData` | 处理成功的图片数据，可直接上传至服务器，或赋值给input利用form表单提交。|
 |element| `canvas` | canvas节点对象|
 |height| `640`  | 处理完成的图片宽度|
 |width| `640` | 处理完成的图片宽度|

@@ -9,6 +9,9 @@ const webpackBase = require('./_base')
 
 module.exports = merge(webpackBase, {
   mode: 'development',
+  entry: {
+    'image-process-tools': './src/index.js'
+  },
   // https://webpack.js.org/configuration/devtool/#development
   devtool: 'eval-source-map',
   devServer: {

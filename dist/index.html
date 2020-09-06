@@ -7,107 +7,94 @@
   <meta name="author" content="https://github.com/capricorncd/image-process-tools">
   <meta name="discription" content="图片裁剪、等比缩放，压缩，支持本地/同域视频文件截图功能">
   <style>
-    * {
-      margin: 0;
-      padding: 0;
+    body {
+      padding-top: 80px;
     }
-    #imgWrapper {
-      position: relative;
-      min-height: 400px;
-      background: #F1F1F1;
+    input {
+      display: block;
+      border: 1px solid #ccc;
+      border-radius: 6px;
+      padding: 20px;
       cursor: pointer;
-      text-align: center;
-      line-height: 0;
     }
-    #imgWrapper:after {
-      display: inline-block;
-      content: '+ 点选择图片';
-      margin-top: 100px;
-      width: 80%;
-      max-width: 600px;
-      line-height: 200px;
-      color: #999;
-      border: 1px dashed #ccc;
-      border-radius: 10px;
-    }
-    #imgWrapper.hide:after {
-      display: none;
-    }
-    #imgWrapper .view-wrapper {
+    img {margin-top: 30px;}
+    header {
+      position: fixed;
+      z-index: 10;
+      top: 0;
+      left: 0;
       width: 100%;
-      background: #F1F1F1;
+      height: 60px;
+      background: #24292e;
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
     }
-    .view-wrapper img {
-      max-width: 100%;
+    header h1 {
+      color: #fff;
+      line-height: 60px;
+      margin: 0 0 0 20px;
+      font-weight: 500;
+      font-size: 24px;
+      font-family: PingFang SC, Verdana, Helvetica Neue, Microsoft Yahei, Hiragino Sans GB, Microsoft Sans Serif, WenQuanYi Micro Hei, sans-serif;
     }
+    header a {
+      display: inline-block;
+      position: absolute;
+      right: 20px;
+      top: 50%;
+      margin-top: -12px;
+      font-size: 0;
+      opacity: 0.6;
+      color: #fff;
+    }
+    header a:hover {opacity: 0.8;}
   </style>
 </head>
 <body>
-<div>
-  <div id="imgWrapper">
-    <div class="view-wrapper">
-      <!--图片预览容器-->
-      <img src="" style="display: none">
-    </div>
-  </div>
-  <!--<div id="xxxxx">5455</div>-->
+<header>
+  <h1>image-process</h1>
+  <a href="https://github.com/capricorncd/image-process-tools" target="_blank">
+    <svg height="24" class="octicon octicon-mark-github" viewBox="0 0 16 16" version="1.1" width="24" aria-hidden="true"><path fill-rule="evenodd" fill="currentColor" d="M8 0C3.58 0 0 3.58 0 8c0 3.54 2.29 6.53 5.47 7.59.4.07.55-.17.55-.38 0-.19-.01-.82-.01-1.49-2.01.37-2.53-.49-2.69-.94-.09-.23-.48-.94-.82-1.13-.28-.15-.68-.52-.01-.53.63-.01 1.08.58 1.23.82.72 1.21 1.87.87 2.33.66.07-.52.28-.87.51-1.07-1.78-.2-3.64-.89-3.64-3.95 0-.87.31-1.59.82-2.15-.08-.2-.36-1.02.08-2.12 0 0 .67-.21 2.2.82.64-.18 1.32-.27 2-.27.68 0 1.36.09 2 .27 1.53-1.04 2.2-.82 2.2-.82.44 1.1.16 1.92.08 2.12.51.56.82 1.27.82 2.15 0 3.07-1.87 3.75-3.65 3.95.29.25.54.73.54 1.48 0 1.07-.01 1.93-.01 2.2 0 .21.15.46.55.38A8.013 8.013 0 0016 8c0-4.42-3.58-8-8-8z"></path></svg>
+  </a>
+</header>
+<div id="app">
 </div>
-<textarea id="info" style="width: 100%;overflow-x: auto" readonly rows="10"></textarea>
 
 <script src="https://cdnjs.cloudflare.com/ajax/libs/js-polyfills/0.1.42/polyfill.min.js"></script>
 <script src="image-process-tools.min.js"></script>
 <script>
-  var imgWrapper = document.querySelector('#imgWrapper')
-  var img = imgWrapper.querySelector('img')
-  // var $xxxxx = document.getElementById('xxxxx')
-  // 初始化图片预处理工具
-  var zxImageProcess = new ZxImageProcess({
-    // 触发文件选择的元素
-    selector: '#imgWrapper',
-    // 限制宽度缩放，则只需设置width值
-    // 限制高度缩放，则只需设置height值
-    // 同时设置了width、height值，则会对图片按尺寸裁剪
-    width: 720,
-    height: 720,
-    submitText: 'submit',
-    rotateText: 'rotate 90',
-    quality: 0.7,
-    success: function (result) {
-      // 返回数据
-      log(result);
-      // 添加图片至目标容器
-      img.src = result.url;
-      img.style.display = '';
-      imgWrapper.className += ' hide';
-      // print info
-      const info = {
-        ...result,
-        blob: '...',
-        data: '...',
-        base64: '...',
-        element: '...'
-      }
-      info.raw.base64 = '...'
-      info.raw.element = '...'
-      document.getElementById('info').value = JSON.stringify(info, null, 2)
-    },
-    error: function (err) {
-      console.error(err);
-      if (err.code === 9 || err.code === 22) return
-      alert(err.msg);
-    }
+  const img = utils.createElement('img')
+  const input = utils.createElement('input', { type: 'file'})
+  const body = document.querySelector('#app')
+  body.appendChild(input)
+  body.appendChild(img)
+
+  const cropInfo = {
+    sx: 100,
+    sy: 200,
+    sw: 1500,
+    sh: 1500
+  }
+
+  const options = {
+    width: 600,
+    // height: 200,
+    // currentTime: 0
+    // cropInfo
+  }
+
+  input.addEventListener('change', e => {
+    const el = e.target
+    const file = el.files[0]
+    handleMediaFile(file, options).then(res => {
+      console.log(utils.convertFileSize(res.size).text, res)
+      img.src = res.url
+    }).catch(err => {
+      console.error(err)
+    })
+    el.value = ''
   })
-
-  log(zxImageProcess)
-
-  // log
-  function log () {
-    console.log.apply(null, arguments);
-  }
-
-  function logStr (o) {
-    log(JSON.stringify(o, null, 2))
-  }
 </script>
 </body>
 </html>

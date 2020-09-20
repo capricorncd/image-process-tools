@@ -1,5 +1,11 @@
 # image-process
 
+<p align="left">
+  <a href="https://npmcharts.com/compare/image-process?minimal=true"><img src="https://img.shields.io/npm/dm/image-process.svg?sanitize=true" alt="Downloads"></a>
+  <a href="https://www.npmjs.com/package/image-process"><img src="https://img.shields.io/npm/v/image-process.svg?sanitize=true" alt="Version"></a>
+  <a href="https://www.npmjs.com/package/image-process"><img src="https://img.shields.io/npm/l/image-process.svg?sanitize=true" alt="License"></a>
+</p>
+
 Image pre processing for upload (html5 + canvas), ie10+
 
 解决图片上传前裁剪、等比缩放，压缩，支持本地视频、同域视频文件截图功能等。
@@ -23,7 +29,11 @@ https://github.com/capricorncd/image-process-tools/tree/v3.x.x
 ## npm
 
 ```bash
+# npm
 npm install image-process --save-dev
+
+# yarn
+yarn add image-process 
 ```
 
 ## 使用方法

@@ -26,17 +26,20 @@ https://capricorncd.github.io/image-process-tools/dist
 
 https://github.com/capricorncd/image-process-tools/tree/v3.x.x
 
-## npm
+
+## 使用
+
+#### npm
 
 ```bash
-# npm
 npm install image-process --save-dev
-
-# yarn
-yarn add image-process 
 ```
 
-## 使用方法
+#### yarn
+
+```bash
+yarn add image-process 
+```
 
 #### ES6+
 

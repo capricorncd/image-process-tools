@@ -6,6 +6,7 @@
 import * as utils from './utils/index'
 import { handleMediaFile } from './core/index'
 import { TOUCH_EVENTS } from './constants/touch-events'
+export * from './utils/index'
 
 function ZxImageProcess() {
 

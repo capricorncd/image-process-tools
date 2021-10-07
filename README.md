@@ -32,13 +32,13 @@ https://github.com/capricorncd/image-process-tools/tree/v3.x.x
 #### npm
 
 ```bash
-npm install image-process --save-dev
+npm install image-process
 ```
 
 #### yarn
 
 ```bash
-yarn add image-process 
+yarn add image-process
 ```
 
 #### ES6+
@@ -126,12 +126,14 @@ https://developer.mozilla.org/en-US/docs/Web/API/CanvasRenderingContext2D/drawIm
 |size| `21100` | 处理完成的图片文件大小|
 |type| `image/jpeg` | 处理完成的图片类型
 
-## 方法
+## 其他方法
 
 ```javascript
-import { utils } from 'image-process'
+import { base64ToBlob } from 'image-process'
 
-utils.base64ToBlob(base4Date)
+const base4Data = "data:image/jpeg;base64,/9j/4AAQ..."
+
+base64ToBlob(base4Data)
 ```
 
 |名称|参数|说明|

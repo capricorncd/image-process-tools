@@ -4,7 +4,7 @@
  * Date: 2020-09-06 10:47
  */
 import { document, window } from 'ssr-window'
-import { isObject } from './index'
+import { isObject } from './check'
 
 /**
  * create html element

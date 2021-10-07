@@ -1,8 +1,9 @@
 {
   "name": "image-process",
-  "version": "4.0.0",
+  "version": "4.1.0",
   "author": "capricorncd",
   "github": "https://github.com/capricorncd",
+  "types": "types/index.d.ts",
   "repository": {
     "type": "git",
     "url": "git+https://github.com/capricorncd/image-process-tools.git"

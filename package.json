@@ -1,8 +1,10 @@
 {
   "name": "image-process",
-  "version": "4.1.0",
+  "version": "4.1.1",
   "author": "capricorncd",
   "github": "https://github.com/capricorncd",
+  "main": "dist/image-process-tools.min.js",
+  "module": "src/index.js",
   "types": "types/index.d.ts",
   "repository": {
     "type": "git",
@@ -18,7 +20,6 @@
     "url": "https://github.com/capricorncd/image-process-tools/issues"
   },
   "homepage": "https://github.com/capricorncd/image-process-tools",
-  "main": "dist/image-process-tools.min.js",
   "scripts": {
     "dev": "cross-env NODE_ENV=development webpack-dev-server --color --config build/webpack/dev.js",
     "build": "cross-env NODE_ENV=production webpack --progress --inline --color --config build/webpack/prod.js"

@@ -89,6 +89,7 @@ imageProcess.handleMediaFile(file, options)
 |quality|number|0.9|可选值范围0-1|
 |longestSide|number|0|将长边尺寸调整，短边等比缩放。设置了width/height时无效|
 |cropInfo|object|undefined|图片裁剪参数|
+|*currentTime|number|undefined|视频截图位置，大于视频时长，则截取最后一帧|
 
 ### cropInfo
 

@@ -5,8 +5,18 @@
  */
 import { handleImageFile } from './handle-image-file'
 import { handleVideoFile } from './handle-video-file'
+import {
+  ImageProcessOptions,
+  ImageProcessResult,
+  VideoScreenshotOptions,
+  VideoScreenshotResult,
+} from '../types'
+export { createElement } from 'zx-sml'
 
-export function handleMediaFile(file, options) {
+export function handleMediaFile(
+  file: File,
+  options?: Partial<ImageProcessOptions | VideoScreenshotOptions>
+): Promise<ImageProcessResult | VideoScreenshotResult> {
   return new Promise((resolve, reject) => {
     // check file type
     const fileType = file.type
@@ -21,3 +31,5 @@ export function handleMediaFile(file, options) {
     }
   })
 }
+
+export { handleImageFile, handleVideoFile }

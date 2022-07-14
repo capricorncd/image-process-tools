@@ -5,7 +5,7 @@
  */
 export type * from '../src'
 
-export interface ImageProcessOptions {
+export interface MediaFileHandlerOptions {
   // Process images according to device pixel ratio
   enableDevicePixelRatio: boolean
   // Multipurpose Internet Mail Extensions
@@ -26,8 +26,10 @@ export interface ImageProcessOptions {
   quality: number
   // The size of the longest side. Valid when width and height are `0`.
   longestSide: number
-  // Image cropping parameters
-  cropInfo?: ImageProcessCropInfo
+  // Image cropping parameters.
+  cropInfo?: OptionsCropInfo
+  // Video screenshot time position.
+  currentTime?: number
 }
 
 export interface SizeInfo {
@@ -37,7 +39,7 @@ export interface SizeInfo {
   bytes: number
 }
 
-export interface ImageProcessRawInfo {
+export interface MediaFileHandlerRawData {
   element: HTMLImageElement
   blob: Blob
   data: string
@@ -48,16 +50,17 @@ export interface ImageProcessRawInfo {
   url: string
 }
 
-export interface ImageProcessResult extends ImageProcessRawInfo {
+export interface MediaFileHandlerData extends MediaFileHandlerRawData {
   element: HTMLImageElement | HTMLCanvasElement
-  raw: ImageProcessRawInfo
+  raw: MediaFileHandlerRawData
+  videoInfo?: VideoInfo
 }
 
-export type ImageProcessResolve = (res: ImageProcessResult) => void
+export type ImageProcessResolve = (res: MediaFileHandlerData) => void
 /* eslint-disable @typescript-eslint/no-explicit-any */
 export type ImageProcessReject = (err: any) => void
 
-export interface ImageProcessCropInfo {
+export interface OptionsCropInfo {
   enableDevicePixelRatio?: boolean
   sx: number
   sy: number
@@ -70,17 +73,9 @@ export interface ImageProcessCropInfo {
 }
 
 export interface VideoInfo {
-  videoFile: Video
+  videoFile: File
   videoWidth: number
   videoHeight: number
   duration: number
   currentTime: number
-}
-
-export interface VideoScreenshotResult extends ImageProcessResult {
-  videoInfo: VideoInfo
-}
-
-export interface VideoScreenshotOptions extends ImageProcessOptions {
-  currentTime?: number
 }

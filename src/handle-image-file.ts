@@ -4,10 +4,10 @@
  * Date: 2020-09-06 11:31
  */
 import {
-  ImageProcessRawInfo,
-  ImageProcessOptions,
-  ImageProcessResult,
-  ImageProcessCropInfo,
+  MediaFileHandlerRawData,
+  MediaFileHandlerOptions,
+  MediaFileHandlerData,
+  OptionsCropInfo,
   ImageProcessResolve,
   ImageProcessReject,
 } from '../types'
@@ -34,7 +34,7 @@ const imageReg = /^image\/.+/
  */
 function createCanvas(
   el: HTMLImageElement | HTMLCanvasElement,
-  params: ImageProcessCropInfo
+  params: OptionsCropInfo
 ): HTMLCanvasElement {
   const dpr = params.enableDevicePixelRatio ? window.devicePixelRatio || 1 : 1
   const canvas = createElement<HTMLCanvasElement>('canvas')
@@ -60,14 +60,14 @@ function createCanvas(
  * handle image file
  * @param file
  * @param options
- * @returns {Promise<ImageProcessResult>}
+ * @returns {Promise<MediaFileHandlerData>}
  */
 export function handleImageFile(
   file: File | string,
-  options?: Partial<ImageProcessOptions>
-): Promise<ImageProcessResult> {
+  options?: Partial<MediaFileHandlerOptions>
+): Promise<MediaFileHandlerData> {
   return new Promise((resolve, reject) => {
-    const _options: ImageProcessOptions = {
+    const _options: MediaFileHandlerOptions = {
       ...DEFAULT_OPTIONS,
       ...options,
     }
@@ -92,7 +92,7 @@ export function handleImageFile(
 
 function handleImageBase64(
   base64: string,
-  options: ImageProcessOptions,
+  options: MediaFileHandlerOptions,
   resolve: ImageProcessResolve,
   reject: ImageProcessReject
 ): void {
@@ -100,7 +100,7 @@ function handleImageBase64(
   const blob = base64ToBlob(base64, rawType)
   const img = new Image()
   img.onload = () => {
-    const raw: ImageProcessRawInfo = {
+    const raw: MediaFileHandlerRawData = {
       element: img,
       blob: blob,
       data: base64,
@@ -127,15 +127,15 @@ function handleImageBase64(
 }
 
 function cropImage(
-  raw: ImageProcessRawInfo,
-  options: ImageProcessOptions,
+  raw: MediaFileHandlerRawData,
+  options: MediaFileHandlerOptions,
   resolve: ImageProcessResolve,
   reject: ImageProcessReject
 ): void {
   try {
-    const cropInfo: ImageProcessCropInfo = isObject(options.cropInfo)
+    const cropInfo: OptionsCropInfo = isObject(options.cropInfo)
       ? {
-          ...(options.cropInfo as ImageProcessCropInfo),
+          ...(options.cropInfo as OptionsCropInfo),
           dx: 0,
           dy: 0,
           dw: options.width,
@@ -185,8 +185,8 @@ function cropImage(
  * @param reject
  */
 function proportionalZoom(
-  raw: ImageProcessRawInfo,
-  options: ImageProcessOptions,
+  raw: MediaFileHandlerRawData,
+  options: MediaFileHandlerOptions,
   resolve: ImageProcessResolve,
   reject: ImageProcessReject
 ): void {
@@ -199,7 +199,7 @@ function proportionalZoom(
       }
     }
 
-    const cropInfo: ImageProcessCropInfo = {
+    const cropInfo: OptionsCropInfo = {
       enableDevicePixelRatio: options.enableDevicePixelRatio,
       sx: 0,
       sy: 0,
@@ -238,8 +238,8 @@ function proportionalZoom(
 }
 
 function checkResult(
-  res: ImageProcessResult,
-  options: ImageProcessOptions,
+  res: MediaFileHandlerData,
+  options: MediaFileHandlerOptions,
   resolve: ImageProcessResolve
 ): void {
   if (res.type !== options.mimeType) {
@@ -268,9 +268,9 @@ function checkResult(
 
 function imageProcess(
   el: HTMLImageElement | HTMLCanvasElement,
-  raw: ImageProcessRawInfo,
-  options: ImageProcessOptions,
-  cropInfo: ImageProcessCropInfo,
+  raw: MediaFileHandlerRawData,
+  options: MediaFileHandlerOptions,
+  cropInfo: OptionsCropInfo,
   resolve: ImageProcessResolve
 ): void {
   let nextScalePx =
@@ -297,9 +297,9 @@ function imageProcess(
 
 function processImage(
   el: HTMLImageElement | HTMLCanvasElement,
-  raw: ImageProcessRawInfo,
-  options: ImageProcessOptions,
-  cropInfo: ImageProcessCropInfo,
+  raw: MediaFileHandlerRawData,
+  options: MediaFileHandlerOptions,
+  cropInfo: OptionsCropInfo,
   resolve: ImageProcessResolve
 ): void {
   const canvas = createCanvas(el, cropInfo)
@@ -321,9 +321,9 @@ function processImage(
 }
 
 function initCropInfo(
-  raw: ImageProcessRawInfo,
-  options: ImageProcessOptions
-): ImageProcessCropInfo {
+  raw: MediaFileHandlerRawData,
+  options: MediaFileHandlerOptions
+): OptionsCropInfo {
   const { width: rw, height: rh } = raw
   const { width, height } = options
   let cropInfo

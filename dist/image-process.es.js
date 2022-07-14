@@ -2,7 +2,7 @@
  * image-process version 4.2.0
  * Author: Capricorncd <capricorncd@qq.com>
  * Repository: https://github.com/capricorncd/image-process-tools
- * Released on: 2022-07-14 22:01:42 (GMT+0900)
+ * Released on: 2022-07-14 22:56:01 (GMT+0900)
  */
 /*!
  * zx-sml version 0.2.0
@@ -397,7 +397,6 @@ function ie(t, e) {
   });
 }
 export {
-  x as createElement,
   L as handleImageFile,
   ie as handleMediaFile,
   ee as handleVideoFile

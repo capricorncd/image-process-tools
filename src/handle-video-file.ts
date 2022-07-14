@@ -7,15 +7,15 @@ import { createElement, createBlobURL, toNumber } from 'zx-sml'
 import { handleImageFile } from './handle-image-file'
 import {
   VideoInfo,
-  VideoScreenshotOptions,
-  VideoScreenshotResult,
+  MediaFileHandlerOptions,
+  MediaFileHandlerData,
 } from '../types'
 import { DEFAULT_OPTIONS } from './options'
 
 export function handleVideoFile(
   file: File,
-  options?: Partial<VideoScreenshotOptions>
-): Promise<VideoScreenshotResult> {
+  options?: Partial<MediaFileHandlerOptions>
+): Promise<MediaFileHandlerData> {
   return new Promise((resolve, reject) => {
     const _options = {
       ...DEFAULT_OPTIONS,

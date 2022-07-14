@@ -49,6 +49,13 @@
             color: #fff;
         }
         header a:hover {opacity: 0.8;}
+        textarea {
+            margin-top: 1em;
+            display: block;
+            min-width: 90%;
+            max-width: 100%;
+            height: 50vh;
+        }
     </style>
 </head>
 <body>
@@ -69,19 +76,12 @@
 <script>
   console.log(imageProcess)
   new VConsole()
-  const img = imageProcess.createElement('img')
-  const input = imageProcess.createElement('input', { type: 'file' })
-  const textarea = imageProcess.createElement('textarea', {
-    style: {
-      marginTop: '1em',
-      display: 'block',
-      minWidth: '90%',
-      maxWidth: '100%',
-      height: '50vh',
-    },
-  })
+  const img = document.createElement('img')
+  const input = document.createElement('input')
+  input.type = 'file'
+  const textarea = document.createElement('textarea')
   const body = document.querySelector('#app')
-    body.append(input, img, textarea)
+  body.append(input, img, textarea)
 
   // const cropInfo = {
   //   sx: 100,

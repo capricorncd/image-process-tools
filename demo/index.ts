@@ -5,7 +5,7 @@
  */
 import { $, createElement } from 'zx-sml'
 import { handleMediaFile } from '../src'
-import { ImageProcessOptions } from '../types'
+import { MediaFileHandlerOptions } from '../types'
 
 const img = createElement<HTMLImageElement>('img')
 const input = createElement<HTMLInputElement>('input', { type: 'file' })
@@ -28,7 +28,7 @@ body.append(input, img, textarea)
 //   sh: 1500,
 // }
 
-const options: Partial<ImageProcessOptions> = {
+const options: Partial<MediaFileHandlerOptions> = {
   // width: 600,
   // height: 200,
   // currentTime: 0

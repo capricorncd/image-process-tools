@@ -87,7 +87,7 @@ imageProcess.handleMediaFile(file, options)
 |mimeType|string|image/jpeg|返回截图文件类型|
 |perResize|number|500|大图缩小时，为防止出现锯齿，每次缩小像素|
 |quality|number|0.9|可选值范围0-1|
-|longestSide|number|0|将长边尺寸调整，短边等比缩放。设置了width/height时无效|
+|longestSide|number|0|调整长边尺寸，短边等比缩放。设置了width/height时无效|
 |cropInfo|object|undefined|图片裁剪参数|
 |*currentTime|number|undefined|视频截图位置，大于视频时长，则截取最后一帧|
 
@@ -103,6 +103,19 @@ imageProcess.handleMediaFile(file, options)
 |sh|number|undefined|从sy开始需要截取的高度|
 
 ![canvas-drawimage](./canvas-drawimage.jpg)
+
+```ts
+{
+  sx: number
+  sy: number
+  sw: number
+  sh: number
+  dx: number
+  dy: number
+  dw: number
+  dh: number
+}
+```
 
 参数说明：
 
@@ -120,7 +133,7 @@ https://developer.mozilla.org/en-US/docs/Web/API/CanvasRenderingContext2D/drawIm
 
 ## 返回数据结构
 
-`ImageProcessResult | VideoScreenshotResult`
+`MediaFileHandlerData`
 
 |名称|类型|说明|
 |:--|:--|:--|
@@ -130,13 +143,15 @@ https://developer.mozilla.org/en-US/docs/Web/API/CanvasRenderingContext2D/drawIm
 |height| `number`  | 处理完成的图片宽度|
 |width| `number` | 处理完成的图片宽度|
 |url| `blob:url`| |
-|raw| `ImageProcessRawInfo` | 原图片相关属性(宽高/文件大小/Base64编码数据/类型/元素节点)|
 |size| `object` | 处理完成的图片文件大小，`{text: '66.32KiB', value: 66.32, unit: 'KiB', bytes: 67911}`|
 |type| `image/jpeg` | 处理完成的图片类型|
+|raw| `MediaFileHandlerRawData` | 原图片相关属性(宽高/文件大小/Base64编码数据/类型/元素节点)|
+|videoInfo| `VideoInfo` | 视频信息 |
 
 视频文件还会返回以下数据
 
-```typescript
+```ts
+// VideoInfo
 {
   "videoInfo": {
     "videoFile": "File",
@@ -151,9 +166,7 @@ https://developer.mozilla.org/en-US/docs/Web/API/CanvasRenderingContext2D/drawIm
 
 ## 其他方法
 
-|名称|参数|说明|
-|:--|:--|:--|
-|createElement|(tag: string, attrs: object, children: string | HTMLElement | Node)|[detail](https://github.com/capricorncd/zx-sml)|
+[zx-sml](https://github.com/capricorncd/zx-sml)
 
 ## Copyright and license
 

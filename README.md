@@ -16,16 +16,15 @@ Image pre processing for upload (html5 + canvas), ie10+
 
 * 不裁剪、不缩放，直接返回源文件base64数据
 
-* 视频截图返回数据中含有字段`videoFile`, `videoWidth`, `videoHeight`, `duration`。其他参数为截图参数
+* 视频截图返回数据中含有字段`videoInfo: { videoFile, videoWidth, videoHeight, duration }`。其他参数为截图参数
 
-https://capricorncd.github.io/image-process-tools/dist
+https://capricorncd.github.io/image-process-tools
 
-> v4.x.x 暂时无图片裁剪控制视图
+> v4.x.x 无图片裁剪控制视图
 
 ## 旧版（带图片裁剪控制视图功能）
 
 https://github.com/capricorncd/image-process-tools/tree/v3.x.x
-
 
 ## 使用
 
@@ -43,7 +42,11 @@ yarn add image-process
 
 #### ES6+
 
-不实例化ZxImageProcess，直接使用期内部方法`handleMediaFile(file, options)`，返回`promise对象`
+方法`handleMediaFile(file, options)`，返回`promise对象`
+
+- handleMediaFile(file, options)
+- handleImageFile(file/base64String, options)
+- handleVideoFile(file, options)
 
 ```javascript
 import { handleMediaFile } from 'image-process'
@@ -68,12 +71,14 @@ handleMediaFile(file, options)
 browser
 
 ```html
-<script src="./dist/image-process-tools.min.js"></script>
+<script src="./dist/image-process.umd.js"></script>
+
+imageProcess.handleMediaFile(file, options)
 ```
 
 ## Options 参数
 
-|名称|类型|默认|说明|
+|name|type|default|remark|
 |:--|:--|:--|:--|
 |width|number|0|返回裁剪图片的宽度|
 |height|number|0|返回裁剪图片高度|
@@ -81,7 +86,8 @@ browser
 |enableDevicePixelRatio|boolean|false|是否启用设备像素比，2倍时，返回的图片尺寸x2|
 |mimeType|string|image/jpeg|返回截图文件类型|
 |perResize|number|500|大图缩小时，为防止出现锯齿，每次缩小像素|
-|quality|number|0.8|可选值范围0-1|
+|quality|number|0.9|可选值范围0-1|
+|longestSide|number|0|将长边尺寸调整，短边等比缩放。设置了width/height时无效|
 |cropInfo|object|undefined|图片裁剪参数|
 
 ### cropInfo
@@ -111,41 +117,43 @@ https://developer.mozilla.org/en-US/docs/Web/API/CanvasRenderingContext2D/drawIm
 
 * height: `640` 裁剪或缩放高度为640px(可选)
 
-
 ## 返回数据结构
+
+`ImageProcessResult | VideoScreenshotResult`
 
 |名称|类型|说明|
 |:--|:--|:--|
-|base64| `base64` | 图片base64数据|
-|blob| `blobData` | 处理成功的图片数据，可直接上传至服务器，或赋值给input利用form表单提交。|
+|data| `base64 string` | 图片base64数据|
+|blob| `Blob` | 处理成功的图片数据，可直接上传至服务器，或赋值给input利用form表单提交。|
 |element| `canvas` | canvas节点对象|
-|height| `640`  | 处理完成的图片宽度|
-|width| `640` | 处理完成的图片宽度|
+|height| `number`  | 处理完成的图片宽度|
+|width| `number` | 处理完成的图片宽度|
 |url| `blob:url`| |
-|raw| `Object` | 原图片相关属性(宽高/文件大小/Base64编码数据/类型/元素节点)|
-|size| `21100` | 处理完成的图片文件大小|
-|type| `image/jpeg` | 处理完成的图片类型
+|raw| `ImageProcessRawInfo` | 原图片相关属性(宽高/文件大小/Base64编码数据/类型/元素节点)|
+|size| `object` | 处理完成的图片文件大小，`{text: '66.32KiB', value: 66.32, unit: 'KiB', bytes: 67911}`|
+|type| `image/jpeg` | 处理完成的图片类型|
+
+视频文件还会返回以下数据
+
+```typescript
+{
+  "videoInfo": {
+    "videoFile": "File",
+    "videoWidth": 1920, 
+    "videoHeight": 804,
+    "duration": 107.477,
+    "currentTime": 84.77857628097256
+  },
+  ...
+}
+```
 
 ## 其他方法
 
-```javascript
-import { base64ToBlob } from 'image-process'
-
-const base4Data = "data:image/jpeg;base64,/9j/4AAQ..."
-
-base64ToBlob(base4Data)
-```
-
 |名称|参数|说明|
 |:--|:--|:--|
-|base64ToBlob|(base64: base64)||
-|convertFileSize|(size: number)||
-|createCanvas|(el: Image/Canvas, params: object)||
-|createElement|(tag: string, attrs: object)||
-|getBase64Info|(base64: base64)|return {data, type}|
-|readFile|(file: File)||
-|toBlobUrl|(file: File/Blob)||
+|createElement|(tag: string, attrs: object, children: string | HTMLElement | Node)|[detail](https://github.com/capricorncd/zx-sml)|
 
 ## Copyright and license
 
-Code and documentation copyright 2018-2021. capricorncd. Code released under the MIT License.
+Code and documentation copyright 2018-Present. [Capricorncd](https://github.com/capricorncd). Code released under the MIT License.

@@ -91,6 +91,35 @@ imageProcess.handleMediaFile(file, options)
 |cropInfo|object|undefined|图片裁剪参数|
 |*currentTime|number|undefined|视频截图位置，大于视频时长，则截取最后一帧|
 
+<details>
+  <summary>Default Options</summary>
+```ts
+const DEFAULT_OPTIONS: MediaFileHandlerOptions = {
+  // Process images according to device pixel ratio
+  enableDevicePixelRatio: false,
+  // When the image width or height is less than the set value,
+  // force the target image width or height to be adjusted to the set value
+  isForce: false,
+  // Multipurpose Internet Mail Extensions
+  // https://developer.mozilla.org/en-US/docs/Web/HTTP/Basics_of_HTTP/MIME_types
+  mimeType: 'image/jpeg',
+  // When large images are reduced several times,
+  // the pixels are reduced each time
+  perResize: 500,
+  // https://developer.mozilla.org/en-US/docs/Web/API/HTMLCanvasElement/toDataURL
+  // A Number between 0 and 1 indicating the image quality to use for image formats that use lossy compression such as image/jpeg and image/webp.
+  // If this argument is anything else, the default value for image quality is used. The default value is 0.92. Other arguments are ignored.
+  quality: 0.9,
+  // The width of the processed image
+  width: 0,
+  height: 0,
+  // The size of the longest side. Valid when width and height are `0`.
+  longestSide: 0,
+  // cropInfo: {}
+}
+```
+</details>
+
 ### cropInfo
 
 裁剪图片时，以下参数为必须项：

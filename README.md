@@ -92,7 +92,8 @@ imageProcess.handleMediaFile(file, options)
 |*currentTime|number|undefined|视频截图位置，大于视频时长，则截取最后一帧|
 
 <details>
-  <summary>Default Options</summary>
+  <summary>Default Options 默认参数</summary>
+
 ```ts
 const DEFAULT_OPTIONS: MediaFileHandlerOptions = {
   // Process images according to device pixel ratio
@@ -118,6 +119,7 @@ const DEFAULT_OPTIONS: MediaFileHandlerOptions = {
   // cropInfo: {}
 }
 ```
+
 </details>
 
 ### cropInfo

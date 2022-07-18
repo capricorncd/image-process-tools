@@ -24,7 +24,7 @@ function addHeader(file) {
 }
 
 function main() {
-  const distDir = path.resolve(__dirname, '../dist')
+  const distDir = path.resolve(__dirname, '../dist/core')
   fs.readdirSync(distDir).forEach((file) => {
     if (/\.js$/.test(file)) {
       addHeader(path.join(distDir, file))

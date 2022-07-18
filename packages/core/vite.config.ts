@@ -7,18 +7,13 @@
 import { resolve } from 'path'
 import { defineConfig } from 'vite'
 import { toCamelCase } from 'zx-sml'
-// @ts-ignore
-import pkg from './package.json'
+import pkg from '../../package.json'
 
 // https://vitejs.dev/config/
 export default defineConfig({
   base: './',
-  server: {
-    host: '0.0.0.0',
-    port: 9000,
-  },
   build: {
-    outDir: resolve(__dirname, 'dist'),
+    outDir: resolve(__dirname, '../../dist/core'),
     lib: {
       entry: resolve(__dirname, 'src/index.ts'),
       name: toCamelCase(pkg.name),

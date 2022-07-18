@@ -1,0 +1,6 @@
+{
+  "compilerOptions": {
+    "types": ["element-plus/global"]
+  },
+  "exclude": ["node_modules"]
+}

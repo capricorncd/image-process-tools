@@ -38,6 +38,7 @@ export function handleVideoFile(
             duration * Math.random()
           : toNumber(_options.currentTime)
       const info: VideoInfo = {
+        url: videoUrl,
         videoFile: file,
         videoWidth: video.videoWidth,
         videoHeight: video.videoHeight,

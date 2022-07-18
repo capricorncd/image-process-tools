@@ -1,0 +1,17 @@
+{
+  "name": "@image-process/core",
+  "version": "1.0.0",
+  "description": "",
+  "main": "src/index.ts",
+  "types": "./types.d.ts",
+  "files": [
+    "./src"
+  ],
+  "scripts": {
+    "build": "tsc && vite build --emptyOutDir && node ../../scripts/build-header.js",
+    "test": "vitest"
+  },
+  "keywords": [],
+  "author": "Capricorncd",
+  "license": "ISC"
+}

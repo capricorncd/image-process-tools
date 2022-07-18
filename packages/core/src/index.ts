@@ -27,3 +27,11 @@ export function handleMediaFile(
 }
 
 export { handleImageFile, handleVideoFile }
+export {
+  fileToBase64,
+  createElement,
+  formatBytes,
+  splitBase64,
+  createBlobURL,
+  base64ToBlob,
+} from 'zx-sml'

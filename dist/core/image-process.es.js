@@ -2,7 +2,7 @@
  * image-process version 4.2.0
  * Author: Capricorncd <capricorncd@qq.com>
  * Repository: https://github.com/capricorncd/image-process-tools
- * Released on: 2022-07-14 22:56:01 (GMT+0900)
+ * Released on: 2022-07-18 14:58:56 (GMT+0900)
  */
 /*!
  * zx-sml version 0.2.0
@@ -364,6 +364,7 @@ function ee(t, e) {
         return;
       d = !0;
       const h = o.duration, f = typeof r.currentTime > "u" ? h * Math.random() : S(r.currentTime), l = {
+        url: a,
         videoFile: t,
         videoWidth: o.videoWidth,
         videoHeight: o.videoHeight,

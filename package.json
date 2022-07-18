@@ -14,13 +14,13 @@
     "canvas"
   ],
   "files": [
-    "dist",
-    "src",
+    "dist/core",
+    "packages",
     "types"
   ],
+  "packageManager": "pnpm@7.5.1",
   "scripts": {
-    "dev": "vite",
-    "build": "tsc && vite build --emptyOutDir && node scripts/build-header.js",
+    "build": "cd packages/core && pnpm run build",
     "preview": "vite preview",
     "test": "vitest",
     "coverage": "vitest run --coverage",
@@ -41,6 +41,7 @@
     "eslint-plugin-prettier": "^4.0.0",
     "inquirer": "^8.2.4",
     "jsdom": "^19.0.0",
+    "pnpm": "^7.5.1",
     "prettier": "^2.6.2",
     "typescript": "^4.7.3",
     "vite": "^3.0.0",

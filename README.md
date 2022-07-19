@@ -135,19 +135,6 @@ const DEFAULT_OPTIONS: MediaFileHandlerOptions = {
 
 ![canvas-drawimage](./canvas-drawimage.jpg)
 
-```ts
-{
-  sx: number
-  sy: number
-  sw: number
-  sh: number
-  dx: number
-  dy: number
-  dw: number
-  dh: number
-}
-```
-
 参数说明：
 
 https://developer.mozilla.org/en-US/docs/Web/API/CanvasRenderingContext2D/drawImage

@@ -14,7 +14,7 @@
     "canvas"
   ],
   "files": [
-    "dist/core",
+    "dist",
     "packages",
     "types"
   ],

@@ -9,7 +9,7 @@ import {
   MediaFileHandlerOptions,
 } from '@image-process/core'
 
-export const defaultOptions = {
+export const defaultOptions: MediaFileHandlerOptions = {
   mimeType: 'image/jpeg',
   perResize: 500,
   quality: 0.9,
@@ -18,30 +18,37 @@ export const defaultOptions = {
   longestSide: 1000,
   enableDevicePixelRatio: false,
   isForce: false,
+  cropInfo: {
+    sx: 0,
+    sy: 0,
+    sw: 0,
+    sh: 0,
+  },
+  currentTime: 0,
 }
 
-type StoreKeys = 'form' | 'result' | 'fileName'
+type StoreKeys = 'form' | 'result' | 'file'
 
 type StoreValue<T = StoreKeys> = T extends 'form'
   ? MediaFileHandlerOptions
   : T extends 'result'
   ? MediaFileHandlerData
-  : T extends 'fileName'
-  ? string
+  : T extends 'file'
+  ? File
   : never
 
 interface StoreInterface {
   form: MediaFileHandlerOptions
   result: MediaFileHandlerData
-  fileName: string
+  file: File
   setValue(key: StoreKeys, value: StoreValue)
 }
 
 export const store = reactive<StoreInterface>({
   form: JSON.parse(JSON.stringify(defaultOptions)),
   result: null,
-  fileName: '',
-  setValue(filed: string, value) {
+  file: null,
+  setValue(filed: keyof StoreInterface, value) {
     console.log(filed, value)
     this[filed] = value
   },

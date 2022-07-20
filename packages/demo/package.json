@@ -5,7 +5,7 @@
   "main": "src/index.ts",
   "scripts": {
     "dev": "vite",
-    "build": "vite build",
+    "build": "vite build --emptyOutDir",
     "lint": "eslint . --fix --ext .js,.cjs,.ts,.vue",
     "test": "echo \"Error: no test specified\" && exit 1"
   },

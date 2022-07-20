@@ -1,6 +1,17 @@
 <template>
   <el-main>
-    <h1>{{ store.fileName || 'Please choose a file!' }}</h1>
+    <el-form-item>
+      <label for="fileInput" class="el-button el-button--danger is-round"
+        >Choose File</label
+      >
+      <input
+        id="fileInput"
+        class="file-input"
+        type="file"
+        @change="fileChange"
+      />
+      <span class="file-name">{{ store.file?.name }}</span>
+    </el-form-item>
     <div class="img-wrapper">
       <dl v-if="store.result" class="info">
         <dt>Info</dt>
@@ -15,6 +26,11 @@
 
 <script setup>
 import { store } from '../store'
+
+const fileChange = (e) => {
+  const file = e.target.files[0]
+  store.setValue('file', file)
+}
 </script>
 
 <style scoped lang="scss">
@@ -23,6 +39,18 @@ $pcHeight: calc(100vh - 60px);
 main {
   overflow-y: auto;
   background: #eee;
+}
+
+label {
+  margin-right: 1em;
+}
+.file-name {
+  font-family: 'Helvetica Neue', Helvetica, 'PingFang SC', 'Hiragino Sans GB',
+    'Microsoft YaHei', '微软雅黑', Arial, sans-serif;
+  opacity: 0.5;
+}
+.file-input {
+  display: none;
 }
 
 .img-wrapper {

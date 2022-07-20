@@ -26,5 +26,6 @@ export const DEFAULT_OPTIONS: MediaFileHandlerOptions = {
   height: 0,
   // The size of the longest side. Valid when width and height are `0`.
   longestSide: 0,
+  // Image cropping parameters
   // cropInfo: {}
 }

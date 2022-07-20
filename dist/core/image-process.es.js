@@ -2,7 +2,7 @@
  * image-process version 4.2.0
  * Author: Capricorncd <capricorncd@qq.com>
  * Repository: https://github.com/capricorncd/image-process-tools
- * Released on: 2022-07-18 14:58:56 (GMT+0900)
+ * Released on: 2022-07-20 22:09:05 (GMT+0900)
  */
 /*!
  * zx-sml version 0.2.0
@@ -10,155 +10,155 @@
  * Repository: https://github.com/capricorncd/zx-sml
  * Released on: 2022-07-13 22:46:38 (GMT+0900)
  */
-var z = Object.defineProperty, T = Object.getOwnPropertySymbols, I = Object.prototype.hasOwnProperty, N = Object.prototype.propertyIsEnumerable, _ = (t, e, i) => e in t ? z(t, e, { enumerable: !0, configurable: !0, writable: !0, value: i }) : t[e] = i, E = (t, e) => {
+var N = Object.defineProperty, P = Object.getOwnPropertySymbols, k = Object.prototype.hasOwnProperty, W = Object.prototype.propertyIsEnumerable, T = (t, e, i) => e in t ? N(t, e, { enumerable: !0, configurable: !0, writable: !0, value: i }) : t[e] = i, _ = (t, e) => {
   for (var i in e || (e = {}))
-    I.call(e, i) && _(t, i, e[i]);
-  if (T)
-    for (var i of T(e))
-      N.call(e, i) && _(t, i, e[i]);
+    k.call(e, i) && T(t, i, e[i]);
+  if (P)
+    for (var i of P(e))
+      W.call(e, i) && T(t, i, e[i]);
   return t;
 };
-function k(t) {
+function V(t) {
   return Array.isArray(t);
 }
-function m(t) {
-  return t !== null && !k(t) && typeof t == "object";
+function O(t) {
+  return t !== null && !V(t) && typeof t == "object";
 }
-var W = typeof globalThis < "u" ? globalThis : typeof window < "u" ? window : typeof global < "u" ? global : typeof self < "u" ? self : {}, w = { exports: {} };
+var Y = typeof globalThis < "u" ? globalThis : typeof window < "u" ? window : typeof global < "u" ? global : typeof self < "u" ? self : {}, w = { exports: {} };
 /*! For license information please see date-utils-2020.js.LICENSE.txt */
 (function(t, e) {
   (function(i, n) {
     t.exports = n();
-  })(typeof self < "u" ? self : W, function() {
+  })(typeof self < "u" ? self : Y, function() {
     return (() => {
       var i = { 949: (r, a) => {
-        Object.defineProperty(a, "__esModule", { value: !0 }), a.toTwoDigits = void 0, a.toTwoDigits = function(o) {
-          return o[1] ? o : "0" + o;
+        Object.defineProperty(a, "__esModule", { value: !0 }), a.toTwoDigits = void 0, a.toTwoDigits = function(s) {
+          return s[1] ? s : "0" + s;
         };
-      }, 607: (r, a, o) => {
+      }, 607: (r, a, s) => {
         Object.defineProperty(a, "__esModule", { value: !0 }), a.toTwoDigits = a.toDate = a.formatDate = void 0;
-        var d = o(949);
+        var d = s(949);
         Object.defineProperty(a, "toTwoDigits", { enumerable: !0, get: function() {
           return d.toTwoDigits;
         } });
-        var h = { weeks: ["Sun", "Mon", "Tue", "Wed", "Thu", "Fri", "Sat"] };
-        function f(l) {
-          if (l instanceof Date)
-            return l;
-          if (typeof l == "number")
-            return new Date(l);
-          if (typeof l == "string") {
-            var s = l.trim();
-            if (/^\d+$/.test(s)) {
-              var u = s.length;
-              return u === 8 ? new Date([s.substr(0, 4), s.substr(4, 2), s.substr(6, 2)].join("/")) : u === 6 ? new Date([s.substr(0, 4), s.substr(4, 2), "01"].join("/")) : u === 4 ? new Date(s + "/01/01") : new Date(parseInt(l));
+        var l = { weeks: ["Sun", "Mon", "Tue", "Wed", "Thu", "Fri", "Sat"] };
+        function f(u) {
+          if (u instanceof Date)
+            return u;
+          if (typeof u == "number")
+            return new Date(u);
+          if (typeof u == "string") {
+            var h = u.trim();
+            if (/^\d+$/.test(h)) {
+              var o = h.length;
+              return o === 8 ? new Date([h.substr(0, 4), h.substr(4, 2), h.substr(6, 2)].join("/")) : o === 6 ? new Date([h.substr(0, 4), h.substr(4, 2), "01"].join("/")) : o === 4 ? new Date(h + "/01/01") : new Date(parseInt(u));
             }
-            if (s = s.replace(/[年月日]/g, function(c) {
+            if (h = h.replace(/[年月日]/g, function(c) {
               return c === "\u65E5" ? "" : "/";
-            }).replace(/[(（（].*?[)））]/g, " ").replace(/\bam|pm\b/gi, " ").replace(/\s+/g, " "), /^(\d{4})[-/](\d{1,2})[-/](\d{1,2})$/.test(s))
+            }).replace(/[(（（].*?[)））]/g, " ").replace(/\bam|pm\b/gi, " ").replace(/\s+/g, " "), /^(\d{4})[-/](\d{1,2})[-/](\d{1,2})$/.test(h))
               return new Date([RegExp.$1, RegExp.$2, RegExp.$3].join("/"));
-            if (/^(\d{4})[-/](\d{1,2})$/.test(s))
+            if (/^(\d{4})[-/](\d{1,2})$/.test(h))
               return new Date([RegExp.$1, RegExp.$2, "01"].join("/"));
-            var g = new Date(s);
+            var g = new Date(h);
             return isNaN(g.getFullYear()) ? null : g;
           }
           return null;
         }
-        a.formatDate = function(l, s, u) {
-          var g, c = f(l);
-          if (!c || !s)
-            return l + "";
-          if (s === "timestamp")
+        a.formatDate = function(u, h, o) {
+          var g, c = f(u);
+          if (!c || !h)
+            return u + "";
+          if (h === "timestamp")
             return c.getTime().toString();
-          /(y+)/i.test(s) && (g = RegExp.$1, s = s.replace(g, (c.getFullYear() + "").substr(4 - g.length))), u && Array.isArray(u.weeks) || (u = h);
-          var b = { "M+": c.getMonth() + 1, "d+": c.getDate(), "h+": c.getHours(), "m+": c.getMinutes(), "s+": c.getSeconds(), "w+": c.getDay(), "W+": u.weeks[c.getDay()], "a+": c.getHours() < 12 ? "am" : "pm", "A+": c.getHours() < 12 ? "AM" : "PM" };
+          /(y+)/i.test(h) && (g = RegExp.$1, h = h.replace(g, (c.getFullYear() + "").substr(4 - g.length))), o && Array.isArray(o.weeks) || (o = l);
+          var b = { "M+": c.getMonth() + 1, "d+": c.getDate(), "h+": c.getHours(), "m+": c.getMinutes(), "s+": c.getSeconds(), "w+": c.getDay(), "W+": o.weeks[c.getDay()], "a+": c.getHours() < 12 ? "am" : "pm", "A+": c.getHours() < 12 ? "AM" : "PM" };
           for (var R in b)
-            if (new RegExp("(" + R + ")").test(s)) {
+            if (new RegExp("(" + R + ")").test(h)) {
               g = RegExp.$1;
               var D = b[R] + "";
-              s = s.replace(g, g.length === 1 ? D : d.toTwoDigits(D));
+              h = h.replace(g, g.length === 1 ? D : d.toTwoDigits(D));
             }
-          if (/(g)/i.test(s)) {
-            var P = c.toString().split(/\s+/).slice(5), H = s.includes("g");
-            s = s.replace(/g/i, H ? P[0] : P.join(" "));
+          if (/(g)/i.test(h)) {
+            var p = c.toString().split(/\s+/).slice(5), z = h.includes("g");
+            h = h.replace(/g/i, z ? p[0] : p.join(" "));
           }
-          return s;
+          return h;
         }, a.toDate = f;
       } }, n = {};
       return function r(a) {
         if (n[a])
           return n[a].exports;
-        var o = n[a] = { exports: {} };
-        return i[a](o, o.exports, r), o.exports;
+        var s = n[a] = { exports: {} };
+        return i[a](s, s.exports, r), s.exports;
       }(607);
     })();
   });
 })(w);
-function O(t = "", e = "-") {
+function S(t = "", e = "-") {
   return t.replace(/[A-Z]/g, (i, n) => `${n > 0 ? e : ""}${i.toLowerCase()}`);
 }
-function V(t = "", e = !1) {
+function Z(t = "", e = !1) {
   const i = t.replace(/[-_\s](\w)/g, (n, r) => r.toUpperCase());
   return e ? i.replace(/^\w/, (n) => n.toUpperCase()) : i;
 }
-function Y(t) {
+function q(t) {
   return t.replace(/^-?[1-9]\d{0,2}(,\d{3})+/, (e) => e.replace(/,/g, ""));
 }
-function S(t, e = !1) {
+function B(t, e = !1) {
   if (typeof t == "number")
     return t;
   if (typeof t == "string") {
-    if (!e && /^(-?\d+(?:\.\d+)?)\D*/.test(Y(t)))
-      return S(RegExp.$1, !0);
+    if (!e && /^(-?\d+(?:\.\d+)?)\D*/.test(q(t)))
+      return B(RegExp.$1, !0);
     const i = Number(t);
     return isNaN(i) ? 0 : i;
   }
   return 0;
 }
-function B(t = {}, e = !1) {
-  const i = e ? V : O, n = {};
+function F(t = {}, e = !1) {
+  const i = e ? Z : S, n = {};
   for (const [r, a] of Object.entries(t))
-    n[i(r)] = m(a) ? B(a, e) : a;
+    n[i(r)] = O(a) ? F(a, e) : a;
   return n;
 }
-function F(t, e = !1, i = 2) {
+function U(t, e = !1, i = 2) {
   const n = ["KiB", "MiB", "GiB", "TiB", "PiB", "EiB", "ZiB", "YiB"], r = e ? 1e3 : 1024;
-  let a = String(t), o = "Byte";
-  for (let d = 0, h = t / r; h > 1; h /= r, d++)
-    a = h.toFixed(i), o = n[d];
-  return e && (o = o.replace("i", "")), {
-    text: a.replace(/\.0+$/, "") + o,
+  let a = String(t), s = "Byte";
+  for (let d = 0, l = t / r; l > 1; l /= r, d++)
+    a = l.toFixed(i), s = n[d];
+  return e && (s = s.replace("i", "")), {
+    text: a.replace(/\.0+$/, "") + s,
     value: +a,
-    unit: o,
+    unit: s,
     bytes: t
   };
 }
-function x(t, e = {}, i) {
+function m(t, e = {}, i) {
   const n = document.createElement(t);
   for (const [r, a] of Object.entries(e))
-    n.setAttribute(O(r), r === "style" && m(a) ? Z(a) : a);
+    n.setAttribute(S(r), r === "style" && O(a) ? G(a) : a);
   return i && (typeof i == "string" ? n.innerHTML = i : n.append(i)), n;
 }
-function Z(...t) {
-  const e = t.reduce((n, r) => E(E({}, n), B(r)), {}), i = [];
+function G(...t) {
+  const e = t.reduce((n, r) => _(_({}, n), F(r)), {}), i = [];
   for (const [n, r] of Object.entries(e))
     r === "" || typeof r > "u" || r === null || i.push(`${n}:${r}`);
   return i.join(";");
 }
-function q(t) {
+function K(t) {
   return new Promise((e, i) => {
     const n = new FileReader();
     n.onload = (r) => {
       var a;
-      const o = (a = r.target) == null ? void 0 : a.result;
-      o ? e(o) : i(new Error(`FileReader's result is null, ${r.target}`));
+      const s = (a = r.target) == null ? void 0 : a.result;
+      s ? e(s) : i(new Error(`FileReader's result is null, ${r.target}`));
     }, n.onerror = i, n.readAsDataURL(t);
   });
 }
-function p(t) {
+function x(t) {
   return (window.URL || window.webkitURL).createObjectURL(t);
 }
-function U(t) {
+function M(t) {
   const e = t.split(",");
   let i = "";
   return /data:(\w+\/\w+);base64/.test(e[0]) && (i = RegExp.$1), {
@@ -166,8 +166,8 @@ function U(t) {
     data: e[1]
   };
 }
-function M(t, e) {
-  const i = U(t), n = window.atob(i.data);
+function A(t, e) {
+  const i = M(t), n = window.atob(i.data);
   e = e || i.type;
   const r = new Uint8Array(n.length);
   for (let a = 0; a < n.length; a++)
@@ -177,7 +177,7 @@ function M(t, e) {
 w.exports.formatDate;
 w.exports.toDate;
 w.exports.toTwoDigits;
-const A = {
+const L = {
   enableDevicePixelRatio: !1,
   isForce: !1,
   mimeType: "image/jpeg",
@@ -186,49 +186,42 @@ const A = {
   width: 0,
   height: 0,
   longestSide: 0
-}, G = /^data:(.+?);base64/, K = /^image\/.+/;
-function v(t, e) {
-  const i = e.enableDevicePixelRatio && window.devicePixelRatio || 1, n = x("canvas");
-  n.width = e.dw * i, n.height = e.dh * i;
-  const r = n.getContext("2d");
-  return r.scale(i, i), r.drawImage(t, e.sx, e.sy, e.sw, e.sh, e.dx, e.dy, e.dw, e.dh), n;
-}
-function L(t, e) {
+}, J = /^data:(.+?);base64/, Q = /^image\/.+/;
+function C(t, e) {
   return new Promise((i, n) => {
     const r = {
-      ...A,
+      ...L,
       ...e
     };
-    typeof t == "string" && G.test(t) ? $(t, r, i, n) : t instanceof File && K.test(t.type) ? q(t).then((a) => {
-      $(a, r, i, n);
+    typeof t == "string" && J.test(t) ? E(t, r, i, n) : (t instanceof File || t instanceof Blob) && Q.test(t.type) ? K(t).then((a) => {
+      E(a, r, i, n);
     }).catch(n) : n(new Error(`Invalid file, ${t}`));
   });
 }
-function $(t, e, i, n) {
-  const { type: r } = U(t), a = M(t, r), o = new Image();
-  o.onload = () => {
+function E(t, e, i, n) {
+  const { type: r } = M(t), a = A(t, r), s = new Image();
+  s.onload = () => {
     const d = {
-      element: o,
+      element: s,
       blob: a,
       data: t,
-      url: p(a),
-      width: o.naturalWidth || o.width,
-      height: o.naturalHeight || o.height,
+      url: x(a),
+      width: s.naturalWidth || s.width,
+      height: s.naturalHeight || s.height,
       type: r,
-      size: F(a.size)
+      size: U(a.size)
     };
-    e.width > 0 && e.height > 0 ? J(d, e, i, n) : e.width > 0 || e.height > 0 || e.longestSide > 0 ? Q(d, e, i, n) : y({ ...d, raw: d }, e, i);
-  }, o.onerror = n, o.src = t;
-}
-function J(t, e, i, n) {
-  try {
-    const r = m(e.cropInfo) ? {
+    e.cropInfo && e.cropInfo.sw && e.cropInfo.sh ? $(d, e, i, n, {
       ...e.cropInfo,
       dx: 0,
       dy: 0,
-      dw: e.width,
-      dh: e.height
-    } : X(t, e);
+      dw: e.cropInfo.sw,
+      dh: e.cropInfo.sh
+    }) : e.width > 0 && e.height > 0 ? $(d, e, i, n, I(d, e)) : e.width > 0 || e.height > 0 || e.longestSide > 0 ? X(d, e, i, n) : y({ ...d, raw: d }, e, i);
+  }, s.onerror = n, s.src = t;
+}
+function $(t, e, i, n, r) {
+  try {
     Object.prototype.hasOwnProperty.call(r, "enableDevicePixelRatio") || (r.enableDevicePixelRatio = e.enableDevicePixelRatio);
     const a = v(t.element, {
       enableDevicePixelRatio: e.enableDevicePixelRatio,
@@ -241,18 +234,18 @@ function J(t, e, i, n) {
       dw: r.sw,
       dh: r.sh
     });
-    j(a, t, e, {
+    !e.width && !e.height ? (e.width = r.sw, e.height = r.sh) : e.width ? e.height = r.sh * e.width / r.sw : e.width = r.sw * e.height / r.sh, j(a, t, e, {
       ...r,
       sx: 0,
       sy: 0,
       sw: a.width,
       sh: a.height
     }, i);
-  } catch (r) {
-    n(r);
+  } catch (a) {
+    n(a);
   }
 }
-function Q(t, e, i, n) {
+function X(t, e, i, n) {
   try {
     e.longestSide > 0 && !e.width && !e.height && (t.width >= t.height ? e.width = e.longestSide : e.height = e.longestSide);
     const r = {
@@ -285,7 +278,7 @@ function Q(t, e, i, n) {
   }
 }
 function y(t, e, i) {
-  t.type !== e.mimeType ? (t.type = e.mimeType, C(t.element, t.raw, e, {
+  t.type !== e.mimeType ? (t.type = e.mimeType, H(t.element, t.raw, e, {
     enableDevicePixelRatio: e.enableDevicePixelRatio,
     sx: 0,
     sy: 0,
@@ -300,83 +293,89 @@ function y(t, e, i) {
 function j(t, e, i, n, r) {
   let a = e.width > e.height ? e.width - n.dw : e.height - n.dh;
   if (a > i.perResize) {
-    const o = e.height / e.width;
+    const s = e.height / e.width;
     for (; a > i.perResize; )
-      a -= i.perResize, n.sw = t.width, n.sh = t.height, n.dw = i.width + a, n.dh = n.dw * o, t = v(t, n);
+      a -= i.perResize, n.sw = t.width, n.sh = t.height, n.dw = i.width + a, n.dh = n.dw * s, t = v(t, n);
     n.sw = t.width, n.sh = t.height, n.dw = i.width, n.dh = i.height;
   }
-  C(t, e, i, n, r);
+  H(t, e, i, n, r);
 }
-function C(t, e, i, n, r) {
-  const a = v(t, n), o = i.mimeType, d = a.toDataURL(o, i.quality), h = M(d, o);
+function H(t, e, i, n, r) {
+  const a = v(t, n), s = i.mimeType, d = a.toDataURL(s, i.quality), l = A(d, s);
   r({
     element: a,
-    type: o,
+    type: s,
     width: a.width,
     height: a.height,
-    blob: h,
+    blob: l,
     data: d,
-    url: p(h),
-    size: F(h.size),
+    url: x(l),
+    size: U(l.size),
     raw: e
   });
 }
-function X(t, e) {
+function I(t, e) {
   const { width: i, height: n } = t, { width: r, height: a } = e;
-  let o;
+  let s;
   const d = n * r / a;
   if (i > d)
-    o = {
+    s = {
       sx: (i - d) / 2,
       sy: 0,
       sw: d,
       sh: n
     };
   else {
-    const h = i * a / r;
-    o = {
+    const l = i * a / r;
+    s = {
       sx: 0,
-      sy: (n - h) / 2,
+      sy: (n - l) / 2,
       sw: i,
-      sh: h
+      sh: l
     };
   }
   return {
-    ...o,
+    ...s,
     dx: 0,
     dy: 0,
     dw: r,
     dh: a
   };
 }
+function v(t, e) {
+  const i = e.enableDevicePixelRatio && window.devicePixelRatio || 1, n = m("canvas");
+  n.width = e.dw * i, n.height = e.dh * i;
+  const r = n.getContext("2d");
+  return r.scale(i, i), r.drawImage(t, e.sx, e.sy, e.sw, e.sh, e.dx, e.dy, e.dw, e.dh), n;
+}
 function ee(t, e) {
   return new Promise((i, n) => {
     const r = {
-      ...A,
+      ...L,
       ...e
-    }, a = p(t);
-    let o = x("video", {
+    }, a = x(t);
+    let s = m("video", {
       src: a,
       autoplay: !0
     }), d = !1;
-    o.onerror = n, o.oncanplay = () => {
+    s.onerror = n, s.oncanplay = () => {
       if (d)
         return;
       d = !0;
-      const h = o.duration, f = typeof r.currentTime > "u" ? h * Math.random() : S(r.currentTime), l = {
+      const l = s.duration, f = typeof r.currentTime > "u" ? l * Math.random() : B(r.currentTime), u = {
         url: a,
         videoFile: t,
-        videoWidth: o.videoWidth,
-        videoHeight: o.videoHeight,
-        duration: h,
-        currentTime: Math.min(f, h)
+        videoWidth: s.videoWidth,
+        videoHeight: s.videoHeight,
+        duration: l,
+        currentTime: Math.min(f, l)
       };
-      te(o, l).then((s) => {
-        !r.width && !r.height && (r.width = l.videoWidth, r.height = l.videoHeight), L(s, e).then((u) => {
+      te(s, u).then((h) => {
+        !r.width && !r.height && (r.width = u.videoWidth, r.height = u.videoHeight), C(h, e).then((o) => {
           i({
-            videoInfo: l,
-            ...u
-          }), o = null;
+            videoInfo: u,
+            ...o
+          }), s = null;
         }).catch(n);
       }).catch(n);
     };
@@ -385,20 +384,26 @@ function ee(t, e) {
 function te(t, { currentTime: e, videoWidth: i, videoHeight: n }) {
   return new Promise((r) => {
     t.currentTime = e, t.pause();
-    const a = "image/jpeg", o = x("canvas"), d = o.getContext("2d");
-    o.width = i, o.height = n, setTimeout(() => {
-      d.drawImage(t, 0, 0, o.width, o.height), r(o.toDataURL(a));
+    const a = "image/jpeg", s = m("canvas"), d = s.getContext("2d");
+    s.width = i, s.height = n, setTimeout(() => {
+      d.drawImage(t, 0, 0, s.width, s.height), r(s.toDataURL(a));
     }, 500);
   });
 }
 function ie(t, e) {
   return new Promise((i, n) => {
     const r = t.type;
-    /^(image|video)/.test(r) ? RegExp.$1 === "image" ? L(t, e).then(i).catch(n) : ee(t, e).then(i).catch(n) : n(new Error(`File type[${r}] not supported`));
+    /^(image|video)/.test(r) ? RegExp.$1 === "image" ? C(t, e).then(i).catch(n) : ee(t, e).then(i).catch(n) : n(new Error(`File type[${r}] not supported`));
   });
 }
 export {
-  L as handleImageFile,
+  A as base64ToBlob,
+  x as createBlobURL,
+  m as createElement,
+  K as fileToBase64,
+  U as formatBytes,
+  C as handleImageFile,
   ie as handleMediaFile,
-  ee as handleVideoFile
+  ee as handleVideoFile,
+  M as splitBase64
 };

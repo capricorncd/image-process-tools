@@ -13,7 +13,7 @@ import pkg from '../../package.json'
 export default defineConfig({
   base: './',
   build: {
-    outDir: resolve(__dirname, '../../dist/core'),
+    outDir: resolve(__dirname, '../../dist'),
     lib: {
       entry: resolve(__dirname, 'src/index.ts'),
       name: toCamelCase(pkg.name),

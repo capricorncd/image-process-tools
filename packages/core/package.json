@@ -8,7 +8,7 @@
     "./src"
   ],
   "scripts": {
-    "build": "tsc && vite build --emptyOutDir && node ../../scripts/build-header.js",
+    "build": "tsc && vite build --emptyOutDir && node ../../scripts/build-after.js",
     "test": "vitest"
   },
   "keywords": [],

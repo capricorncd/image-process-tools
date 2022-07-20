@@ -18,13 +18,7 @@ Image pre processing for upload (html5 + canvas), ie10+
 
 * 视频截图返回数据中含有字段`videoInfo: { videoFile, videoWidth, videoHeight, duration }`。其他参数为截图参数
 
-https://capricorncd.github.io/image-process-tools
-
-> v4.x.x 无图片裁剪控制视图
-
-## 旧版（带图片裁剪控制视图功能）
-
-https://github.com/capricorncd/image-process-tools/tree/v3.x.x
+https://capricorncd.github.io/image-process-tools/demo
 
 ## 使用
 
@@ -182,9 +176,24 @@ https://developer.mozilla.org/en-US/docs/Web/API/CanvasRenderingContext2D/drawIm
 }
 ```
 
+## 旧版（带图片裁剪控制视图功能）
+
+https://github.com/capricorncd/image-process-tools/tree/v3.x.x
+
 ## 其他方法
 
-[zx-sml](https://github.com/capricorncd/zx-sml)
+```js
+import {
+  fileToBase64,
+  createElement,
+  formatBytes,
+  splitBase64,
+  createBlobURL,
+  base64ToBlob
+} from 'image-process'
+```
+
+[zx-sml docs](https://github.com/capricorncd/zx-sml)
 
 ## Copyright and license
 

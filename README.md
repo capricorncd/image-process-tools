@@ -128,10 +128,10 @@ const DEFAULT_OPTIONS: MediaFileHandlerOptions = {
 
 |名称|类型|默认|说明|
 |:--|:--|:--|:--|
-|sx|number|undefined|原始图片相对于左上角的x坐标|
-|sy|number|undefined|原始图片相对于左上角的y坐标|
-|sw|number|undefined|从sx开始需要截取的宽度|
-|sh|number|undefined|从sy开始需要截取的高度|
+|sx|number|原始图片相对于左上角的x坐标|
+|sy|number|原始图片相对于左上角的y坐标|
+|sw|number|从sx开始需要截取的宽度|
+|sh|number|从sy开始需要截取的高度|
 
 ![canvas-drawimage](./canvas-drawimage.jpg)
 

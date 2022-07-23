@@ -135,8 +135,19 @@ function cropImage(
 
     // Check if width or height is set
     if (!options.width && !options.height) {
-      options.width = cropInfo.sw
-      options.height = cropInfo.sh
+      // options.longestSide check
+      if (options.longestSide) {
+        if (cropInfo.sw > cropInfo.sh) {
+          options.width = options.longestSide
+          options.height = (cropInfo.sh * options.width) / cropInfo.sw
+        } else {
+          options.height = options.longestSide
+          options.width = (cropInfo.sw * options.height) / cropInfo.sh
+        }
+      } else {
+        options.width = cropInfo.sw
+        options.height = cropInfo.sh
+      }
     } else if (!options.width) {
       options.width = (cropInfo.sw * options.height) / cropInfo.sh
     } else {
@@ -270,11 +281,14 @@ function imageProcess(
       cropInfo.dh = cropInfo.dw * radio
       el = createCanvas(el, cropInfo)
     }
-    cropInfo.sw = el.width
-    cropInfo.sh = el.height
-    cropInfo.dw = options.width
-    cropInfo.dh = options.height
   }
+
+  // nextScalePx <= options.perResize,
+  // or after while (nextScalePx > options.perResize)
+  cropInfo.sw = el.width
+  cropInfo.sh = el.height
+  cropInfo.dw = options.width
+  cropInfo.dh = options.height
 
   processImage(el, raw, options, cropInfo, resolve)
 }

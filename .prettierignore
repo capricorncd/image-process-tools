@@ -1,6 +1,7 @@
 # Ignore artifacts:
 coverage
 dist/
+demo/
 
 # Ignore all HTML files:
 *.html

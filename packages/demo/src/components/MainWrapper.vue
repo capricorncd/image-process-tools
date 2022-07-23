@@ -14,10 +14,16 @@
     </el-form-item>
     <div class="img-wrapper">
       <dl v-if="store.result" class="info">
-        <dt>Info</dt>
+        <dt>Current</dt>
         <dd><span>width: </span>{{ store.result.width }}</dd>
         <dd><span>height: </span>{{ store.result.height }}</dd>
         <dd><span>size: </span>{{ store.result.size.text }}</dd>
+        <dd><span>type: </span>{{ store.result.type }}</dd>
+        <dt>Raw</dt>
+        <dd><span>width: </span>{{ store.result.raw.width }}</dd>
+        <dd><span>height: </span>{{ store.result.raw.height }}</dd>
+        <dd><span>size: </span>{{ store.result.raw.size.text }}</dd>
+        <dd><span>type: </span>{{ store.result.raw.type }}</dd>
       </dl>
       <img :src="store.result?.url" alt="" />
     </div>
@@ -79,6 +85,11 @@ label {
       justify-content: space-between;
       span {
         margin-right: 2em;
+      }
+      & + dt {
+        margin-top: 5px;
+        padding-top: 5px;
+        border-top: 1px solid #ffffff2a;
       }
     }
   }

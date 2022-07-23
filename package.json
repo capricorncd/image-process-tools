@@ -15,7 +15,6 @@
   ],
   "files": [
     "dist",
-    "packages",
     "types"
   ],
   "packageManager": "pnpm@7.5.1",

@@ -54,16 +54,7 @@
       </el-form-item>
       <el-form-item label="mimeType: Output picture mimeType">
         <el-input v-model="state.mimeTypeValue">
-          <template #prepend>
-            <el-select
-              v-model="state.mimeTypePrefix"
-              placeholder="Select"
-              style="width: 90px"
-            >
-              <el-option label="image" value="image" />
-              <el-option label="video" value="video" />
-            </el-select>
-          </template>
+          <template #prepend>image</template>
         </el-input>
       </el-form-item>
       <el-form-item :label="`quality: ${form.quality}`">
@@ -116,7 +107,7 @@ const form = store.form
 
 const onSubmit = () => {
   console.log('submit!')
-  form.mimeType = `${state.mimeTypePrefix}/${state.mimeTypeValue.replace(
+  form.mimeType = `image/${state.mimeTypeValue.replace(
     /\s/g,
     ''
   )}`
@@ -128,13 +119,11 @@ const reset = () => {
     // @ts-ignore
     form[key] = defaultOptions[key]
   })
-  state.mimeTypePrefix = 'image'
   state.mimeTypeValue = 'jpeg'
   handleFile()
 }
 
 const state = reactive({
-  mimeTypePrefix: 'image',
   mimeTypeValue: 'jpeg',
 })
 

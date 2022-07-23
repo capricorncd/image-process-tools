@@ -40,7 +40,7 @@ yarn add image-process
 
 - @param: options `MediaFileHandlerOptions`
 
-- @return `promise<MediaFileHandlerData>`
+- @returns: `Promise<MediaFileHandlerData>`
 
 ```javascript
 import { handleMediaFile } from 'image-process'
@@ -76,7 +76,7 @@ imageProcess.handleMediaFile(file, options)
 
 - @param: options `MediaFileHandlerOptions`
 
-- @return `promise<MediaFileHandlerData>`
+- @returns: `Promise<MediaFileHandlerData>`
 
 ### handleVideoFile(file, options)
 
@@ -84,23 +84,23 @@ imageProcess.handleMediaFile(file, options)
 
 - @param: options `MediaFileHandlerOptions`
 
-- @return `promise<MediaFileHandlerData>`
+- @returns: `Promise<MediaFileHandlerData>`
 
 
 ## Options: MediaFileHandlerOptions
 
 |Name|Type|Default|Description|
 |:--|:--|:--|:--|
-|width|number|0|target width for image cropping|
-|height|number|0|target height for image cropping|
-|longestSide|number|0|target long side width for image cropping, invalid when width or height is set.|
-|isForce|boolean|false|force enlargement or cropping, when the image is smaller than the target size|
-|enableDevicePixelRatio|boolean|false|Whether to enable the device pixel ratio, when 2 times, the size of the returned image is x2|
-|mimeType|string|image/jpeg|return data file type|
-|perResize|number|500|Reduce the width each time. To prevent jagged edges when scaling an image|
-|quality|number|0.9|A `Number` between `0` and `1` indicating the image quality to be used when creating images using file formats that support lossy compression (such as `image/jpeg` or `image/webp`). |
-|cropInfo|object|undefined|`OptionsCropInfo`|
-|*currentTime|number|undefined|The position of the video screenshot, if it is longer than the video duration, the last frame will be captured|
+|width|`number`|`0`|target width for image cropping|
+|height|`number`|`0`|target height for image cropping|
+|longestSide|`number`|`0`|target long side width for image cropping, invalid when width or height is set.|
+|isForce|`boolean`|`false`|force enlargement or cropping, when the image is smaller than the target size|
+|enableDevicePixelRatio|`boolean`|`false`|Whether to enable the device pixel ratio, when 2 times, the size of the returned image is x2|
+|mimeType|`string`|`image/jpeg`|return data file type|
+|perResize|`number`|`500`|Reduce the width each time. To prevent jagged edges when scaling an image|
+|quality|`number`|`0.9`|A `Number` between `0` and `1` indicating the image quality to be used when creating images using file formats that support lossy compression (such as `image/jpeg` or `image/webp`). |
+|cropInfo|`object`|`undefined`|`OptionsCropInfo`|
+|*currentTime|`number`|`undefined`|The `HTMLMediaElement` interface's `currentTime` property specifies the current playback time in seconds. If it is longer than the video duration, the last frame will be captured|
 
 <details>
   <summary>Default Options</summary>
@@ -137,10 +137,10 @@ const DEFAULT_OPTIONS: MediaFileHandlerOptions = {
 
 |Name|Type|Description|
 |:--|:--|:--|
-|sx|number|The `x-axis` coordinate of the top left corner of the sub-rectangle of the source `image` to draw into the destination context.|
-|sy|number|The `y-axis` coordinate of the top left corner of the sub-rectangle of the source `image` to draw into the destination context.|
-|sw|number|The `width` of the sub-rectangle of the source `image` to draw into the destination context.|
-|sh|number|The `height` of the sub-rectangle of the source `image` to draw into the destination context.|
+|sx|`number`|The `x-axis` coordinate of the top left corner of the sub-rectangle of the source `image` to draw into the destination context.|
+|sy|`number`|The `y-axis` coordinate of the top left corner of the sub-rectangle of the source `image` to draw into the destination context.|
+|sw|`number`|The `width` of the sub-rectangle of the source `image` to draw into the destination context.|
+|sh|`number`|The `height` of the sub-rectangle of the source `image` to draw into the destination context.|
 
 > It will be ignored when the value is invalid.
 
@@ -154,7 +154,7 @@ const DEFAULT_OPTIONS: MediaFileHandlerOptions = {
 |:--|:--|:--|
 |data| `string` | base64 image data |
 |blob| `Blob` | The processed image data can be directly uploaded to the server, or assigned to input and submitted using form |
-|element| `HTMLImageElement | HTMLCanvasElement` | `canvas` or `image` element |
+|element| `HTMLImageElement`/`HTMLCanvasElement` | `canvas` or `image` element |
 |width| `number`  | The width of the processed image |
 |height| `number`  | The height of the processed image |
 |url| `string` | `blob:url` |

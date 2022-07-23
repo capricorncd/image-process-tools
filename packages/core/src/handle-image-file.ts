@@ -301,7 +301,11 @@ function processImage(
   resolve: ImageProcessResolve
 ): void {
   const canvas = createCanvas(el, cropInfo)
-  const mineType = options.mimeType
+  // When mimeType is image/*, video/* or '', use the original file type.
+  const mineType =
+    /^\w+\/\*$/.test(options.mimeType) || !options.mimeType
+      ? raw.type
+      : options.mimeType
   const base64 = canvas.toDataURL(mineType, options.quality)
   const blob = base64ToBlob(base64, mineType)
 

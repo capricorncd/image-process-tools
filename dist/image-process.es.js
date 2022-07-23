@@ -2,7 +2,7 @@
  * image-process version 4.2.1
  * Author: Capricorncd <capricorncd@qq.com>
  * Repository: https://github.com/capricorncd/image-process-tools
- * Released on: 2022-07-23 14:44:58 (GMT+0900)
+ * Released on: 2022-07-23 16:12:35 (GMT+0900)
  */
 /*!
  * zx-sml version 0.2.0
@@ -10,11 +10,11 @@
  * Repository: https://github.com/capricorncd/zx-sml
  * Released on: 2022-07-13 22:46:38 (GMT+0900)
  */
-var N = Object.defineProperty, T = Object.getOwnPropertySymbols, k = Object.prototype.hasOwnProperty, W = Object.prototype.propertyIsEnumerable, S = (t, e, i) => e in t ? N(t, e, { enumerable: !0, configurable: !0, writable: !0, value: i }) : t[e] = i, _ = (t, e) => {
+var N = Object.defineProperty, P = Object.getOwnPropertySymbols, k = Object.prototype.hasOwnProperty, W = Object.prototype.propertyIsEnumerable, S = (t, e, i) => e in t ? N(t, e, { enumerable: !0, configurable: !0, writable: !0, value: i }) : t[e] = i, _ = (t, e) => {
   for (var i in e || (e = {}))
     k.call(e, i) && S(t, i, e[i]);
-  if (T)
-    for (var i of T(e))
+  if (P)
+    for (var i of P(e))
       W.call(e, i) && S(t, i, e[i]);
   return t;
 };
@@ -42,7 +42,7 @@ var Y = typeof globalThis < "u" ? globalThis : typeof window < "u" ? window : ty
           return d.toTwoDigits;
         } });
         var l = { weeks: ["Sun", "Mon", "Tue", "Wed", "Thu", "Fri", "Sat"] };
-        function w(u) {
+        function o(u) {
           if (u instanceof Date)
             return u;
           if (typeof u == "number")
@@ -59,31 +59,31 @@ var Y = typeof globalThis < "u" ? globalThis : typeof window < "u" ? window : ty
               return new Date([RegExp.$1, RegExp.$2, RegExp.$3].join("/"));
             if (/^(\d{4})[-/](\d{1,2})$/.test(s))
               return new Date([RegExp.$1, RegExp.$2, "01"].join("/"));
-            var o = new Date(s);
-            return isNaN(o.getFullYear()) ? null : o;
+            var w = new Date(s);
+            return isNaN(w.getFullYear()) ? null : w;
           }
           return null;
         }
         a.formatDate = function(u, s, g) {
-          var o, c = w(u);
+          var w, c = o(u);
           if (!c || !s)
             return u + "";
           if (s === "timestamp")
             return c.getTime().toString();
-          /(y+)/i.test(s) && (o = RegExp.$1, s = s.replace(o, (c.getFullYear() + "").substr(4 - o.length))), g && Array.isArray(g.weeks) || (g = l);
+          /(y+)/i.test(s) && (w = RegExp.$1, s = s.replace(w, (c.getFullYear() + "").substr(4 - w.length))), g && Array.isArray(g.weeks) || (g = l);
           var b = { "M+": c.getMonth() + 1, "d+": c.getDate(), "h+": c.getHours(), "m+": c.getMinutes(), "s+": c.getSeconds(), "w+": c.getDay(), "W+": g.weeks[c.getDay()], "a+": c.getHours() < 12 ? "am" : "pm", "A+": c.getHours() < 12 ? "AM" : "PM" };
           for (var R in b)
             if (new RegExp("(" + R + ")").test(s)) {
-              o = RegExp.$1;
+              w = RegExp.$1;
               var D = b[R] + "";
-              s = s.replace(o, o.length === 1 ? D : d.toTwoDigits(D));
+              s = s.replace(w, w.length === 1 ? D : d.toTwoDigits(D));
             }
           if (/(g)/i.test(s)) {
-            var P = c.toString().split(/\s+/).slice(5), z = s.includes("g");
-            s = s.replace(/g/i, z ? P[0] : P.join(" "));
+            var T = c.toString().split(/\s+/).slice(5), z = s.includes("g");
+            s = s.replace(/g/i, z ? T[0] : T.join(" "));
           }
           return s;
-        }, a.toDate = w;
+        }, a.toDate = o;
       } }, r = {};
       return function n(a) {
         if (r[a])
@@ -193,12 +193,12 @@ function C(t, e) {
       ...L,
       ...e
     };
-    typeof t == "string" && J.test(t) ? E(t, n, i, r) : (t instanceof File || t instanceof Blob) && Q.test(t.type) ? K(t).then((a) => {
-      E(a, n, i, r);
+    typeof t == "string" && J.test(t) ? $(t, n, i, r) : (t instanceof File || t instanceof Blob) && Q.test(t.type) ? K(t).then((a) => {
+      $(a, n, i, r);
     }).catch(r) : r(new Error(`Invalid file, ${t}`));
   });
 }
-function E(t, e, i, r) {
+function $(t, e, i, r) {
   const { type: n } = M(t), a = A(t, n), h = new Image();
   h.onload = () => {
     const d = {
@@ -211,16 +211,16 @@ function E(t, e, i, r) {
       type: n,
       size: U(a.size)
     };
-    e.cropInfo && e.cropInfo.sw && e.cropInfo.sh ? $(d, e, i, r, {
+    e.cropInfo && e.cropInfo.sw && e.cropInfo.sh ? E(d, e, i, r, {
       ...e.cropInfo,
       dx: 0,
       dy: 0,
       dw: e.cropInfo.sw,
       dh: e.cropInfo.sh
-    }) : e.width > 0 && e.height > 0 ? $(d, e, i, r, I(d, e)) : e.width > 0 || e.height > 0 || e.longestSide > 0 ? X(d, e, i, r) : y({ ...d, raw: d }, e, i);
+    }) : e.width > 0 && e.height > 0 ? E(d, e, i, r, I(d, e)) : e.width > 0 || e.height > 0 || e.longestSide > 0 ? X(d, e, i, r) : y({ ...d, raw: d }, e, i);
   }, h.onerror = r, h.src = t;
 }
-function $(t, e, i, r, n) {
+function E(t, e, i, r, n) {
   try {
     Object.prototype.hasOwnProperty.call(n, "enableDevicePixelRatio") || (n.enableDevicePixelRatio = e.enableDevicePixelRatio);
     const a = v(t.element, {
@@ -300,7 +300,7 @@ function j(t, e, i, r, n) {
   r.sw = t.width, r.sh = t.height, r.dw = i.width, r.dh = i.height, H(t, e, i, r, n);
 }
 function H(t, e, i, r, n) {
-  const a = v(t, r), h = i.mimeType, d = a.toDataURL(h, i.quality), l = A(d, h);
+  const a = v(t, r), h = /^\w+\/\*$/.test(i.mimeType) || !i.mimeType ? e.type : i.mimeType, d = a.toDataURL(h, i.quality), l = A(d, h);
   n({
     element: a,
     type: h,
@@ -361,13 +361,13 @@ function ee(t, e) {
       if (d)
         return;
       d = !0;
-      const l = h.duration, w = typeof n.currentTime > "u" ? l * Math.random() : B(n.currentTime), u = {
+      const l = h.duration, o = typeof n.currentTime > "u" ? l * Math.random() : B(n.currentTime), u = {
         url: a,
         videoFile: t,
         videoWidth: h.videoWidth,
         videoHeight: h.videoHeight,
         duration: l,
-        currentTime: Math.min(w, l)
+        currentTime: Math.min(o, l)
       };
       te(h, u).then((s) => {
         !n.width && !n.height && (n.width = u.videoWidth, n.height = u.videoHeight), C(s, e).then((g) => {

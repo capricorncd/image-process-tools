@@ -6,19 +6,17 @@
   <a href="https://www.npmjs.com/package/image-process"><img src="https://img.shields.io/npm/l/image-process.svg?sanitize=true" alt="License"></a>
 </p>
 
-Image clipping / scaling, support local / same domain video file screenshot function (HTML5 + canvas). 
+图片裁剪/等比缩放，支持本地/同域视频文件截图功能 (html5 + canvas)
 
-[中文文档](./docs)
+[English Documents](../README.md)
 
-* Image cropping: Just set valid cropping parameters. or set valid width and height, the image will be centered and cropped.
+* 裁剪图片：设置图片裁剪参数`cropInfo`，或者设置`width`和`height`参数
 
-* Proportional scaling: set width or height.
-
-* Video screenshot: Take a picture according to the set currentTime.
+* 等比缩放：约束宽度缩放，只需设置`width`; 同理约束高度缩放，只需设置`height`。约束长边缩放，设置`longestSide`。
 
 https://capricorncd.github.io/image-process-tools/demo
 
-## Usage
+## 使用
 
 #### npm
 
@@ -31,8 +29,6 @@ npm install image-process
 ```bash
 yarn add image-process
 ```
-
-## Methods
 
 ### handleMediaFile(file, options)
 
@@ -87,23 +83,23 @@ imageProcess.handleMediaFile(file, options)
 - @return `promise<MediaFileHandlerData>`
 
 
-## Options: MediaFileHandlerOptions
+## 参数: MediaFileHandlerOptions
 
-|Name|Type|Default|Description|
+|属性|类型|默认值|说明|
 |:--|:--|:--|:--|
-|width|number|0|target width for image cropping|
-|height|number|0|target height for image cropping|
-|longestSide|number|0|target long side width for image cropping, invalid when width or height is set.|
-|isForce|boolean|false|force enlargement or cropping, when the image is smaller than the target size|
-|enableDevicePixelRatio|boolean|false|Whether to enable the device pixel ratio, when 2 times, the size of the returned image is x2|
-|mimeType|string|image/jpeg|return data file type|
-|perResize|number|500|Reduce the width each time. To prevent jagged edges when scaling an image|
-|quality|number|0.9|A `Number` between `0` and `1` indicating the image quality to be used when creating images using file formats that support lossy compression (such as `image/jpeg` or `image/webp`). |
-|cropInfo|object|undefined|`OptionsCropInfo`|
-|*currentTime|number|undefined|The position of the video screenshot, if it is longer than the video duration, the last frame will be captured|
+|width|`number`|`0`|返回裁剪图片的宽度|
+|height|`number`|`0`|返回裁剪图片高度|
+|longestSide|`number`|`0`|调整长边尺寸，短边等比缩放。设置了`width/height`时无效|
+|isForce|`boolean`|`false`|图片小于目标尺寸时，强制放大或裁剪|
+|enableDevicePixelRatio|`boolean`|`false`|是否启用设备像素比，2倍时，返回的图片尺寸x2|
+|mimeType|`string`|`image/jpeg`|返回截图文件类型|
+|perResize|`number`|`500`|大图缩小时，为防止出现锯齿，每次缩小像素|
+|quality|`number`|`0.9`|可选值范围`0-1`å|
+|cropInfo|`object`|`undefined`|图片裁剪参数|
+|*currentTime|`number`|`undefined`|视频截图位置，大于视频时长，则截取最后一帧|
 
 <details>
-  <summary>Default Options</summary>
+  <summary>默认参数</summary>
 
 ```ts
 const DEFAULT_OPTIONS: MediaFileHandlerOptions = {
@@ -135,40 +131,55 @@ const DEFAULT_OPTIONS: MediaFileHandlerOptions = {
 
 ### cropInfo: OptionsCropInfo
 
-|Name|Type|Description|
+裁剪图片时，以下参数为必须项：
+
+|名称|类型|说明|
 |:--|:--|:--|
-|sx|number|The `x-axis` coordinate of the top left corner of the sub-rectangle of the source `image` to draw into the destination context.|
-|sy|number|The `y-axis` coordinate of the top left corner of the sub-rectangle of the source `image` to draw into the destination context.|
-|sw|number|The `width` of the sub-rectangle of the source `image` to draw into the destination context.|
-|sh|number|The `height` of the sub-rectangle of the source `image` to draw into the destination context.|
+|sx|number|原始图片相对于左上角的x坐标|
+|sy|number|原始图片相对于左上角的y坐标|
+|sw|number|从sx开始需要截取的宽度|
+|sh|number|从sy开始需要截取的高度|
 
-> It will be ignored when the value is invalid.
+![canvas-drawimage](./canvas-drawimage.jpg)
 
-![canvas-drawimage](./docs/canvas-drawimage.jpg)
+参数说明：
 
-## Returns
+https://developer.mozilla.org/en-US/docs/Web/API/CanvasRenderingContext2D/drawImage
+
+* width: `640` 裁剪或缩放宽度为640px(可选)
+
+  > 1.限制宽度缩放，则只需设置width值。
+
+  > 2.限制高度缩放，则只需设置height值。
+
+  > 3.同时设置了width、height值，则会对图片按尺寸裁剪
+
+* height: `640` 裁剪或缩放高度为640px(可选)
+
+## 返回数据结构
 
 `MediaFileHandlerData`
 
-|Name|Type|Description|
+|名称|类型|说明|
 |:--|:--|:--|
-|data| `string` | base64 image data |
-|blob| `Blob` | The processed image data can be directly uploaded to the server, or assigned to input and submitted using form |
-|element| `HTMLImageElement | HTMLCanvasElement` | `canvas` or `image` element |
-|width| `number`  | The width of the processed image |
-|height| `number`  | The height of the processed image |
-|url| `string` | `blob:url` |
-|size| `object` | Processed image file size, `{text: '66.32KiB', value: 66.32, unit: 'KiB', bytes: 67911}`|
-|type| `string` | etc. `image/jpeg`|
-|raw| `MediaFileHandlerRawData` | Original image related attributes (width and height/file size/Base64 encoded data/type/element node) |
-|videoInfo| `VideoInfo` | video information |
+|data| `base64 string` | 图片base64数据|
+|blob| `Blob` | 处理成功的图片数据，可直接上传至服务器，或赋值给input利用form表单提交。|
+|element| `canvas` | canvas节点对象|
+|height| `number`  | 处理完成的图片宽度|
+|width| `number` | 处理完成的图片宽度|
+|url| `blob:url`| |
+|size| `object` | 处理完成的图片文件大小，`{text: '66.32KiB', value: 66.32, unit: 'KiB', bytes: 67911}`|
+|type| `image/jpeg` | 处理完成的图片类型|
+|raw| `MediaFileHandlerRawData` | 原图片相关属性(宽高/文件大小/Base64编码数据/类型/元素节点)|
+|videoInfo| `VideoInfo` | 视频信息 |
 
-VideoInfo
+视频文件还会返回以下数据
 
 ```ts
+// VideoInfo
 {
   "videoInfo": {
-    "videoFile": File,
+    "videoFile": "File",
     "videoWidth": 1920, 
     "videoHeight": 804,
     "duration": 107.477,
@@ -178,7 +189,11 @@ VideoInfo
 }
 ```
 
-## Other methods
+## 旧版（带图片裁剪控制视图功能）
+
+https://github.com/capricorncd/image-process-tools/tree/v3.x.x
+
+## 其他方法
 
 ```js
 import {

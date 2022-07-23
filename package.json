@@ -1,6 +1,6 @@
 {
   "name": "image-process",
-  "version": "4.2.1",
+  "version": "4.2.2",
   "description": "Browser image processing and video screenshots (html5+canvas)",
   "main": "dist/image-process.umd.js",
   "module": "dist/image-process.es.js",

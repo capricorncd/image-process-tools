@@ -1,9 +1,3 @@
-<script setup>
-import Header from './HeaderWrapper.vue'
-import Main from './MainWrapper.vue'
-import Aside from './AsideWrapper.vue'
-</script>
-
 <template>
   <Header />
   <el-container>
@@ -11,3 +5,9 @@ import Aside from './AsideWrapper.vue'
     <Aside />
   </el-container>
 </template>
+
+<script setup>
+import Header from './HeaderWrapper.vue'
+import Main from './MainWrapper.vue'
+import Aside from './AsideWrapper.vue'
+</script>

@@ -29,19 +29,14 @@ export const defaultOptions: MediaFileHandlerOptions = {
 
 type StoreKeys = 'form' | 'result' | 'file'
 
-type StoreValue<T = StoreKeys> = T extends 'form'
-  ? MediaFileHandlerOptions
-  : T extends 'result'
-  ? MediaFileHandlerData
-  : T extends 'file'
-  ? File
-  : never
-
 interface StoreInterface {
   form: MediaFileHandlerOptions
   result: MediaFileHandlerData
   file: File
-  setValue(key: StoreKeys, value: StoreValue)
+  setValue(
+    key: StoreKeys,
+    value: StoreInterface[keyof Omit<StoreInterface, 'setValue'>]
+  )
 }
 
 export const store = reactive<StoreInterface>({
@@ -49,7 +44,6 @@ export const store = reactive<StoreInterface>({
   result: null,
   file: null,
   setValue(filed: keyof StoreInterface, value) {
-    console.log(filed, value)
     this[filed] = value
   },
 })

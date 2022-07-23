@@ -84,9 +84,9 @@
   </el-aside>
 </template>
 
-<script setup>
+<script setup lang="ts">
 import { reactive, watch, computed } from 'vue'
-import { handleMediaFile } from '@image-process/core'
+import { handleMediaFile, OptionsCropInfo } from '@image-process/core'
 import { store, defaultOptions } from '../store'
 
 watch(
@@ -102,7 +102,7 @@ const maxCurrentTime = computed(() =>
 
 const maxCropInfo = computed(() => {
   const { width = 0, height = 0 } = store.result?.raw || {}
-  const { sx, sy } = store.form.cropInfo
+  const { sx, sy } = store.form.cropInfo as OptionsCropInfo
   return {
     sx: width,
     sy: height,
@@ -124,11 +124,12 @@ const onSubmit = () => {
 }
 
 const reset = () => {
-  Object.keys(defaultOptions).forEach(
-    (key) => (form[key] = defaultOptions[key])
-  )
-  store.mimeTypePrefix = 'image'
-  store.mimeTypeValue = 'jpeg'
+  Object.keys(defaultOptions).forEach((key) => {
+    // @ts-ignore
+    form[key] = defaultOptions[key]
+  })
+  state.mimeTypePrefix = 'image'
+  state.mimeTypeValue = 'jpeg'
   handleFile()
 }
 

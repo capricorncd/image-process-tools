@@ -102,11 +102,11 @@ data|`string`|yes|Image base64 data.
 width|`number`|yes|The width of the image.
 height|`number`|yes|The height of the image.
 type|`string`|yes|The type of the image.
-size|`SizeInfo`|yes|The size information of the image. [SizeInfo](#SizeInfo).
+size|`SizeInfo`|yes|The size information of the image. See [SizeInfo](#SizeInfo).
 url|`string`|yes|A blob url of the image.
 element|`HTMLImageElement`/`HTMLCanvasElement`|yes|-
-raw|`MediaFileHandlerRawData`|yes|Raw information of the image file being processed. [MediaFileHandlerRawData](#MediaFileHandlerRawData)
-videoInfo|`VideoInfo`|no|When taking a screenshot of the video, the original video file information. [VideoInfo](#VideoInfo)
+raw|`MediaFileHandlerRawData`|yes|Raw information of the image file being processed. See [MediaFileHandlerRawData].(#MediaFileHandlerRawData).
+videoInfo|`VideoInfo`|no|When taking a screenshot of the video, the original video file information. See [VideoInfo](#VideoInfo).
 
 <details>
 <summary>Source Code</summary>
@@ -114,9 +114,9 @@ videoInfo|`VideoInfo`|no|When taking a screenshot of the video, the original vid
 ```ts
 interface MediaFileHandlerData extends MediaFileHandlerRawData {
   element: HTMLImageElement | HTMLCanvasElement
-  // Raw information of the image file being processed. [MediaFileHandlerRawData](#MediaFileHandlerRawData)
+  // Raw information of the image file being processed. See [MediaFileHandlerRawData].(#MediaFileHandlerRawData).
   raw: MediaFileHandlerRawData
-  // When taking a screenshot of the video, the original video file information. [VideoInfo](#VideoInfo)
+  // When taking a screenshot of the video, the original video file information. See [VideoInfo](#VideoInfo).
   videoInfo?: VideoInfo
 }
 ```
@@ -130,15 +130,15 @@ An options of the [handleImageFile](#handleimagefilefile-options)/[handleMediaFi
 Prop|Types|Required|Description
 :--|:--|:--|:--
 enableDevicePixelRatio|`boolean`|yes|Whether to enable the device pixel ratio, when 2 times, the size of the returned image is x2. Default is `false`.
-mimeType|`string`|yes|Multipurpose Internet Mail Extensions. https://developer.mozilla.org/en-US/docs/Web/HTTP/Basics_of_HTTP/MIME_types
-isForce|`boolean`|yes|When the image width or height is less than the set value, force the target image width or height to be adjusted to the set value.
+mimeType|`string`|yes|Multipurpose Internet Mail Extensions. Default is `image/jpeg`. https://developer.mozilla.org/en-US/docs/Web/HTTP/Basics_of_HTTP/MIME_types
+isForce|`boolean`|yes|When the image width or height is less than the set value, force the target image width or height to be adjusted to the set value. Default is `false`.
 perResize|`number`|yes|Reduce the width each time. To prevent jagged edges when scaling an image
-quality|`number`|yes|A Number between 0 and 1 indicating the image quality to use for image formats that use lossy compression such as image/jpeg and image/webp. If this argument is anything else, the default value for image quality is used. The default value is 0.92. Other arguments are ignored. See [toDataURL](https://developer.mozilla.org/en-US/docs/Web/API/HTMLCanvasElement/toDataURL).
-width|`number`|yes|The `width` of the processed image.
-height|`number`|yes|The `height` of the processed image.
-longestSide|`number`|yes|The size of the longest side. Valid when width and height are `0`.
-cropInfo|`OptionsCropInfo`|no|[OptionsCropInfo](#OptionsCropInfo).
-currentTime|`number`|no|The `HTMLMediaElement` interface's `currentTime` property specifies the current playback time in seconds. If it is longer than the video duration, the last frame will be captured.
+quality|`number`|yes|A Number between 0 and 1 indicating the image quality to use for image formats that use lossy compression such as image/jpeg and image/webp. If this argument is anything else, the default value for image quality is used. The default value is 0.92. Other arguments are ignored. See [toDataURL](https://developer.mozilla.org/en-US/docs/Web/API/HTMLCanvasElement/toDataURL). Default is `0.9`.
+width|`number`|yes|The `width` of the processed image. Default is `0`.
+height|`number`|yes|The `height` of the processed image. Default is `0`.
+longestSide|`number`|yes|The size of the longest side. Valid when width and height are `0`. Default is `0`.
+cropInfo|`OptionsCropInfo`|no|See [OptionsCropInfo](#OptionsCropInfo).
+currentTime|`number`|no|The `HTMLMediaElement` interface's `currentTime` property specifies the current playback time in seconds. If it is longer than the video duration, the last frame will be captured. The default is a `random` timestamp in the video duration.
 
 <details>
 <summary>Source Code</summary>
@@ -147,27 +147,29 @@ currentTime|`number`|no|The `HTMLMediaElement` interface's `currentTime` propert
 interface MediaFileHandlerOptions {
   // Whether to enable the device pixel ratio, when 2 times, the size of the returned image is x2. Default is `false`.
   enableDevicePixelRatio: boolean
-  // Multipurpose Internet Mail Extensions.
+  // Multipurpose Internet Mail Extensions. Default is `image/jpeg`.
   // https://developer.mozilla.org/en-US/docs/Web/HTTP/Basics_of_HTTP/MIME_types
   mimeType: string
   // When the image width or height is less than the set value,
   // force the target image width or height to be adjusted to the set value.
+  // Default is `false`.
   isForce: boolean
   // Reduce the width each time. To prevent jagged edges when scaling an image
   perResize: number
   // A Number between 0 and 1 indicating the image quality to use for image formats that use lossy compression such as image/jpeg and image/webp.
   // If this argument is anything else, the default value for image quality is used. The default value is 0.92. Other arguments are ignored.
   // See [toDataURL](https://developer.mozilla.org/en-US/docs/Web/API/HTMLCanvasElement/toDataURL).
+  // Default is `0.9`.
   quality: number
-  // The `width` of the processed image.
+  // The `width` of the processed image. Default is `0`.
   width: number
-  // The `height` of the processed image.
+  // The `height` of the processed image. Default is `0`.
   height: number
-  // The size of the longest side. Valid when width and height are `0`.
+  // The size of the longest side. Valid when width and height are `0`. Default is `0`.
   longestSide: number
-  // [OptionsCropInfo](#OptionsCropInfo).
+  // See [OptionsCropInfo](#OptionsCropInfo).
   cropInfo?: OptionsCropInfo
-  // The `HTMLMediaElement` interface's `currentTime` property specifies the current playback time in seconds. If it is longer than the video duration, the last frame will be captured.
+  // The `HTMLMediaElement` interface's `currentTime` property specifies the current playback time in seconds. If it is longer than the video duration, the last frame will be captured. The default is a `random` timestamp in the video duration.
   currentTime?: number
 }
 ```
@@ -186,7 +188,7 @@ data|`string`|yes|Image base64 data.
 width|`number`|yes|The width of the image.
 height|`number`|yes|The height of the image.
 type|`string`|yes|The type of the image.
-size|`SizeInfo`|yes|The size information of the image. [SizeInfo](#SizeInfo).
+size|`SizeInfo`|yes|The size information of the image. See [SizeInfo](#SizeInfo).
 url|`string`|yes|A blob url of the image.
 
 <details>
@@ -206,7 +208,7 @@ interface MediaFileHandlerRawData {
   height: number
   // The type of the image.
   type: string
-  // The size information of the image. [SizeInfo](#SizeInfo).
+  // The size information of the image. See [SizeInfo](#SizeInfo).
   size: SizeInfo
   // A blob url of the image.
   url: string

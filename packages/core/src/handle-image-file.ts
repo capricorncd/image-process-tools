@@ -25,11 +25,11 @@ const base64Reg = /^data:(.+?);base64/
 const imageReg = /^image\/.+/
 
 /**
- * @method handleImageFile(file, options?)
- * handle image file
- * @param file `File | Blob | string` File or base64 string
- * @param options `Partial<MediaFileHandlerOptions>`
- * @returns `Promise<MediaFileHandlerData>`
+ * @method handleImageFile(file, options)
+ * Image file compression or cropping function.
+ * @param file `File | Blob | string` File or base64 string.
+ * @param options? `Partial<MediaFileHandlerOptions>` See [MediaFileHandlerOptions](#MediaFileHandlerOptions).
+ * @returns `Promise<MediaFileHandlerData>` See [MediaFileHandlerData](#MediaFileHandlerData).
  */
 export function handleImageFile(
   file: File | Blob | string,

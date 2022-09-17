@@ -7,11 +7,12 @@
 </p>
 
 Image clipping / scaling, support local / same domain video file screenshot function (HTML5 + canvas).
-[中文文档](./docs)
 
 - Image cropping: Just set valid cropping parameters. or set valid width and height, the image will be centered and cropped.
 - Proportional scaling: set width or height.
 - Video screenshot: Take a picture according to the set currentTime.
+
+[中文文档](./docs)
 
 ## Demo
 
@@ -85,9 +86,9 @@ Video file screenshot processing function.
 Param|Types|Required|Description
 :--|:--|:--|:--
 file|`File`|yes|-
-options|`Partial<MediaFileHandlerOptions>`|no|See[MediaFileHandlerOptions](#MediaFileHandlerOptions).
+options|`Partial<MediaFileHandlerOptions>`|no|See [MediaFileHandlerOptions](#MediaFileHandlerOptions).
 
-- @returns `Promise<MediaFileHandlerData>` See[MediaFileHandlerData](#MediaFileHandlerData).
+- @returns `Promise<MediaFileHandlerData>` See [MediaFileHandlerData](#MediaFileHandlerData).
 
 ## Types
 
@@ -132,7 +133,7 @@ Prop|Types|Required|Description
 enableDevicePixelRatio|`boolean`|yes|Whether to enable the device pixel ratio, when 2 times, the size of the returned image is x2. Default is `false`.
 mimeType|`string`|yes|Multipurpose Internet Mail Extensions. Default is `image/jpeg`. https://developer.mozilla.org/en-US/docs/Web/HTTP/Basics_of_HTTP/MIME_types
 isForce|`boolean`|yes|When the image width or height is less than the set value, force the target image width or height to be adjusted to the set value. Default is `false`.
-perResize|`number`|yes|Reduce the width each time. To prevent jagged edges when scaling an image
+perResize|`number`|yes|Reduce the width each time. To prevent jagged edges when scaling an image. Default is `500`.
 quality|`number`|yes|A Number between 0 and 1 indicating the image quality to use for image formats that use lossy compression such as image/jpeg and image/webp. If this argument is anything else, the default value for image quality is used. The default value is 0.92. Other arguments are ignored. See [toDataURL](https://developer.mozilla.org/en-US/docs/Web/API/HTMLCanvasElement/toDataURL). Default is `0.9`.
 width|`number`|yes|The `width` of the processed image. Default is `0`.
 height|`number`|yes|The `height` of the processed image. Default is `0`.
@@ -154,7 +155,8 @@ interface MediaFileHandlerOptions {
   // force the target image width or height to be adjusted to the set value.
   // Default is `false`.
   isForce: boolean
-  // Reduce the width each time. To prevent jagged edges when scaling an image
+  // Reduce the width each time. To prevent jagged edges when scaling an image.
+  // Default is `500`.
   perResize: number
   // A Number between 0 and 1 indicating the image quality to use for image formats that use lossy compression such as image/jpeg and image/webp.
   // If this argument is anything else, the default value for image quality is used. The default value is 0.92. Other arguments are ignored.

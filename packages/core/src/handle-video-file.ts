@@ -12,6 +12,13 @@ import {
 } from '../types'
 import { DEFAULT_OPTIONS } from './options'
 
+/**
+ * @method handleVideoFile(file, options)
+ * Video file screenshot processing function.
+ * @param file `File`
+ * @param options? `Partial<MediaFileHandlerOptions>` See [MediaFileHandlerOptions](#MediaFileHandlerOptions).
+ * @returns `Promise<MediaFileHandlerData>` See [MediaFileHandlerData](#MediaFileHandlerData).
+ */
 export function handleVideoFile(
   file: File,
   options?: Partial<MediaFileHandlerOptions>

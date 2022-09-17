@@ -23,11 +23,8 @@
     "preview": "vite preview",
     "test": "vitest",
     "coverage": "vitest run --coverage",
-    "docs": "node scripts/create-docs.js",
+    "docs": "cd packages/core && pnpm run docs",
     "lint": "eslint . --fix --ext .js,.cjs,.ts"
-  },
-  "dependencies": {
-    "zx-sml": "^0.2.1"
   },
   "devDependencies": {
     "@types/jsdom": "^16.2.14",
@@ -37,6 +34,7 @@
     "eslint": "^8.17.0",
     "eslint-config-prettier": "^8.5.0",
     "eslint-import-resolver-typescript": "^2.7.1",
+    "eslint-plugin-import": "^2.26.0",
     "eslint-plugin-prettier": "^4.0.0",
     "inquirer": "^8.2.4",
     "jsdom": "^19.0.0",
@@ -48,5 +46,8 @@
   },
   "repository": "https://github.com/capricorncd/image-process-tools",
   "author": "Capricorncd <capricorncd@qq.com>",
-  "license": "MIT"
+  "license": "MIT",
+  "dependencies": {
+    "zx-sml": "^0.6.0"
+  }
 }

@@ -9,6 +9,7 @@
   ],
   "scripts": {
     "build": "vite build --emptyOutDir && node ../../scripts/after-build.js",
+    "docs": "node scripts/create-docs.js",
     "test": "vitest"
   },
   "keywords": [],

@@ -1,16 +1,16 @@
 /*!
- * image-process version 4.2.1
- * Author: Capricorncd <capricorncd@qq.com>
+ * image-process version 4.3.0
+ * Author: Xing Zhong <capricorncd@qq.com, zx198401@gmail.com>
  * Repository: https://github.com/capricorncd/image-process-tools
- * Released on: 2022-07-23 16:12:35 (GMT+0900)
+ * Released on: 2022-09-18 15:10:19 (GMT+0900)
  */
 /*!
- * zx-sml version 0.2.0
- * Author: Capricorncd <capricorncd@qq.com>
+ * zx-sml version 0.6.0
+ * Author: Xing Zhong<zx198401@gmail.com>
  * Repository: https://github.com/capricorncd/zx-sml
- * Released on: 2022-07-13 22:46:38 (GMT+0900)
+ * Released on: 2022-09-09 21:21:26 (GMT+0900)
  */
-var N = Object.defineProperty, P = Object.getOwnPropertySymbols, k = Object.prototype.hasOwnProperty, W = Object.prototype.propertyIsEnumerable, S = (t, e, i) => e in t ? N(t, e, { enumerable: !0, configurable: !0, writable: !0, value: i }) : t[e] = i, _ = (t, e) => {
+var z = Object.defineProperty, P = Object.getOwnPropertySymbols, k = Object.prototype.hasOwnProperty, W = Object.prototype.propertyIsEnumerable, S = (t, e, i) => e in t ? z(t, e, { enumerable: !0, configurable: !0, writable: !0, value: i }) : t[e] = i, p = (t, e) => {
   for (var i in e || (e = {}))
     k.call(e, i) && S(t, i, e[i]);
   if (P)
@@ -21,7 +21,7 @@ var N = Object.defineProperty, P = Object.getOwnPropertySymbols, k = Object.prot
 function V(t) {
   return Array.isArray(t);
 }
-function O(t) {
+function $(t) {
   return t !== null && !V(t) && typeof t == "object";
 }
 var Y = typeof globalThis < "u" ? globalThis : typeof window < "u" ? window : typeof global < "u" ? global : typeof self < "u" ? self : {}, f = { exports: {} };
@@ -79,8 +79,8 @@ var Y = typeof globalThis < "u" ? globalThis : typeof window < "u" ? window : ty
               s = s.replace(w, w.length === 1 ? D : d.toTwoDigits(D));
             }
           if (/(g)/i.test(s)) {
-            var T = c.toString().split(/\s+/).slice(5), z = s.includes("g");
-            s = s.replace(/g/i, z ? T[0] : T.join(" "));
+            var T = c.toString().split(/\s+/).slice(5), N = s.includes("g");
+            s = s.replace(/g/i, N ? T[0] : T.join(" "));
           }
           return s;
         }, a.toDate = o;
@@ -94,7 +94,7 @@ var Y = typeof globalThis < "u" ? globalThis : typeof window < "u" ? window : ty
     })();
   });
 })(f);
-function p(t = "", e = "-") {
+function O(t = "", e = "-") {
   return t.replace(/[A-Z]/g, (i, r) => `${r > 0 ? e : ""}${i.toLowerCase()}`);
 }
 function Z(t = "", e = !1) {
@@ -115,13 +115,13 @@ function B(t, e = !1) {
   }
   return 0;
 }
-function F(t = {}, e = !1) {
-  const i = e ? Z : p, r = {};
+function A(t = {}, e = !1) {
+  const i = e ? Z : O, r = {};
   for (const [n, a] of Object.entries(t))
-    r[i(n)] = O(a) ? F(a, e) : a;
+    r[i(n)] = $(a) ? A(a, e) : a;
   return r;
 }
-function U(t, e = !1, i = 2) {
+function F(t, e = !1, i = 2) {
   const r = ["KiB", "MiB", "GiB", "TiB", "PiB", "EiB", "ZiB", "YiB"], n = e ? 1e3 : 1024;
   let a = String(t), h = "Byte";
   for (let d = 0, l = t / n; l > 1; l /= n, d++)
@@ -133,14 +133,20 @@ function U(t, e = !1, i = 2) {
     bytes: t
   };
 }
-function m(t, e = {}, i) {
+function y(t, e = {}, i) {
   const r = document.createElement(t);
   for (const [n, a] of Object.entries(e))
-    r.setAttribute(p(n), n === "style" && O(a) ? G(a) : a);
-  return i && (typeof i == "string" ? r.innerHTML = i : r.append(i)), r;
+    r.setAttribute(O(n), n === "style" && $(a) ? G(a) : a);
+  return i && (Array.isArray(i) || (i = [i]), i.forEach((n) => {
+    if (typeof n == "string") {
+      const a = y("div");
+      a.innerHTML = n, r.append(...a.childNodes);
+    } else
+      r.append(n);
+  })), r;
 }
 function G(...t) {
-  const e = t.reduce((r, n) => _(_({}, r), F(n)), {}), i = [];
+  const e = t.reduce((r, n) => p(p({}, r), A(n)), {}), i = [];
   for (const [r, n] of Object.entries(e))
     n === "" || typeof n > "u" || n === null || i.push(`${r}:${n}`);
   return i.join(";");
@@ -158,7 +164,7 @@ function K(t) {
 function x(t) {
   return (window.URL || window.webkitURL).createObjectURL(t);
 }
-function M(t) {
+function U(t) {
   const e = t.split(",");
   let i = "";
   return /data:(\w+\/\w+);base64/.test(e[0]) && (i = RegExp.$1), {
@@ -166,8 +172,8 @@ function M(t) {
     data: e[1]
   };
 }
-function A(t, e) {
-  const i = M(t), r = window.atob(i.data);
+function M(t, e) {
+  const i = U(t), r = window.atob(i.data);
   e = e || i.type;
   const n = new Uint8Array(r.length);
   for (let a = 0; a < r.length; a++)
@@ -193,13 +199,13 @@ function C(t, e) {
       ...L,
       ...e
     };
-    typeof t == "string" && J.test(t) ? $(t, n, i, r) : (t instanceof File || t instanceof Blob) && Q.test(t.type) ? K(t).then((a) => {
-      $(a, n, i, r);
+    typeof t == "string" && J.test(t) ? E(t, n, i, r) : (t instanceof File || t instanceof Blob) && Q.test(t.type) ? K(t).then((a) => {
+      E(a, n, i, r);
     }).catch(r) : r(new Error(`Invalid file, ${t}`));
   });
 }
-function $(t, e, i, r) {
-  const { type: n } = M(t), a = A(t, n), h = new Image();
+function E(t, e, i, r) {
+  const { type: n } = U(t), a = M(t, n), h = new Image();
   h.onload = () => {
     const d = {
       element: h,
@@ -209,18 +215,18 @@ function $(t, e, i, r) {
       width: h.naturalWidth || h.width,
       height: h.naturalHeight || h.height,
       type: n,
-      size: U(a.size)
+      size: F(a.size)
     };
-    e.cropInfo && e.cropInfo.sw && e.cropInfo.sh ? E(d, e, i, r, {
+    e.cropInfo && e.cropInfo.sw && e.cropInfo.sh ? _(d, e, i, r, {
       ...e.cropInfo,
       dx: 0,
       dy: 0,
       dw: e.cropInfo.sw,
       dh: e.cropInfo.sh
-    }) : e.width > 0 && e.height > 0 ? E(d, e, i, r, I(d, e)) : e.width > 0 || e.height > 0 || e.longestSide > 0 ? X(d, e, i, r) : y({ ...d, raw: d }, e, i);
+    }) : e.width && e.height ? _(d, e, i, r, I(d, e)) : e.width || e.height || e.longestSide ? X(d, e, i, r) : m({ ...d, raw: d }, e, i);
   }, h.onerror = r, h.src = t;
 }
-function E(t, e, i, r, n) {
+function _(t, e, i, r, n) {
   try {
     Object.prototype.hasOwnProperty.call(n, "enableDevicePixelRatio") || (n.enableDevicePixelRatio = e.enableDevicePixelRatio);
     const a = v(t.element, {
@@ -247,7 +253,7 @@ function E(t, e, i, r, n) {
 }
 function X(t, e, i, r) {
   try {
-    e.longestSide > 0 && !e.width && !e.height && (t.width >= t.height ? e.width = e.longestSide : e.height = e.longestSide);
+    e.longestSide && !e.width && !e.height && (t.width >= t.height ? e.width = e.longestSide : e.height = e.longestSide);
     const n = {
       enableDevicePixelRatio: e.enableDevicePixelRatio,
       sx: 0,
@@ -259,15 +265,15 @@ function X(t, e, i, r) {
       dw: e.width,
       dh: e.height
     };
-    if (e.width > 0) {
+    if (e.width) {
       if (t.width < e.width && !e.isForce) {
-        y({ ...t, raw: t }, e, i);
+        m({ ...t, raw: t }, e, i);
         return;
       }
       n.dh = t.height * e.width / t.width, e.height = n.dh;
     } else {
       if (t.height < e.height && !e.isForce) {
-        y({ ...t, raw: t }, e, i);
+        m({ ...t, raw: t }, e, i);
         return;
       }
       n.dw = t.width * e.height / t.height, e.width = n.dw;
@@ -277,7 +283,7 @@ function X(t, e, i, r) {
     r(n);
   }
 }
-function y(t, e, i) {
+function m(t, e, i) {
   t.type !== e.mimeType ? (t.type = e.mimeType, H(t.element, t.raw, e, {
     enableDevicePixelRatio: e.enableDevicePixelRatio,
     sx: 0,
@@ -300,7 +306,7 @@ function j(t, e, i, r, n) {
   r.sw = t.width, r.sh = t.height, r.dw = i.width, r.dh = i.height, H(t, e, i, r, n);
 }
 function H(t, e, i, r, n) {
-  const a = v(t, r), h = /^\w+\/\*$/.test(i.mimeType) || !i.mimeType ? e.type : i.mimeType, d = a.toDataURL(h, i.quality), l = A(d, h);
+  const a = v(t, r), h = /^\w+\/\*$/.test(i.mimeType) || !i.mimeType ? e.type : i.mimeType, d = a.toDataURL(h, i.quality), l = M(d, h);
   n({
     element: a,
     type: h,
@@ -309,7 +315,7 @@ function H(t, e, i, r, n) {
     blob: l,
     data: d,
     url: x(l),
-    size: U(l.size),
+    size: F(l.size),
     raw: e
   });
 }
@@ -342,7 +348,7 @@ function I(t, e) {
   };
 }
 function v(t, e) {
-  const i = e.enableDevicePixelRatio && window.devicePixelRatio || 1, r = m("canvas");
+  const i = e.enableDevicePixelRatio && window.devicePixelRatio || 1, r = y("canvas");
   r.width = e.dw * i, r.height = e.dh * i;
   const n = r.getContext("2d");
   return n.scale(i, i), n.drawImage(t, e.sx, e.sy, e.sw, e.sh, e.dx, e.dy, e.dw, e.dh), r;
@@ -353,7 +359,7 @@ function ee(t, e) {
       ...L,
       ...e
     }, a = x(t);
-    let h = m("video", {
+    let h = y("video", {
       src: a,
       autoplay: !0
     }), d = !1;
@@ -383,7 +389,7 @@ function ee(t, e) {
 function te(t, { currentTime: e, videoWidth: i, videoHeight: r }) {
   return new Promise((n) => {
     t.currentTime = e, t.pause();
-    const a = "image/jpeg", h = m("canvas"), d = h.getContext("2d");
+    const a = "image/jpeg", h = y("canvas"), d = h.getContext("2d");
     h.width = i, h.height = r, setTimeout(() => {
       d.drawImage(t, 0, 0, h.width, h.height), n(h.toDataURL(a));
     }, 500);
@@ -396,13 +402,13 @@ function ie(t, e) {
   });
 }
 export {
-  A as base64ToBlob,
+  M as base64ToBlob,
   x as createBlobURL,
-  m as createElement,
+  y as createElement,
   K as fileToBase64,
-  U as formatBytes,
+  F as formatBytes,
   C as handleImageFile,
   ie as handleMediaFile,
   ee as handleVideoFile,
-  M as splitBase64
+  U as splitBase64
 };

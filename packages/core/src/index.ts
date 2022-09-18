@@ -1,6 +1,7 @@
 /**
  * Created by Capricorncd.
  * https://github.com/capricorncd
+ * https://github.com/xing1984
  * Date: 2020-09-06 18:45
  *
  * @document image-process
@@ -13,8 +14,8 @@
  *
  * A Image clipping or scaling, support local or same domain video file screenshot. It's implemented  in canvas.
  *
- * - Image cropping: Just set valid cropping parameters (See [MediaFileHandlerOptions](#MediaFileHandlerOptions)), or set valid width and height, the image will be centered and cropped.
- * - Proportional scaling: set width or height.
+ * - Image cropping: Just set valid cropping options (See [MediaFileHandlerOptions](#MediaFileHandlerOptions)), or set valid width and height, the image will be centered and cropped.
+ * - Proportional scaling: Just set the width or height.
  * - Video screenshot: Take a picture according to the set `currentTime` of the [MediaFileHandlerOptions](#MediaFileHandlerOptions).
  *
  * [中文文档](./docs)
@@ -72,19 +73,19 @@
  */
 import { handleImageFile } from './handle-image-file'
 import { handleVideoFile } from './handle-video-file'
-import { MediaFileHandlerOptions, MediaFileHandlerData } from '../types'
+import { MediaFileHandlerOptions, MediaFileHandlerResult } from '../types'
 
 /**
  * @method handleMediaFile(file, options)
  * Image processing or video screenshot processing function.
  * @param file `File` Image or video file.
  * @param options? `Partial<MediaFileHandlerOptions>` See [MediaFileHandlerOptions](#MediaFileHandlerOptions).
- * @returns `Promise<MediaFileHandlerData>` See [MediaFileHandlerData](#MediaFileHandlerData).
+ * @returns `Promise<MediaFileHandlerResult>` See [MediaFileHandlerResult](#MediaFileHandlerResult).
  */
 export function handleMediaFile(
   file: File,
-  options?: Partial<MediaFileHandlerOptions>
-): Promise<MediaFileHandlerData> {
+  options?: MediaFileHandlerOptions
+): Promise<MediaFileHandlerResult> {
   return new Promise((resolve, reject) => {
     // check file type
     const fileType = file.type

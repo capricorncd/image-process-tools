@@ -1,6 +1,6 @@
 {
   "name": "image-process",
-  "version": "4.2.2",
+  "version": "4.3.0",
   "description": "A Image clipping or scaling, support local or same domain video file screenshot. It's implemented  in canvas.",
   "main": "dist/image-process.umd.js",
   "module": "dist/image-process.es.js",
@@ -51,7 +51,7 @@
     "vitest": "^0.18.0"
   },
   "repository": "https://github.com/capricorncd/image-process-tools",
-  "author": "Xing Zhong <capricorncd@qq.com>",
+  "author": "Xing Zhong <capricorncd@qq.com, zx198401@gmail.com>",
   "license": "MIT",
   "dependencies": {
     "zx-sml": "^0.6.0"

@@ -5,8 +5,8 @@
  */
 import {
   MediaFileHandlerRawData,
-  MediaFileHandlerOptions,
-  MediaFileHandlerData,
+  ImageHandlerOptions,
+  ImageHandlerResult,
   DrawImageParams,
   ImageProcessResolve,
   ImageProcessReject,
@@ -27,16 +27,16 @@ const imageReg = /^image\/.+/
 /**
  * @method handleImageFile(file, options)
  * Image file compression or cropping function.
- * @param file `File | Blob | string` File or base64 string.
- * @param options? `Partial<MediaFileHandlerOptions>` See [MediaFileHandlerOptions](#MediaFileHandlerOptions).
- * @returns `Promise<MediaFileHandlerData>` See [MediaFileHandlerData](#MediaFileHandlerData).
+ * @param file `File | Blob | string` It's string can only be base64 data.
+ * @param options? `ImageHandlerOptions` See [ImageHandlerOptions](#ImageHandlerOptions).
+ * @returns `Promise<ImageHandlerResult>` See [ImageHandlerResult](#ImageHandlerResult).
  */
 export function handleImageFile(
   file: File | Blob | string,
-  options?: Partial<MediaFileHandlerOptions>
-): Promise<MediaFileHandlerData> {
+  options?: ImageHandlerOptions
+): Promise<ImageHandlerResult> {
   return new Promise((resolve, reject) => {
-    const _options: MediaFileHandlerOptions = {
+    const _options: ImageHandlerOptions = {
       ...DEFAULT_OPTIONS,
       ...options,
     }
@@ -64,7 +64,7 @@ export function handleImageFile(
 
 function handleImageBase64(
   base64: string,
-  options: MediaFileHandlerOptions,
+  options: ImageHandlerOptions,
   resolve: ImageProcessResolve,
   reject: ImageProcessReject
 ): void {
@@ -91,13 +91,9 @@ function handleImageBase64(
         dw: options.cropInfo.sw,
         dh: options.cropInfo.sh,
       })
-    } else if (options.width > 0 && options.height > 0) {
+    } else if (options.width && options.height) {
       cropImage(raw, options, resolve, reject, initCropInfo(raw, options))
-    } else if (
-      options.width > 0 ||
-      options.height > 0 ||
-      options.longestSide > 0
-    ) {
+    } else if (options.width || options.height || options.longestSide) {
       proportionalZoom(raw, options, resolve, reject)
     } else {
       checkResult({ ...raw, raw }, options, resolve)
@@ -109,7 +105,7 @@ function handleImageBase64(
 
 function cropImage(
   raw: MediaFileHandlerRawData,
-  options: MediaFileHandlerOptions,
+  options: ImageHandlerOptions,
   resolve: ImageProcessResolve,
   reject: ImageProcessReject,
   cropInfo: DrawImageParams
@@ -149,7 +145,7 @@ function cropImage(
         options.height = cropInfo.sh
       }
     } else if (!options.width) {
-      options.width = (cropInfo.sw * options.height) / cropInfo.sh
+      options.width = (cropInfo.sw * options.height!) / cropInfo.sh
     } else {
       options.height = (cropInfo.sh * options.width) / cropInfo.sw
     }
@@ -181,12 +177,12 @@ function cropImage(
  */
 function proportionalZoom(
   raw: MediaFileHandlerRawData,
-  options: MediaFileHandlerOptions,
+  options: ImageHandlerOptions,
   resolve: ImageProcessResolve,
   reject: ImageProcessReject
 ): void {
   try {
-    if (options.longestSide > 0 && !options.width && !options.height) {
+    if (options.longestSide && !options.width && !options.height) {
       if (raw.width >= raw.height) {
         options.width = options.longestSide
       } else {
@@ -202,11 +198,11 @@ function proportionalZoom(
       sh: raw.height,
       dx: 0,
       dy: 0,
-      dw: options.width,
-      dh: options.height,
+      dw: options.width!,
+      dh: options.height!,
     }
 
-    if (options.width > 0) {
+    if (options.width) {
       // The original image width is smaller than the target cropping width,
       // and don't force the image width
       if (raw.width < options.width && !options.isForce) {
@@ -218,11 +214,11 @@ function proportionalZoom(
     } else {
       // The original image height is smaller than the target cropping height,
       // and don't force the image height
-      if (raw.height < options.height && !options.isForce) {
+      if (raw.height < options.height! && !options.isForce) {
         checkResult({ ...raw, raw }, options, resolve)
         return
       }
-      cropInfo.dw = (raw.width * options.height) / raw.height
+      cropInfo.dw = (raw.width * options.height!) / raw.height
       options.width = cropInfo.dw
     }
 
@@ -233,12 +229,12 @@ function proportionalZoom(
 }
 
 function checkResult(
-  res: MediaFileHandlerData,
-  options: MediaFileHandlerOptions,
+  res: ImageHandlerResult,
+  options: ImageHandlerOptions,
   resolve: ImageProcessResolve
 ): void {
   if (res.type !== options.mimeType) {
-    res.type = options.mimeType
+    res.type = options.mimeType!
     processImage(
       res.element,
       res.raw,
@@ -264,20 +260,20 @@ function checkResult(
 function imageProcess(
   el: HTMLImageElement | HTMLCanvasElement,
   raw: MediaFileHandlerRawData,
-  options: MediaFileHandlerOptions,
+  options: ImageHandlerOptions,
   cropInfo: DrawImageParams,
   resolve: ImageProcessResolve
 ): void {
   let nextScalePx =
     raw.width > raw.height ? raw.width - cropInfo.dw : raw.height - cropInfo.dh
-  if (nextScalePx > options.perResize) {
+  if (nextScalePx > options.perResize!) {
     const radio = raw.height / raw.width
-    while (nextScalePx > options.perResize) {
-      nextScalePx -= options.perResize
+    while (nextScalePx > options.perResize!) {
+      nextScalePx -= options.perResize!
       // There is a problem with getting the EL width and height value here
       cropInfo.sw = el.width
       cropInfo.sh = el.height
-      cropInfo.dw = options.width + nextScalePx
+      cropInfo.dw = options.width! + nextScalePx
       cropInfo.dh = cropInfo.dw * radio
       el = createCanvas(el, cropInfo)
     }
@@ -287,8 +283,8 @@ function imageProcess(
   // or after while (nextScalePx > options.perResize)
   cropInfo.sw = el.width
   cropInfo.sh = el.height
-  cropInfo.dw = options.width
-  cropInfo.dh = options.height
+  cropInfo.dw = options.width!
+  cropInfo.dh = options.height!
 
   processImage(el, raw, options, cropInfo, resolve)
 }
@@ -296,14 +292,14 @@ function imageProcess(
 function processImage(
   el: HTMLImageElement | HTMLCanvasElement,
   raw: MediaFileHandlerRawData,
-  options: MediaFileHandlerOptions,
+  options: ImageHandlerOptions,
   cropInfo: DrawImageParams,
   resolve: ImageProcessResolve
 ): void {
   const canvas = createCanvas(el, cropInfo)
   // When mimeType is image/*, video/* or '', use the original file type.
   const mineType =
-    /^\w+\/\*$/.test(options.mimeType) || !options.mimeType
+    /^\w+\/\*$/.test(options.mimeType!) || !options.mimeType
       ? raw.type
       : options.mimeType
   const base64 = canvas.toDataURL(mineType, options.quality)
@@ -330,12 +326,12 @@ function processImage(
  */
 function initCropInfo(
   raw: MediaFileHandlerRawData,
-  options: MediaFileHandlerOptions
+  options: ImageHandlerOptions
 ): DrawImageParams {
   const { width: rw, height: rh } = raw
   const { width, height } = options
   let cropInfo
-  const tempWidth = (rh * width) / height
+  const tempWidth = (rh * width!) / height!
   if (rw > tempWidth) {
     cropInfo = {
       sx: (rw - tempWidth) / 2,
@@ -344,7 +340,7 @@ function initCropInfo(
       sh: rh,
     }
   } else {
-    const tempHeight = (rw * height) / width
+    const tempHeight = (rw * height!) / width!
     cropInfo = {
       sx: 0,
       sy: (rh - tempHeight) / 2,
@@ -356,8 +352,8 @@ function initCropInfo(
     ...cropInfo,
     dx: 0,
     dy: 0,
-    dw: width,
-    dh: height,
+    dw: width!,
+    dh: height!,
   }
 }
 

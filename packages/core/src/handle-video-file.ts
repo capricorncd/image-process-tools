@@ -5,24 +5,20 @@
  */
 import { createElement, createBlobURL, toNumber } from 'zx-sml'
 import { handleImageFile } from './handle-image-file'
-import {
-  VideoInfo,
-  MediaFileHandlerOptions,
-  MediaFileHandlerData,
-} from '../types'
+import { VideoInfo, VideoHandlerOptions, VideoHandlerResult } from '../types'
 import { DEFAULT_OPTIONS } from './options'
 
 /**
  * @method handleVideoFile(file, options)
  * Video file screenshot processing function.
  * @param file `File`
- * @param options? `Partial<MediaFileHandlerOptions>` See [MediaFileHandlerOptions](#MediaFileHandlerOptions).
- * @returns `Promise<MediaFileHandlerData>` See [MediaFileHandlerData](#MediaFileHandlerData).
+ * @param options? `VideoHandlerOptions` See [VideoHandlerOptions](#VideoHandlerOptions).
+ * @returns `Promise<VideoHandlerResult>` See [VideoHandlerResult](#VideoHandlerResult).
  */
 export function handleVideoFile(
   file: File,
-  options?: Partial<MediaFileHandlerOptions>
-): Promise<MediaFileHandlerData> {
+  options?: VideoHandlerOptions
+): Promise<VideoHandlerResult> {
   return new Promise((resolve, reject) => {
     const _options = {
       ...DEFAULT_OPTIONS,

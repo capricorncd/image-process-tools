@@ -6,38 +6,54 @@
 export * from './src'
 
 /**
- * @type MediaFileHandlerOptions
- * An options of the [handleImageFile](#handleimagefilefile-options)/[handleMediaFile](#handlemediafilefile-options)/[handleVideoFile](#handlevideofilefile-options) function.
+ * @type ImageHandlerOptions
+ * An options of the [handleImageFile](#handleimagefilefile-options) function.
  */
-export interface MediaFileHandlerOptions {
+export interface ImageHandlerOptions {
   // Whether to enable the device pixel ratio, when 2 times, the size of the returned image is x2. Default is `false`.
-  enableDevicePixelRatio: boolean
+  enableDevicePixelRatio?: boolean
   // Multipurpose Internet Mail Extensions. Default is `image/jpeg`.
   // https://developer.mozilla.org/en-US/docs/Web/HTTP/Basics_of_HTTP/MIME_types
-  mimeType: string
+  mimeType?: string
   // When the image width or height is less than the set value,
   // force the target image width or height to be adjusted to the set value.
   // Default is `false`.
-  isForce: boolean
+  isForce?: boolean
   // Reduce the width each time. To prevent jagged edges when scaling an image.
   // Default is `500`.
-  perResize: number
+  perResize?: number
   // A Number between 0 and 1 indicating the image quality to use for image formats that use lossy compression such as image/jpeg and image/webp.
   // If this argument is anything else, the default value for image quality is used. The default value is 0.92. Other arguments are ignored.
   // See [toDataURL](https://developer.mozilla.org/en-US/docs/Web/API/HTMLCanvasElement/toDataURL).
   // Default is `0.9`.
-  quality: number
+  quality?: number
   // The `width` of the processed image. Default is `0`.
-  width: number
+  width?: number
   // The `height` of the processed image. Default is `0`.
-  height: number
+  height?: number
   // The size of the longest side. Valid when width and height are `0`. Default is `0`.
-  longestSide: number
+  longestSide?: number
   // See [OptionsCropInfo](#OptionsCropInfo).
   cropInfo?: OptionsCropInfo
-  // The `HTMLMediaElement` interface's `currentTime` property specifies the current playback time in seconds. If it is longer than the video duration, the last frame will be captured. The default is a `random` timestamp in the video duration.
+}
+
+/**
+ * @type VideoHandlerOptions
+ * An options of the [handleVideoFile](#handlevideofilefile-options) function.
+ */
+export interface VideoHandlerOptions extends ImageHandlerOptions {
+  // The `HTMLMediaElement` interface's `currentTime` property specifies the current playback time in seconds.
+  // If it is longer than the video duration, the last frame will be captured.
+  // The default is a `random` timestamp in the video duration.
   currentTime?: number
 }
+
+/**
+ * @type MediaFileHandlerOptions
+ * An options of the [handleMediaFile](#handlemediafilefile-options) function.
+ * See [VideoHandlerOptions](#VideoHandlerOptions).
+ */
+export type MediaFileHandlerOptions = ImageHandlerOptions | VideoHandlerOptions
 
 /**
  * @type SizeInfo
@@ -78,16 +94,37 @@ export interface MediaFileHandlerRawData {
 }
 
 /**
- * @type MediaFileHandlerData
- * Data returned of the [handleImageFile](#handleimagefilefile-options)/[handleMediaFile](#handlemediafilefile-options)/[handleVideoFile](#handlevideofilefile-options) function.
+ * @type ImageHandlerResult
+ * Data returned of the [handleImageFile](#handleimagefilefile-options) function.
  */
-export interface MediaFileHandlerData extends MediaFileHandlerRawData {
+export interface ImageHandlerResult extends MediaFileHandlerRawData {
+  // `HTMLImageElement` or `HTMLCanvasElement`.
   element: HTMLImageElement | HTMLCanvasElement
   // Raw information of the image file being processed. See [MediaFileHandlerRawData].(#MediaFileHandlerRawData).
   raw: MediaFileHandlerRawData
-  // When taking a screenshot of the video, the original video file information. See [VideoInfo](#VideoInfo).
-  videoInfo?: VideoInfo
 }
+
+/**
+ * @type VideoHandlerResult
+ * Data returned of the [handleVideoFile](#handlevideofilefile-options) function.
+ */
+export interface VideoHandlerResult extends ImageHandlerResult {
+  // When taking a screenshot of the video, the original video file information.
+  // See [VideoInfo](#VideoInfo).
+  videoInfo: VideoInfo
+}
+
+/**
+ * @type MediaFileHandlerResult
+ * Data returned of the [handleMediaFile](#handlemediafilefile-options) function.
+ */
+export type MediaFileHandlerResult = ImageHandlerResult | VideoHandlerResult
+
+/**
+ * MediaFileHandlerData
+ * This type will be removed in future versions.
+ */
+export type MediaFileHandlerData = MediaFileHandlerResult
 
 /**
  * ImageProcessResolve

@@ -8,8 +8,8 @@
 
 A Image clipping or scaling, support local or same domain video file screenshot. It's implemented  in canvas.
 
-- Image cropping: Just set valid cropping parameters (See [MediaFileHandlerOptions](#MediaFileHandlerOptions)), or set valid width and height, the image will be centered and cropped.
-- Proportional scaling: set width or height.
+- Image cropping: Just set valid cropping options (See [MediaFileHandlerOptions](#MediaFileHandlerOptions)), or set valid width and height, the image will be centered and cropped.
+- Proportional scaling: Just set the width or height.
 - Video screenshot: Take a picture according to the set `currentTime` of the [MediaFileHandlerOptions](#MediaFileHandlerOptions).
 
 [中文文档](./docs)
@@ -73,10 +73,10 @@ Image file compression or cropping function.
 
 Param|Types|Required|Description
 :--|:--|:--|:--
-file|`File`/`Blob`/`string`|yes|File or base64 string.
-options|`Partial<MediaFileHandlerOptions>`|no|See [MediaFileHandlerOptions](#MediaFileHandlerOptions).
+file|`File`/`Blob`/`string`|yes|It's string can only be base64 data.
+options|`ImageHandlerOptions`|no|See [ImageHandlerOptions](#ImageHandlerOptions).
 
-- @returns `Promise<MediaFileHandlerData>` See [MediaFileHandlerData](#MediaFileHandlerData).
+- @returns `Promise<ImageHandlerResult>` See [ImageHandlerResult](#ImageHandlerResult).
 
 ### handleMediaFile(file, options)
 
@@ -87,7 +87,7 @@ Param|Types|Required|Description
 file|`File`|yes|Image or video file.
 options|`Partial<MediaFileHandlerOptions>`|no|See [MediaFileHandlerOptions](#MediaFileHandlerOptions).
 
-- @returns `Promise<MediaFileHandlerData>` See [MediaFileHandlerData](#MediaFileHandlerData).
+- @returns `Promise<MediaFileHandlerResult>` See [MediaFileHandlerResult](#MediaFileHandlerResult).
 
 ### handleVideoFile(file, options)
 
@@ -96,15 +96,66 @@ Video file screenshot processing function.
 Param|Types|Required|Description
 :--|:--|:--|:--
 file|`File`|yes|-
-options|`Partial<MediaFileHandlerOptions>`|no|See [MediaFileHandlerOptions](#MediaFileHandlerOptions).
+options|`VideoHandlerOptions`|no|See [VideoHandlerOptions](#VideoHandlerOptions).
 
-- @returns `Promise<MediaFileHandlerData>` See [MediaFileHandlerData](#MediaFileHandlerData).
+- @returns `Promise<VideoHandlerResult>` See [VideoHandlerResult](#VideoHandlerResult).
 
 ## Types
 
-### MediaFileHandlerData
+### ImageHandlerOptions
 
-Data returned of the [handleImageFile](#handleimagefilefile-options)/[handleMediaFile](#handlemediafilefile-options)/[handleVideoFile](#handlevideofilefile-options) function.
+An options of the [handleImageFile](#handleimagefilefile-options) function.
+
+Prop|Types|Required|Description
+:--|:--|:--|:--
+enableDevicePixelRatio|`boolean`|no|Whether to enable the device pixel ratio, when 2 times, the size of the returned image is x2. Default is `false`.
+mimeType|`string`|no|Multipurpose Internet Mail Extensions. Default is `image/jpeg`. https://developer.mozilla.org/en-US/docs/Web/HTTP/Basics_of_HTTP/MIME_types
+isForce|`boolean`|no|When the image width or height is less than the set value, force the target image width or height to be adjusted to the set value. Default is `false`.
+perResize|`number`|no|Reduce the width each time. To prevent jagged edges when scaling an image. Default is `500`.
+quality|`number`|no|A Number between 0 and 1 indicating the image quality to use for image formats that use lossy compression such as image/jpeg and image/webp. If this argument is anything else, the default value for image quality is used. The default value is 0.92. Other arguments are ignored. See [toDataURL](https://developer.mozilla.org/en-US/docs/Web/API/HTMLCanvasElement/toDataURL). Default is `0.9`.
+width|`number`|no|The `width` of the processed image. Default is `0`.
+height|`number`|no|The `height` of the processed image. Default is `0`.
+longestSide|`number`|no|The size of the longest side. Valid when width and height are `0`. Default is `0`.
+cropInfo|`OptionsCropInfo`|no|See [OptionsCropInfo](#OptionsCropInfo).
+
+<details>
+<summary>Source Code</summary>
+
+```ts
+interface ImageHandlerOptions {
+  // Whether to enable the device pixel ratio, when 2 times, the size of the returned image is x2. Default is `false`.
+  enableDevicePixelRatio?: boolean
+  // Multipurpose Internet Mail Extensions. Default is `image/jpeg`.
+  // https://developer.mozilla.org/en-US/docs/Web/HTTP/Basics_of_HTTP/MIME_types
+  mimeType?: string
+  // When the image width or height is less than the set value,
+  // force the target image width or height to be adjusted to the set value.
+  // Default is `false`.
+  isForce?: boolean
+  // Reduce the width each time. To prevent jagged edges when scaling an image.
+  // Default is `500`.
+  perResize?: number
+  // A Number between 0 and 1 indicating the image quality to use for image formats that use lossy compression such as image/jpeg and image/webp.
+  // If this argument is anything else, the default value for image quality is used. The default value is 0.92. Other arguments are ignored.
+  // See [toDataURL](https://developer.mozilla.org/en-US/docs/Web/API/HTMLCanvasElement/toDataURL).
+  // Default is `0.9`.
+  quality?: number
+  // The `width` of the processed image. Default is `0`.
+  width?: number
+  // The `height` of the processed image. Default is `0`.
+  height?: number
+  // The size of the longest side. Valid when width and height are `0`. Default is `0`.
+  longestSide?: number
+  // See [OptionsCropInfo](#OptionsCropInfo).
+  cropInfo?: OptionsCropInfo
+}
+```
+
+</details>
+
+### ImageHandlerResult
+
+Data returned of the [handleImageFile](#handleimagefilefile-options) function.
 
 Prop|Types|Required|Description
 :--|:--|:--|:--
@@ -115,20 +166,18 @@ height|`number`|yes|The height of the image.
 type|`string`|yes|The type of the image.
 size|`SizeInfo`|yes|The size information of the image. See [SizeInfo](#SizeInfo).
 url|`string`|yes|A blob url of the image.
-element|`HTMLImageElement`/`HTMLCanvasElement`|yes|-
+element|`HTMLImageElement`/`HTMLCanvasElement`|yes|`HTMLImageElement` or `HTMLCanvasElement`.
 raw|`MediaFileHandlerRawData`|yes|Raw information of the image file being processed. See [MediaFileHandlerRawData].(#MediaFileHandlerRawData).
-videoInfo|`VideoInfo`|no|When taking a screenshot of the video, the original video file information. See [VideoInfo](#VideoInfo).
 
 <details>
 <summary>Source Code</summary>
 
 ```ts
-interface MediaFileHandlerData extends MediaFileHandlerRawData {
+interface ImageHandlerResult extends MediaFileHandlerRawData {
+  // `HTMLImageElement` or `HTMLCanvasElement`.
   element: HTMLImageElement | HTMLCanvasElement
   // Raw information of the image file being processed. See [MediaFileHandlerRawData].(#MediaFileHandlerRawData).
   raw: MediaFileHandlerRawData
-  // When taking a screenshot of the video, the original video file information. See [VideoInfo](#VideoInfo).
-  videoInfo?: VideoInfo
 }
 ```
 
@@ -136,57 +185,12 @@ interface MediaFileHandlerData extends MediaFileHandlerRawData {
 
 ### MediaFileHandlerOptions
 
-An options of the [handleImageFile](#handleimagefilefile-options)/[handleMediaFile](#handlemediafilefile-options)/[handleVideoFile](#handlevideofilefile-options) function.
-
-Prop|Types|Required|Description
-:--|:--|:--|:--
-enableDevicePixelRatio|`boolean`|yes|Whether to enable the device pixel ratio, when 2 times, the size of the returned image is x2. Default is `false`.
-mimeType|`string`|yes|Multipurpose Internet Mail Extensions. Default is `image/jpeg`. https://developer.mozilla.org/en-US/docs/Web/HTTP/Basics_of_HTTP/MIME_types
-isForce|`boolean`|yes|When the image width or height is less than the set value, force the target image width or height to be adjusted to the set value. Default is `false`.
-perResize|`number`|yes|Reduce the width each time. To prevent jagged edges when scaling an image. Default is `500`.
-quality|`number`|yes|A Number between 0 and 1 indicating the image quality to use for image formats that use lossy compression such as image/jpeg and image/webp. If this argument is anything else, the default value for image quality is used. The default value is 0.92. Other arguments are ignored. See [toDataURL](https://developer.mozilla.org/en-US/docs/Web/API/HTMLCanvasElement/toDataURL). Default is `0.9`.
-width|`number`|yes|The `width` of the processed image. Default is `0`.
-height|`number`|yes|The `height` of the processed image. Default is `0`.
-longestSide|`number`|yes|The size of the longest side. Valid when width and height are `0`. Default is `0`.
-cropInfo|`OptionsCropInfo`|no|See [OptionsCropInfo](#OptionsCropInfo).
-currentTime|`number`|no|The `HTMLMediaElement` interface's `currentTime` property specifies the current playback time in seconds. If it is longer than the video duration, the last frame will be captured. The default is a `random` timestamp in the video duration.
-
-<details>
-<summary>Source Code</summary>
+An options of the [handleMediaFile](#handlemediafilefile-options) function.
+See [VideoHandlerOptions](#VideoHandlerOptions).
 
 ```ts
-interface MediaFileHandlerOptions {
-  // Whether to enable the device pixel ratio, when 2 times, the size of the returned image is x2. Default is `false`.
-  enableDevicePixelRatio: boolean
-  // Multipurpose Internet Mail Extensions. Default is `image/jpeg`.
-  // https://developer.mozilla.org/en-US/docs/Web/HTTP/Basics_of_HTTP/MIME_types
-  mimeType: string
-  // When the image width or height is less than the set value,
-  // force the target image width or height to be adjusted to the set value.
-  // Default is `false`.
-  isForce: boolean
-  // Reduce the width each time. To prevent jagged edges when scaling an image.
-  // Default is `500`.
-  perResize: number
-  // A Number between 0 and 1 indicating the image quality to use for image formats that use lossy compression such as image/jpeg and image/webp.
-  // If this argument is anything else, the default value for image quality is used. The default value is 0.92. Other arguments are ignored.
-  // See [toDataURL](https://developer.mozilla.org/en-US/docs/Web/API/HTMLCanvasElement/toDataURL).
-  // Default is `0.9`.
-  quality: number
-  // The `width` of the processed image. Default is `0`.
-  width: number
-  // The `height` of the processed image. Default is `0`.
-  height: number
-  // The size of the longest side. Valid when width and height are `0`. Default is `0`.
-  longestSide: number
-  // See [OptionsCropInfo](#OptionsCropInfo).
-  cropInfo?: OptionsCropInfo
-  // The `HTMLMediaElement` interface's `currentTime` property specifies the current playback time in seconds. If it is longer than the video duration, the last frame will be captured. The default is a `random` timestamp in the video duration.
-  currentTime?: number
-}
+type MediaFileHandlerOptions = ImageHandlerOptions | VideoHandlerOptions
 ```
-
-</details>
 
 ### MediaFileHandlerRawData
 
@@ -228,6 +232,14 @@ interface MediaFileHandlerRawData {
 ```
 
 </details>
+
+### MediaFileHandlerResult
+
+Data returned of the [handleMediaFile](#handlemediafilefile-options) function.
+
+```ts
+type MediaFileHandlerResult = ImageHandlerResult | VideoHandlerResult
+```
 
 ### OptionsCropInfo
 
@@ -286,6 +298,67 @@ interface SizeInfo {
   value: number
   // What is the size of the image in bytes.
   bytes: number
+}
+```
+
+</details>
+
+### VideoHandlerOptions
+
+An options of the [handleVideoFile](#handlevideofilefile-options) function.
+
+Prop|Types|Required|Description
+:--|:--|:--|:--
+enableDevicePixelRatio|`boolean`|no|Whether to enable the device pixel ratio, when 2 times, the size of the returned image is x2. Default is `false`.
+mimeType|`string`|no|Multipurpose Internet Mail Extensions. Default is `image/jpeg`. https://developer.mozilla.org/en-US/docs/Web/HTTP/Basics_of_HTTP/MIME_types
+isForce|`boolean`|no|When the image width or height is less than the set value, force the target image width or height to be adjusted to the set value. Default is `false`.
+perResize|`number`|no|Reduce the width each time. To prevent jagged edges when scaling an image. Default is `500`.
+quality|`number`|no|A Number between 0 and 1 indicating the image quality to use for image formats that use lossy compression such as image/jpeg and image/webp. If this argument is anything else, the default value for image quality is used. The default value is 0.92. Other arguments are ignored. See [toDataURL](https://developer.mozilla.org/en-US/docs/Web/API/HTMLCanvasElement/toDataURL). Default is `0.9`.
+width|`number`|no|The `width` of the processed image. Default is `0`.
+height|`number`|no|The `height` of the processed image. Default is `0`.
+longestSide|`number`|no|The size of the longest side. Valid when width and height are `0`. Default is `0`.
+cropInfo|`OptionsCropInfo`|no|See [OptionsCropInfo](#OptionsCropInfo).
+currentTime|`number`|no|The `HTMLMediaElement` interface's `currentTime` property specifies the current playback time in seconds. If it is longer than the video duration, the last frame will be captured. The default is a `random` timestamp in the video duration.
+
+<details>
+<summary>Source Code</summary>
+
+```ts
+interface VideoHandlerOptions extends ImageHandlerOptions {
+  // The `HTMLMediaElement` interface's `currentTime` property specifies the current playback time in seconds.
+  // If it is longer than the video duration, the last frame will be captured.
+  // The default is a `random` timestamp in the video duration.
+  currentTime?: number
+}
+```
+
+</details>
+
+### VideoHandlerResult
+
+Data returned of the [handleVideoFile](#handlevideofilefile-options) function.
+
+Prop|Types|Required|Description
+:--|:--|:--|:--
+blob|`Blob`|yes|Image blob data.
+data|`string`|yes|Image base64 data.
+width|`number`|yes|The width of the image.
+height|`number`|yes|The height of the image.
+type|`string`|yes|The type of the image.
+size|`SizeInfo`|yes|The size information of the image. See [SizeInfo](#SizeInfo).
+url|`string`|yes|A blob url of the image.
+element|`HTMLImageElement`/`HTMLCanvasElement`|yes|`HTMLImageElement` or `HTMLCanvasElement`.
+raw|`MediaFileHandlerRawData`|yes|Raw information of the image file being processed. See [MediaFileHandlerRawData].(#MediaFileHandlerRawData).
+videoInfo|`VideoInfo`|yes|When taking a screenshot of the video, the original video file information. See [VideoInfo](#VideoInfo).
+
+<details>
+<summary>Source Code</summary>
+
+```ts
+interface VideoHandlerResult extends ImageHandlerResult {
+  // When taking a screenshot of the video, the original video file information.
+  // See [VideoInfo](#VideoInfo).
+  videoInfo: VideoInfo
 }
 ```
 

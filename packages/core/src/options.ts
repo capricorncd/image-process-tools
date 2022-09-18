@@ -3,9 +3,7 @@
  * https://github.com/capricorncd
  * Date: 2022/07/14 21:12:00 (GMT+0900)
  */
-import { MediaFileHandlerOptions } from '../types'
-
-export const DEFAULT_OPTIONS: MediaFileHandlerOptions = {
+export const DEFAULT_OPTIONS = {
   // Process images according to device pixel ratio
   enableDevicePixelRatio: false,
   // When the image width or height is less than the set value,

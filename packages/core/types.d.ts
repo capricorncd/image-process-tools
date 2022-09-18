@@ -53,7 +53,7 @@ export interface VideoHandlerOptions extends ImageHandlerOptions {
  * An options of the [handleMediaFile](#handlemediafilefile-options) function.
  * See [VideoHandlerOptions](#VideoHandlerOptions).
  */
-export type MediaFileHandlerOptions = ImageHandlerOptions | VideoHandlerOptions
+export type MediaFileHandlerOptions = VideoHandlerOptions
 
 /**
  * @type SizeInfo
@@ -118,7 +118,9 @@ export interface VideoHandlerResult extends ImageHandlerResult {
  * @type MediaFileHandlerResult
  * Data returned of the [handleMediaFile](#handlemediafilefile-options) function.
  */
-export type MediaFileHandlerResult = ImageHandlerResult | VideoHandlerResult
+export type MediaFileHandlerResult = ImageHandlerResult & {
+  videoInfo?: VideoInfo
+}
 
 /**
  * MediaFileHandlerData

@@ -7,9 +7,10 @@ const fs = require('fs')
 const { EOL } = require('os')
 const path = require('path')
 const { formatDate } = require('zx-sml')
-const pkg = require('../package.json')
+// root package.json
+const pkg = require('../../../package.json')
 
-const distDir = path.resolve(__dirname, '../dist')
+const distDir = path.resolve(__dirname, '../../../dist')
 
 const header = [
   '/*!',

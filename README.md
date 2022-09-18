@@ -6,11 +6,11 @@
 <a href="https://www.npmjs.com/package/image-process"><img src="https://img.shields.io/npm/l/image-process.svg?sanitize=true" alt="License"></a>
 </p>
 
-Image clipping / scaling, support local / same domain video file screenshot function (HTML5 + canvas).
+A Image clipping or scaling, support local or same domain video file screenshot. It's implemented  in canvas.
 
-- Image cropping: Just set valid cropping parameters. or set valid width and height, the image will be centered and cropped.
+- Image cropping: Just set valid cropping parameters (See [MediaFileHandlerOptions](#MediaFileHandlerOptions)), or set valid width and height, the image will be centered and cropped.
 - Proportional scaling: set width or height.
-- Video screenshot: Take a picture according to the set currentTime.
+- Video screenshot: Take a picture according to the set `currentTime` of the [MediaFileHandlerOptions](#MediaFileHandlerOptions).
 
 [中文文档](./docs)
 
@@ -38,6 +38,16 @@ handleMediaFile(file, options)
   .catch (err => {
     console.error(err)
   })
+```
+
+Use in html
+
+```html
+<script>
+imageProcess.handleMediaFile(file, options)
+  .then(res => console.log(res))
+  .catch (err => console.error(err))
+</script>
 ```
 
 ## Installation

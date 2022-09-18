@@ -71,12 +71,9 @@ export interface SizeInfo {
 }
 
 /**
- * @type MediaFileHandlerRawData
- * Raw information of the image file being processed.
+ * @type MediaHandlerResultBase
  */
-export interface MediaFileHandlerRawData {
-  // `HTMLImageElement`
-  element: HTMLImageElement
+export interface MediaHandlerResultBase {
   // Image blob data.
   blob: Blob
   // Image base64 data.
@@ -94,10 +91,19 @@ export interface MediaFileHandlerRawData {
 }
 
 /**
+ * @type MediaFileHandlerRawData
+ * Raw information of the image file being processed.
+ */
+export interface MediaFileHandlerRawData extends MediaHandlerResultBase {
+  // `HTMLImageElement`
+  element: HTMLImageElement
+}
+
+/**
  * @type ImageHandlerResult
  * Data returned of the [handleImageFile](#handleimagefilefile-options) function.
  */
-export interface ImageHandlerResult extends MediaFileHandlerRawData {
+export interface ImageHandlerResult extends MediaHandlerResultBase {
   // `HTMLImageElement` or `HTMLCanvasElement`.
   element: HTMLImageElement | HTMLCanvasElement
   // Raw information of the image file being processed. See [MediaFileHandlerRawData].(#MediaFileHandlerRawData).
@@ -118,7 +124,8 @@ export interface VideoHandlerResult extends ImageHandlerResult {
  * @type MediaFileHandlerResult
  * Data returned of the [handleMediaFile](#handlemediafilefile-options) function.
  */
-export type MediaFileHandlerResult = ImageHandlerResult & {
+export interface MediaFileHandlerResult extends ImageHandlerResult {
+  // Video file information. See [VideoInfo](#videoinfo).
   videoInfo?: VideoInfo
 }
 

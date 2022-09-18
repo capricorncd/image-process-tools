@@ -4,7 +4,46 @@
  * Date: 2022/06/11 13:13:33 (GMT+0900)
  */
 const path = require('path')
-const { outputFile } = require('zx-sml/nodejs')
+const fs = require('fs')
+const { EOL } = require('os')
+const { outputFile, writeFileSync } = require('zx-sml/nodejs')
+
+function getI18n() {
+  const data = {}
+  let index = 0
+  let key
+  fs.readFileSync(path.resolve(__dirname, './i18n.properties'), 'utf8')
+    .toString()
+    .split(EOL)
+    .forEach((line) => {
+      if (index >= 2 && line) {
+        index = 0
+      }
+
+      if (line) {
+        if (index === 0) {
+          key = line
+          data[key] = {
+            zh: '',
+            ja: '',
+          }
+        } else if (index === 1) {
+          data[key].zh = line
+        } else if (index === 2) {
+          data[key].ja = line
+        }
+      }
+      index++
+    })
+
+  return data
+}
+
+const i18nData = getI18n()
+
+function toZhCn(line) {
+  return i18nData[line]?.zh || line
+}
 
 const BLANK_LINE = ''
 
@@ -35,13 +74,19 @@ const outputFileOptions = {
 }
 
 function main() {
-  outputFile(
+  const { lines } = outputFile(
     [
       path.resolve(__dirname, '../types.d.ts'),
       path.resolve(__dirname, '../src'),
     ],
     path.resolve(__dirname, '../../../README.md'),
     outputFileOptions
+  )
+
+  // zh_CN
+  writeFileSync(
+    path.resolve(__dirname, '../../../docs/README.md'),
+    lines.map((line) => toZhCn(line))
   )
 }
 

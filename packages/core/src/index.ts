@@ -14,9 +14,9 @@
  *
  * A Image clipping or scaling, support local or same domain video file screenshot. It's implemented  in canvas.
  *
- * - Image cropping: Just set valid cropping options (See [MediaFileHandlerOptions](#MediaFileHandlerOptions)), or set valid width and height, the image will be centered and cropped.
+ * - Image cropping: Just set valid cropping options (See [ImageHandlerOptions](#ImageHandlerOptions)), or set valid width and height, the image will be centered and cropped.
  * - Proportional scaling: Just set the width or height.
- * - Video screenshot: Take a picture according to the set `currentTime` of the [MediaFileHandlerOptions](#MediaFileHandlerOptions).
+ * - Video screenshot: Take a picture according to the set `currentTime` of the [VideoHandlerOptions](#VideoHandlerOptions).
  *
  * [中文文档](./docs)
  *

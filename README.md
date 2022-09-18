@@ -8,9 +8,9 @@
 
 A Image clipping or scaling, support local or same domain video file screenshot. It's implemented  in canvas.
 
-- Image cropping: Just set valid cropping options (See [MediaFileHandlerOptions](#MediaFileHandlerOptions)), or set valid width and height, the image will be centered and cropped.
+- Image cropping: Just set valid cropping options (See [ImageHandlerOptions](#ImageHandlerOptions)), or set valid width and height, the image will be centered and cropped.
 - Proportional scaling: Just set the width or height.
-- Video screenshot: Take a picture according to the set `currentTime` of the [MediaFileHandlerOptions](#MediaFileHandlerOptions).
+- Video screenshot: Take a picture according to the set `currentTime` of the [VideoHandlerOptions](#VideoHandlerOptions).
 
 [中文文档](./docs)
 
@@ -173,7 +173,7 @@ raw|`MediaFileHandlerRawData`|yes|Raw information of the image file being proces
 <summary>Source Code</summary>
 
 ```ts
-interface ImageHandlerResult extends MediaFileHandlerRawData {
+interface ImageHandlerResult extends MediaHandlerResultBase {
   // `HTMLImageElement` or `HTMLCanvasElement`.
   element: HTMLImageElement | HTMLCanvasElement
   // Raw information of the image file being processed. See [MediaFileHandlerRawData].(#MediaFileHandlerRawData).
@@ -189,7 +189,7 @@ An options of the [handleMediaFile](#handlemediafilefile-options) function.
 See [VideoHandlerOptions](#VideoHandlerOptions).
 
 ```ts
-type MediaFileHandlerOptions = ImageHandlerOptions | VideoHandlerOptions
+type MediaFileHandlerOptions = VideoHandlerOptions
 ```
 
 ### MediaFileHandlerRawData
@@ -198,7 +198,60 @@ Raw information of the image file being processed.
 
 Prop|Types|Required|Description
 :--|:--|:--|:--
+blob|`Blob`|yes|Image blob data.
+data|`string`|yes|Image base64 data.
+width|`number`|yes|The width of the image.
+height|`number`|yes|The height of the image.
+type|`string`|yes|The type of the image.
+size|`SizeInfo`|yes|The size information of the image. See [SizeInfo](#SizeInfo).
+url|`string`|yes|A blob url of the image.
 element|`HTMLImageElement`|yes|`HTMLImageElement`
+
+<details>
+<summary>Source Code</summary>
+
+```ts
+interface MediaFileHandlerRawData extends MediaHandlerResultBase {
+  // `HTMLImageElement`
+  element: HTMLImageElement
+}
+```
+
+</details>
+
+### MediaFileHandlerResult
+
+Data returned of the [handleMediaFile](#handlemediafilefile-options) function.
+
+Prop|Types|Required|Description
+:--|:--|:--|:--
+blob|`Blob`|yes|Image blob data.
+data|`string`|yes|Image base64 data.
+width|`number`|yes|The width of the image.
+height|`number`|yes|The height of the image.
+type|`string`|yes|The type of the image.
+size|`SizeInfo`|yes|The size information of the image. See [SizeInfo](#SizeInfo).
+url|`string`|yes|A blob url of the image.
+element|`HTMLImageElement`/`HTMLCanvasElement`|yes|`HTMLImageElement` or `HTMLCanvasElement`.
+raw|`MediaFileHandlerRawData`|yes|Raw information of the image file being processed. See [MediaFileHandlerRawData].(#MediaFileHandlerRawData).
+videoInfo|`VideoInfo`|no|Video file information. See [VideoInfo](#videoinfo).
+
+<details>
+<summary>Source Code</summary>
+
+```ts
+interface MediaFileHandlerResult extends ImageHandlerResult {
+  // Video file information. See [VideoInfo](#videoinfo).
+  videoInfo?: VideoInfo
+}
+```
+
+</details>
+
+### MediaHandlerResultBase
+
+Prop|Types|Required|Description
+:--|:--|:--|:--
 blob|`Blob`|yes|Image blob data.
 data|`string`|yes|Image base64 data.
 width|`number`|yes|The width of the image.
@@ -211,9 +264,7 @@ url|`string`|yes|A blob url of the image.
 <summary>Source Code</summary>
 
 ```ts
-interface MediaFileHandlerRawData {
-  // `HTMLImageElement`
-  element: HTMLImageElement
+interface MediaHandlerResultBase {
   // Image blob data.
   blob: Blob
   // Image base64 data.
@@ -232,14 +283,6 @@ interface MediaFileHandlerRawData {
 ```
 
 </details>
-
-### MediaFileHandlerResult
-
-Data returned of the [handleMediaFile](#handlemediafilefile-options) function.
-
-```ts
-type MediaFileHandlerResult = ImageHandlerResult | VideoHandlerResult
-```
 
 ### OptionsCropInfo
 

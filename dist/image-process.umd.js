@@ -2,7 +2,7 @@
  * image-process version 4.3.0
  * Author: Xing Zhong <capricorncd@qq.com, zx198401@gmail.com>
  * Repository: https://github.com/capricorncd/image-process-tools
- * Released on: 2022-09-18 15:10:19 (GMT+0900)
+ * Released on: 2022-09-18 17:51:48 (GMT+0900)
  */
 (function(g,w){typeof exports=="object"&&typeof module<"u"?w(exports):typeof define=="function"&&define.amd?define(["exports"],w):(g=typeof globalThis<"u"?globalThis:g||self,w(g.imageProcess={}))})(this,function(g){"use strict";/*!
  * zx-sml version 0.6.0

@@ -2,7 +2,7 @@
  * image-process version 4.3.0
  * Author: Xing Zhong <capricorncd@qq.com, zx198401@gmail.com>
  * Repository: https://github.com/capricorncd/image-process-tools
- * Released on: 2022-09-18 15:10:19 (GMT+0900)
+ * Released on: 2022-09-18 17:51:48 (GMT+0900)
  */
 /*!
  * zx-sml version 0.6.0
@@ -240,13 +240,19 @@ function _(t, e, i, r, n) {
       dw: n.sw,
       dh: n.sh
     });
-    !e.width && !e.height ? e.longestSide ? n.sw > n.sh ? (e.width = e.longestSide, e.height = n.sh * e.width / n.sw) : (e.height = e.longestSide, e.width = n.sw * e.height / n.sh) : (e.width = n.sw, e.height = n.sh) : e.width ? e.height = n.sh * e.width / n.sw : e.width = n.sw * e.height / n.sh, j(a, t, e, {
-      ...n,
-      sx: 0,
-      sy: 0,
-      sw: a.width,
-      sh: a.height
-    }, i);
+    !e.width && !e.height ? e.longestSide ? n.sw > n.sh ? (e.width = e.longestSide, e.height = n.sh * e.width / n.sw) : (e.height = e.longestSide, e.width = n.sw * e.height / n.sh) : (e.width = n.sw, e.height = n.sh) : e.width ? e.height = n.sh * e.width / n.sw : e.width = n.sw * e.height / n.sh, j(
+      a,
+      t,
+      e,
+      {
+        ...n,
+        sx: 0,
+        sy: 0,
+        sw: a.width,
+        sh: a.height
+      },
+      i
+    );
   } catch (a) {
     r(a);
   }
@@ -284,17 +290,23 @@ function X(t, e, i, r) {
   }
 }
 function m(t, e, i) {
-  t.type !== e.mimeType ? (t.type = e.mimeType, H(t.element, t.raw, e, {
-    enableDevicePixelRatio: e.enableDevicePixelRatio,
-    sx: 0,
-    sy: 0,
-    sw: t.width,
-    sh: t.height,
-    dx: 0,
-    dy: 0,
-    dw: t.width,
-    dh: t.height
-  }, i)) : i(t);
+  t.type !== e.mimeType ? (t.type = e.mimeType, H(
+    t.element,
+    t.raw,
+    e,
+    {
+      enableDevicePixelRatio: e.enableDevicePixelRatio,
+      sx: 0,
+      sy: 0,
+      sw: t.width,
+      sh: t.height,
+      dx: 0,
+      dy: 0,
+      dw: t.width,
+      dh: t.height
+    },
+    i
+  )) : i(t);
 }
 function j(t, e, i, r, n) {
   let a = e.width > e.height ? e.width - r.dw : e.height - r.dh;
@@ -351,7 +363,17 @@ function v(t, e) {
   const i = e.enableDevicePixelRatio && window.devicePixelRatio || 1, r = y("canvas");
   r.width = e.dw * i, r.height = e.dh * i;
   const n = r.getContext("2d");
-  return n.scale(i, i), n.drawImage(t, e.sx, e.sy, e.sw, e.sh, e.dx, e.dy, e.dw, e.dh), r;
+  return n.scale(i, i), n.drawImage(
+    t,
+    e.sx,
+    e.sy,
+    e.sw,
+    e.sh,
+    e.dx,
+    e.dy,
+    e.dw,
+    e.dh
+  ), r;
 }
 function ee(t, e) {
   return new Promise((i, r) => {

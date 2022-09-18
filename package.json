@@ -1,10 +1,16 @@
 {
   "name": "image-process",
   "version": "4.2.2",
-  "description": "Browser image processing and video screenshots (html5+canvas)",
+  "description": "A Image clipping or scaling, support local or same domain video file screenshot. It's implemented  in canvas.",
   "main": "dist/image-process.umd.js",
   "module": "dist/image-process.es.js",
   "types": "types",
+  "exports": {
+    ".": {
+      "import": "./dist/image-process.es.js",
+      "require": "./dist/image-process.umd.js"
+    }
+  },
   "keywords": [
     "image",
     "crop",
@@ -45,7 +51,7 @@
     "vitest": "^0.18.0"
   },
   "repository": "https://github.com/capricorncd/image-process-tools",
-  "author": "Capricorncd <capricorncd@qq.com>",
+  "author": "Xing Zhong <capricorncd@qq.com>",
   "license": "MIT",
   "dependencies": {
     "zx-sml": "^0.6.0"

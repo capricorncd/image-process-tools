@@ -5,11 +5,11 @@
  */
 import { reactive } from 'vue'
 import {
-  MediaFileHandlerData,
+  MediaFileHandlerResult,
   MediaFileHandlerOptions,
 } from '@image-process/core'
 
-export const defaultOptions: MediaFileHandlerOptions = {
+export const defaultOptions = {
   mimeType: 'image/jpeg',
   perResize: 500,
   quality: 0.9,
@@ -31,8 +31,8 @@ type StoreKeys = 'form' | 'result' | 'file'
 
 interface StoreInterface {
   form: MediaFileHandlerOptions
-  result: MediaFileHandlerData
-  file: File
+  result: MediaFileHandlerResult
+  file: File | null
   setValue(
     key: StoreKeys,
     value: StoreInterface[keyof Omit<StoreInterface, 'setValue'>]
@@ -40,7 +40,10 @@ interface StoreInterface {
 }
 
 export const store = reactive<StoreInterface>({
-  form: JSON.parse(JSON.stringify(defaultOptions)),
+  form: {
+    ...defaultOptions,
+    cropInfo: { ...defaultOptions.cropInfo },
+  },
   result: null,
   file: null,
   setValue(filed: keyof StoreInterface, value) {

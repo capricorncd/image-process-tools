@@ -1,5 +1,8 @@
 {
   "compilerOptions": {
+    "allowJs": true,
+    "jsx": "preserve",
+    "resolveJsonModule": true,
     "types": ["element-plus/global"]
   },
   "exclude": ["node_modules"]

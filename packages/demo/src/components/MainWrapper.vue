@@ -30,11 +30,12 @@
   </el-main>
 </template>
 
-<script setup>
+<script setup lang="ts">
 import { store } from '../store'
 
-const fileChange = (e) => {
-  const file = e.target.files[0]
+const fileChange = (e: Event) => {
+  const el = e.target as HTMLInputElement
+  const file = el.files?.[0] as File
   store.setValue('file', file)
 }
 </script>
@@ -58,7 +59,6 @@ label {
 .file-input {
   display: none;
 }
-
 .img-wrapper {
   position: relative;
   max-width: 100%;

@@ -106,11 +106,7 @@ const maxCropInfo = computed(() => {
 const form = store.form
 
 const onSubmit = () => {
-  console.log('submit!')
-  form.mimeType = `image/${state.mimeTypeValue.replace(
-    /\s/g,
-    ''
-  )}`
+  form.mimeType = `image/${state.mimeTypeValue.replace(/\s/g, '')}`
   handleFile()
 }
 

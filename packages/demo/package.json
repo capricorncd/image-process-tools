@@ -18,10 +18,12 @@
   },
   "devDependencies": {
     "@vitejs/plugin-vue": "^3.0.0",
+    "eslint": "^8.17.0",
     "eslint-config-prettier": "^8.5.0",
     "eslint-plugin-prettier-vue": "4.2.0",
     "eslint-plugin-vue": "9.2.0",
-    "sass": "^1.53.0"
+    "sass": "^1.54.9",
+    "vite": "^3.1.2"
   },
   "license": "MIT"
 }

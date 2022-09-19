@@ -12,7 +12,7 @@ A Image clipping or scaling, support local or same domain video file screenshot.
 - Proportional scaling: Just set the width or height.
 - Video screenshot: Take a picture according to the set `currentTime` of the [VideoHandlerOptions](#VideoHandlerOptions).
 
-[中文文档](./docs)
+[简体中文](./docs) | [日本語](./docs/ja_JP.md)
 
 ## Demo
 
@@ -323,9 +323,9 @@ File size information.
 
 Prop|Types|Required|Description
 :--|:--|:--|:--
-text|`string`|yes|File size as a string, etc. `1.23MiB`.
-unit|`string`|yes|Unit of file size, etc. `MiB`.
-value|`number`|yes|The size of the file as a suitable number, without units, etc. `1.23`.
+text|`string`|yes|File size as a string, `1.23MiB` etc.
+unit|`string`|yes|Unit of file size, `MiB` etc.
+value|`number`|yes|The size of the file as a suitable number, without units, `1.23` etc.
 bytes|`number`|yes|What is the size of the image in bytes.
 
 <details>
@@ -333,11 +333,11 @@ bytes|`number`|yes|What is the size of the image in bytes.
 
 ```ts
 interface SizeInfo {
-  // File size as a string, etc. `1.23MiB`.
+  // File size as a string, `1.23MiB` etc.
   text: string
-  // Unit of file size, etc. `MiB`.
+  // Unit of file size, `MiB` etc.
   unit: string
-  // The size of the file as a suitable number, without units, etc. `1.23`.
+  // The size of the file as a suitable number, without units, `1.23` etc.
   value: number
   // What is the size of the image in bytes.
   bytes: number

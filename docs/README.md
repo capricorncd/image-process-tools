@@ -12,7 +12,7 @@
 - 等比缩放: 只需设置有效的`width`或者`height`.
 - 视频截图: 截取指定时间点`currentTime`的帧，参数见[VideoHandlerOptions](#VideoHandlerOptions).
 
-[English Documents](../README.md)
+[English](../README.md) | [日本語](./ja_JP.md)
 
 ## Demo
 
@@ -30,7 +30,7 @@ const options = {
   quality: 0.8
 }
 
-图片裁剪或视频截图处理
+// 图片裁剪或视频截图处理
 handleMediaFile(file, options)
   .then(res => {
     console.log(res)
@@ -333,11 +333,11 @@ bytes|`number`|yes|文件大小字节。
 
 ```ts
 interface SizeInfo {
-  // File size as a string, etc. `1.23MiB`.
+  // File size as a string, `1.23MiB` etc.
   text: string
-  // Unit of file size, etc. `MiB`.
+  // Unit of file size, `MiB` etc.
   unit: string
-  // The size of the file as a suitable number, without units, etc. `1.23`.
+  // The size of the file as a suitable number, without units, `1.23` etc.
   value: number
   // What is the size of the image in bytes.
   bytes: number

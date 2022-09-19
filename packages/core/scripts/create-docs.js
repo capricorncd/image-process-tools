@@ -8,6 +8,19 @@ const fs = require('fs')
 const { EOL } = require('os')
 const { outputFile, writeFileSync } = require('zx-sml/nodejs')
 
+const BLANK_LINE = ''
+
+const LOCALE_TYPES = {
+  US: 'en_US',
+  CN: 'zh_CN',
+  JP: 'ja_JP',
+}
+const locales = [LOCALE_TYPES.US, LOCALE_TYPES.CN, LOCALE_TYPES.JP]
+
+/**
+ * get i18n data
+ * @returns `Record<string, Map<string, string>>`
+ */
 function getI18n() {
   const data = {}
   let index = 0
@@ -16,21 +29,16 @@ function getI18n() {
     .toString()
     .split(EOL)
     .forEach((line) => {
-      if (index >= 2 && line) {
+      if (index >= locales.length && line) {
         index = 0
       }
 
       if (line) {
         if (index === 0) {
           key = line
-          data[key] = {
-            zh: '',
-            ja: '',
-          }
-        } else if (index === 1) {
-          data[key].zh = line
-        } else if (index === 2) {
-          data[key].ja = line
+          data[key] = new Map()
+        } else {
+          data[key].set(locales[index], line)
         }
       }
       index++
@@ -41,11 +49,9 @@ function getI18n() {
 
 const i18nData = getI18n()
 
-function toZhCn(line) {
-  return i18nData[line]?.zh || line
+function toLocaleString(line, locale) {
+  return i18nData[line]?.get(locale) || line
 }
-
-const BLANK_LINE = ''
 
 const outputFileOptions = {
   typeWithAuto: true,
@@ -86,7 +92,13 @@ function main() {
   // zh_CN
   writeFileSync(
     path.resolve(__dirname, '../../../docs/README.md'),
-    lines.map((line) => toZhCn(line))
+    lines.map((line) => toLocaleString(line, LOCALE_TYPES.CN))
+  )
+
+  // ja_JP
+  writeFileSync(
+    path.resolve(__dirname, '../../../docs/ja_JP.md'),
+    lines.map((line) => toLocaleString(line, LOCALE_TYPES.JP))
   )
 }
 

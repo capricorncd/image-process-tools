@@ -60,11 +60,11 @@ export type MediaFileHandlerOptions = VideoHandlerOptions
  * File size information.
  */
 export interface SizeInfo {
-  // File size as a string, etc. `1.23MiB`.
+  // File size as a string, `1.23MiB` etc.
   text: string
-  // Unit of file size, etc. `MiB`.
+  // Unit of file size, `MiB` etc.
   unit: string
-  // The size of the file as a suitable number, without units, etc. `1.23`.
+  // The size of the file as a suitable number, without units, `1.23` etc.
   value: number
   // What is the size of the image in bytes.
   bytes: number

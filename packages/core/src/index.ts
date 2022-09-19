@@ -18,7 +18,7 @@
  * - Proportional scaling: Just set the width or height.
  * - Video screenshot: Take a picture according to the set `currentTime` of the [VideoHandlerOptions](#VideoHandlerOptions).
  *
- * [中文文档](./docs)
+ * [简体中文](./docs) | [日本語](./docs/ja_JP.md)
  *
  * @code ## Usage
  *

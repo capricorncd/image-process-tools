@@ -3,7 +3,6 @@
  * https://github.com/capricorncd
  * Date: 2022/06/11 09:54:35 (GMT+0900)
  */
-/// <reference types="vitest" />
 import { defineConfig, splitVendorChunkPlugin } from 'vite'
 import vue from '@vitejs/plugin-vue'
 

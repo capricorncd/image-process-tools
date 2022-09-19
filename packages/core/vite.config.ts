@@ -3,7 +3,6 @@
  * https://github.com/capricorncd
  * Date: 2022/06/11 09:54:35 (GMT+0900)
  */
-/// <reference types="vitest" />
 import { resolve } from 'path'
 import { defineConfig } from 'vite'
 import { toCamelCase } from 'zx-sml'
@@ -19,8 +18,5 @@ export default defineConfig({
       name: toCamelCase(pkg.name),
       fileName: (format) => `${pkg.name}.${format}.js`,
     },
-  },
-  test: {
-    environment: 'jsdom',
   },
 })

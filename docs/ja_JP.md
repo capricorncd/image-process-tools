@@ -74,9 +74,9 @@ pnpm install image-process
 パラメータ|型|必須|説明
 :--|:--|:--|:--
 file|`File`/`Blob`/`string`|yes|文字列はbase64データのみ。
-options|`ImageHandlerOptions`|no|[ImageHandlerOptions](#ImageHandlerOptions)を参照。
+options|`ImageHandlerOptions`|no|[ImageHandlerOptions](#ImageHandlerOptions)を参照してください。
 
-- @returns `Promise<ImageHandlerResult>` [ImageHandlerResult](#ImageHandlerResult)を参照。
+- @returns `Promise<ImageHandlerResult>` [ImageHandlerResult](#ImageHandlerResult)を参照してください。
 
 ### handleMediaFile(file, options)
 
@@ -85,9 +85,9 @@ options|`ImageHandlerOptions`|no|[ImageHandlerOptions](#ImageHandlerOptions)を�
 パラメータ|型|必須|説明
 :--|:--|:--|:--
 file|`File`|yes|画像またはビデオファイル。
-options|`Partial<MediaFileHandlerOptions>`|no|[MediaFileHandlerOptions](#MediaFileHandlerOptions)を参照。
+options|`Partial<MediaFileHandlerOptions>`|no|[MediaFileHandlerOptions](#MediaFileHandlerOptions)を参照してください。
 
-- @returns `Promise<MediaFileHandlerResult>` [MediaFileHandlerResult](#MediaFileHandlerResult)を参照。
+- @returns `Promise<MediaFileHandlerResult>` [MediaFileHandlerResult](#MediaFileHandlerResult)を参照してください。
 
 ### handleVideoFile(file, options)
 
@@ -96,9 +96,9 @@ options|`Partial<MediaFileHandlerOptions>`|no|[MediaFileHandlerOptions](#MediaFi
 パラメータ|型|必須|説明
 :--|:--|:--|:--
 file|`File`|yes|-
-options|`VideoHandlerOptions`|no|[VideoHandlerOptions](#VideoHandlerOptions)を参照。
+options|`VideoHandlerOptions`|no|[VideoHandlerOptions](#VideoHandlerOptions)を参照してください。
 
-- @returns `Promise<VideoHandlerResult>` [VideoHandlerResult](#VideoHandlerResult)を参照。
+- @returns `Promise<VideoHandlerResult>` [VideoHandlerResult](#VideoHandlerResult)を参照してください。
 
 ## タイプ
 
@@ -116,7 +116,7 @@ quality|`number`|no|処理後に返される画質。値の範囲は`0-1`であ�
 width|`number`|no|画像の「幅」を設定する。デフォルトは`0`である。
 height|`number`|no|画像の「高さ」を設定する。デフォルトは`0`である。
 longestSide|`number`|no|画像の長辺を設定する。デフォルトは`0`である。
-cropInfo|`OptionsCropInfo`|no|[OptionsCropInfo](#OptionsCropInfo)を参照する。
+cropInfo|`OptionsCropInfo`|no|[OptionsCropInfo](#OptionsCropInfo)を参照してください。
 
 <details>
 <summary>ソース</summary>
@@ -360,7 +360,7 @@ quality|`number`|no|処理後に返される画質。値の範囲は`0-1`であ�
 width|`number`|no|画像の「幅」を設定する。デフォルトは`0`である。
 height|`number`|no|画像の「高さ」を設定する。デフォルトは`0`である。
 longestSide|`number`|no|画像の長辺を設定する。デフォルトは`0`である。
-cropInfo|`OptionsCropInfo`|no|[OptionsCropInfo](#OptionsCropInfo)を参照する。
+cropInfo|`OptionsCropInfo`|no|[OptionsCropInfo](#OptionsCropInfo)を参照してください。
 currentTime|`number`|no|ビデオのスクショを撮る時点。デフォルトは、動画の長さの「ランダムな」タイムスタンプである。
 
 <details>

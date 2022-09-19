@@ -11,7 +11,7 @@ import { DEFAULT_OPTIONS } from './options'
 /**
  * @method handleVideoFile(file, options)
  * Video file screenshot processing function.
- * @param file `File`
+ * @param file `File` Video file object.
  * @param options? `VideoHandlerOptions` See [VideoHandlerOptions](#VideoHandlerOptions).
  * @returns `Promise<VideoHandlerResult>` See [VideoHandlerResult](#VideoHandlerResult).
  */

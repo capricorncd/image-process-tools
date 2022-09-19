@@ -95,7 +95,7 @@ options|`Partial<MediaFileHandlerOptions>`|no|详情请见[MediaFileHandlerOptio
 
 参数|类型|必须|描述
 :--|:--|:--|:--
-file|`File`|yes|-
+file|`File`|yes|视频文件。
 options|`VideoHandlerOptions`|no|详情请见[VideoHandlerOptions](#VideoHandlerOptions).
 
 - @returns `Promise<VideoHandlerResult>` 详情请见[VideoHandlerResult](#VideoHandlerResult).

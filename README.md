@@ -95,7 +95,7 @@ Video file screenshot processing function.
 
 Param|Types|Required|Description
 :--|:--|:--|:--
-file|`File`|yes|-
+file|`File`|yes|Video file object.
 options|`VideoHandlerOptions`|no|See [VideoHandlerOptions](#VideoHandlerOptions).
 
 - @returns `Promise<VideoHandlerResult>` See [VideoHandlerResult](#VideoHandlerResult).

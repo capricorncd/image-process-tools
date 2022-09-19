@@ -95,7 +95,7 @@ options|`Partial<MediaFileHandlerOptions>`|no|[MediaFileHandlerOptions](#MediaFi
 
 パラメータ|型|必須|説明
 :--|:--|:--|:--
-file|`File`|yes|-
+file|`File`|yes|ビデオ ファイル オブジェクト。
 options|`VideoHandlerOptions`|no|[VideoHandlerOptions](#VideoHandlerOptions)を参照してください。
 
 - @returns `Promise<VideoHandlerResult>` [VideoHandlerResult](#VideoHandlerResult)を参照してください。

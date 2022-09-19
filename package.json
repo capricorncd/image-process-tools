@@ -1,7 +1,7 @@
 {
   "name": "image-process",
   "version": "4.3.0",
-  "description": "A Image clipping or scaling, support local or same domain video file screenshot. It's implemented  in canvas.",
+  "description": "A Image clipping or scaling, support local or same domain video file screenshot. It's implemented in canvas.",
   "main": "dist/image-process.umd.js",
   "module": "dist/image-process.es.js",
   "types": "types",
@@ -26,7 +26,7 @@
   "packageManager": "pnpm@7.5.1",
   "scripts": {
     "dev": "cd packages/demo && pnpm run dev",
-    "demo:build": "cd packages/demo && pnpm run build",
+    "build:demo": "cd packages/demo && pnpm run build",
     "build": "cd packages/core && pnpm run build",
     "docs": "cd packages/core && pnpm run docs",
     "lint": "eslint . --fix --ext .js,.cjs,.ts"

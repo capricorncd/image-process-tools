@@ -30,7 +30,7 @@ const options = {
   quality: 0.8
 }
 
-// 画像または動画のスクリーンショットをトリミング
+// 画像をトリミングまたは動画のスクリーンショット
 handleMediaFile(file, options)
   .then(res => {
     console.log(res)
@@ -40,9 +40,10 @@ handleMediaFile(file, options)
   })
 ```
 
-htmlに使用する
+htmlで使用する
 
 ```html
+<script src="./dist/image-process.umd.js"></script>
 <script>
 imageProcess.handleMediaFile(file, options)
   .then(res => console.log(res))
@@ -73,7 +74,7 @@ pnpm install image-process
 
 パラメータ|型|必須|説明
 :--|:--|:--|:--
-file|`File`/`Blob`/`string`|yes|文字列はbase64データのみ。
+file|`File`/`Blob`/`string`|yes|文字列の場合にはbase64データ限定。
 options|`ImageHandlerOptions`|no|[ImageHandlerOptions](#ImageHandlerOptions)を参照してください。
 
 - @returns `Promise<ImageHandlerResult>` [ImageHandlerResult](#ImageHandlerResult)を参照してください。
@@ -110,8 +111,8 @@ options|`VideoHandlerOptions`|no|[VideoHandlerOptions](#VideoHandlerOptions)を�
 :--|:--|:--|:--
 enableDevicePixelRatio|`boolean`|no|デバイスのピクセル比を有効にするかどうか。2倍の場合、返される画像のサイズは`x2`になる。デフォルトは`false`である。
 mimeType|`string`|no|mimeType、デフォルトは「image/jpeg」である。
-isForce|`boolean`|no|画像の幅または高さが設定値よりも小さい場合、対象の画像の幅または高さを強制的に設定値に調整する。デフォルトは`false`である。
-perResize|`number`|no|画像をスケーリングするときにギザギザのエッジを防ぐため、数回でスケーリングする際、毎回スケーリングするピクセルである。デフォルトは「500」である。
+isForce|`boolean`|no|画像の幅または高さが設定値よりも小さい場合、対象の画像の幅または高さを強制的に設定値に調整するか。デフォルトは`false`である。
+perResize|`number`|no|画像をスケーリングするときにギザギザのエッジを防ぐため、数回でスケーリングする際、毎回スケーリングするピクセルである。デフォルトは`500`である。
 quality|`number`|no|処理後に返される画質。値の範囲は`0-1`である。詳細については、[toDataURL](https://developer.mozilla.org/en-US/docs/Web/API/HTMLCanvasElement/toDataURL) を参照してください。デフォルトは `0.9` である。
 width|`number`|no|画像の「幅」を設定する。デフォルトは`0`である。
 height|`number`|no|画像の「高さ」を設定する。デフォルトは`0`である。
@@ -167,7 +168,7 @@ type|`string`|yes|画像のタイプ。
 size|`SizeInfo`|yes|画像のサイズ情報。 [SizeInfo](#SizeInfo) を参照してください。
 url|`string`|yes|画像のブロブ URL。
 element|`HTMLImageElement`/`HTMLCanvasElement`|yes|`HTMLImageElement`または`HTMLCanvasElement`.
-raw|`MediaFileHandlerRawData`|yes|元画像の情報。[MediaFileHandlerRawData].(#MediaFileHandlerRawData) を参照してください。
+raw|`MediaFileHandlerRawData`|yes|元画像の情報。[MediaFileHandlerRawData](#MediaFileHandlerRawData) を参照してください。
 
 <details>
 <summary>ソース</summary>
@@ -233,7 +234,7 @@ type|`string`|yes|画像のタイプ。
 size|`SizeInfo`|yes|画像のサイズ情報。 [SizeInfo](#SizeInfo) を参照してください。
 url|`string`|yes|画像のブロブ URL。
 element|`HTMLImageElement`/`HTMLCanvasElement`|yes|`HTMLImageElement`または`HTMLCanvasElement`.
-raw|`MediaFileHandlerRawData`|yes|元画像の情報。[MediaFileHandlerRawData].(#MediaFileHandlerRawData) を参照してください。
+raw|`MediaFileHandlerRawData`|yes|元画像の情報。[MediaFileHandlerRawData](#MediaFileHandlerRawData) を参照してください。
 videoInfo|`VideoInfo`|no|ビデオ ファイル情報。[VideoInfo](#videoinfo) を参照してください。
 
 <details>
@@ -354,8 +355,8 @@ interface SizeInfo {
 :--|:--|:--|:--
 enableDevicePixelRatio|`boolean`|no|デバイスのピクセル比を有効にするかどうか。2倍の場合、返される画像のサイズは`x2`になる。デフォルトは`false`である。
 mimeType|`string`|no|mimeType、デフォルトは「image/jpeg」である。
-isForce|`boolean`|no|画像の幅または高さが設定値よりも小さい場合、対象の画像の幅または高さを強制的に設定値に調整する。デフォルトは`false`である。
-perResize|`number`|no|画像をスケーリングするときにギザギザのエッジを防ぐため、数回でスケーリングする際、毎回スケーリングするピクセルである。デフォルトは「500」である。
+isForce|`boolean`|no|画像の幅または高さが設定値よりも小さい場合、対象の画像の幅または高さを強制的に設定値に調整するか。デフォルトは`false`である。
+perResize|`number`|no|画像をスケーリングするときにギザギザのエッジを防ぐため、数回でスケーリングする際、毎回スケーリングするピクセルである。デフォルトは`500`である。
 quality|`number`|no|処理後に返される画質。値の範囲は`0-1`である。詳細については、[toDataURL](https://developer.mozilla.org/en-US/docs/Web/API/HTMLCanvasElement/toDataURL) を参照してください。デフォルトは `0.9` である。
 width|`number`|no|画像の「幅」を設定する。デフォルトは`0`である。
 height|`number`|no|画像の「高さ」を設定する。デフォルトは`0`である。
@@ -391,7 +392,7 @@ type|`string`|yes|画像のタイプ。
 size|`SizeInfo`|yes|画像のサイズ情報。 [SizeInfo](#SizeInfo) を参照してください。
 url|`string`|yes|画像のブロブ URL。
 element|`HTMLImageElement`/`HTMLCanvasElement`|yes|`HTMLImageElement`または`HTMLCanvasElement`.
-raw|`MediaFileHandlerRawData`|yes|元画像の情報。[MediaFileHandlerRawData].(#MediaFileHandlerRawData) を参照してください。
+raw|`MediaFileHandlerRawData`|yes|元画像の情報。[MediaFileHandlerRawData](#MediaFileHandlerRawData) を参照してください。
 videoInfo|`VideoInfo`|yes|When taking a screenshot of the video, the original video file information. See [VideoInfo](#VideoInfo).
 
 <details>

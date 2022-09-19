@@ -43,6 +43,7 @@ handleMediaFile(file, options)
 Use in html
 
 ```html
+<script src="./dist/image-process.umd.js"></script>
 <script>
 imageProcess.handleMediaFile(file, options)
   .then(res => console.log(res))

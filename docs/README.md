@@ -43,6 +43,7 @@ handleMediaFile(file, options)
 在HTML文件中使用
 
 ```html
+<script src="./dist/image-process.umd.js"></script>
 <script>
 imageProcess.handleMediaFile(file, options)
   .then(res => console.log(res))
@@ -110,13 +111,13 @@ options|`VideoHandlerOptions`|no|详情请见[VideoHandlerOptions](#VideoHandler
 :--|:--|:--|:--
 enableDevicePixelRatio|`boolean`|no|是否启用设备的ratio。设备ratio为2时，将会返回2倍宽高的图片。默认为`false`。
 mimeType|`string`|no|文件的mime类型，默认为`image/jpeg`。https://developer.mozilla.org/en-US/docs/Web/HTTP/Basics_of_HTTP/MIME_types
-isForce|`boolean`|no|当元图片宽高小于设置宽高时，是否强制缩放图片。默认为`false`。
+isForce|`boolean`|no|当原始图片宽高小于设置宽高时，是否强制缩放图片。默认为`false`。
 perResize|`number`|no|原始图片与目标图片尺寸相差很大时，一次缩放可能会出现锯齿，所以可采用多次缩放处理，防止锯齿出现。该参数为每次缩放的像素值。默认为`500`。
 quality|`number`|no|处理后返回的图片质量，取值`0-1`。详情请见[toDataURL](https://developer.mozilla.org/en-US/docs/Web/API/HTMLCanvasElement/toDataURL)。默认为`0.9`。
 width|`number`|no|处理后的图片宽度。默认为`0`。
 height|`number`|no|处理后的图片高度。默认为`0`。
 longestSide|`number`|no|处理后的图片较长边的像素值，仅在`width`和`height`都为`0`时有效。默认为`0`。
-cropInfo|`OptionsCropInfo`|no|详情请见[OptionsCropInfo](#OptionsCropInfo).
+cropInfo|`OptionsCropInfo`|no|详情请见[OptionsCropInfo](#OptionsCropInfo)。
 
 <details>
 <summary>源代码</summary>
@@ -167,7 +168,7 @@ type|`string`|yes|图片mime类型。
 size|`SizeInfo`|yes|图片文件大小信息，详情请见[SizeInfo](#SizeInfo)。
 url|`string`|yes|图片的Blob本地URL地址。
 element|`HTMLImageElement`/`HTMLCanvasElement`|yes|`HTMLImageElement`或`HTMLCanvasElement`.
-raw|`MediaFileHandlerRawData`|yes|处理之前的图片的数据信息。详情请见[MediaFileHandlerRawData].(#MediaFileHandlerRawData)。
+raw|`MediaFileHandlerRawData`|yes|处理之前的图片的数据信息。详情请见[MediaFileHandlerRawData](#MediaFileHandlerRawData)。
 
 <details>
 <summary>源代码</summary>
@@ -233,7 +234,7 @@ type|`string`|yes|图片mime类型。
 size|`SizeInfo`|yes|图片文件大小信息，详情请见[SizeInfo](#SizeInfo)。
 url|`string`|yes|图片的Blob本地URL地址。
 element|`HTMLImageElement`/`HTMLCanvasElement`|yes|`HTMLImageElement`或`HTMLCanvasElement`.
-raw|`MediaFileHandlerRawData`|yes|处理之前的图片的数据信息。详情请见[MediaFileHandlerRawData].(#MediaFileHandlerRawData)。
+raw|`MediaFileHandlerRawData`|yes|处理之前的图片的数据信息。详情请见[MediaFileHandlerRawData](#MediaFileHandlerRawData)。
 videoInfo|`VideoInfo`|no|原始视频文件信息。详情请见[VideoInfo](#videoinfo)。
 
 <details>
@@ -354,13 +355,13 @@ interface SizeInfo {
 :--|:--|:--|:--
 enableDevicePixelRatio|`boolean`|no|是否启用设备的ratio。设备ratio为2时，将会返回2倍宽高的图片。默认为`false`。
 mimeType|`string`|no|文件的mime类型，默认为`image/jpeg`。https://developer.mozilla.org/en-US/docs/Web/HTTP/Basics_of_HTTP/MIME_types
-isForce|`boolean`|no|当元图片宽高小于设置宽高时，是否强制缩放图片。默认为`false`。
+isForce|`boolean`|no|当原始图片宽高小于设置宽高时，是否强制缩放图片。默认为`false`。
 perResize|`number`|no|原始图片与目标图片尺寸相差很大时，一次缩放可能会出现锯齿，所以可采用多次缩放处理，防止锯齿出现。该参数为每次缩放的像素值。默认为`500`。
 quality|`number`|no|处理后返回的图片质量，取值`0-1`。详情请见[toDataURL](https://developer.mozilla.org/en-US/docs/Web/API/HTMLCanvasElement/toDataURL)。默认为`0.9`。
 width|`number`|no|处理后的图片宽度。默认为`0`。
 height|`number`|no|处理后的图片高度。默认为`0`。
 longestSide|`number`|no|处理后的图片较长边的像素值，仅在`width`和`height`都为`0`时有效。默认为`0`。
-cropInfo|`OptionsCropInfo`|no|详情请见[OptionsCropInfo](#OptionsCropInfo).
+cropInfo|`OptionsCropInfo`|no|详情请见[OptionsCropInfo](#OptionsCropInfo)。
 currentTime|`number`|no|视频文件的截图时间点。超出视频播放时间时，将截取最后一帧。默认随机截取某一帧。
 
 <details>
@@ -391,7 +392,7 @@ type|`string`|yes|图片mime类型。
 size|`SizeInfo`|yes|图片文件大小信息，详情请见[SizeInfo](#SizeInfo)。
 url|`string`|yes|图片的Blob本地URL地址。
 element|`HTMLImageElement`/`HTMLCanvasElement`|yes|`HTMLImageElement`或`HTMLCanvasElement`.
-raw|`MediaFileHandlerRawData`|yes|处理之前的图片的数据信息。详情请见[MediaFileHandlerRawData].(#MediaFileHandlerRawData)。
+raw|`MediaFileHandlerRawData`|yes|处理之前的图片的数据信息。详情请见[MediaFileHandlerRawData](#MediaFileHandlerRawData)。
 videoInfo|`VideoInfo`|yes|When taking a screenshot of the video, the original video file information. See [VideoInfo](#VideoInfo).
 
 <details>

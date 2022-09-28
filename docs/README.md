@@ -86,7 +86,7 @@ options|`ImageHandlerOptions`|no|详情请见[ImageHandlerOptions](#ImageHandler
 参数|类型|必须|描述
 :--|:--|:--|:--
 file|`File`|yes|图片或视频文件。
-options|`Partial<MediaFileHandlerOptions>`|no|详情请见[MediaFileHandlerOptions](#MediaFileHandlerOptions).
+options|`MediaFileHandlerOptions`|no|详情请见[MediaFileHandlerOptions](#MediaFileHandlerOptions).
 
 - @returns `Promise<MediaFileHandlerResult>` 详情请见[MediaFileHandlerResult](#MediaFileHandlerResult).
 
@@ -177,7 +177,7 @@ raw|`MediaFileHandlerRawData`|yes|处理之前的图片的数据信息。详情�
 interface ImageHandlerResult extends MediaHandlerResultBase {
   // `HTMLImageElement` or `HTMLCanvasElement`.
   element: HTMLImageElement | HTMLCanvasElement
-  // Raw information of the image file being processed. See [MediaFileHandlerRawData].(#MediaFileHandlerRawData).
+  // Raw information of the image file being processed. See [MediaFileHandlerRawData](#MediaFileHandlerRawData).
   raw: MediaFileHandlerRawData
 }
 ```

@@ -106,7 +106,7 @@ export interface MediaFileHandlerRawData extends MediaHandlerResultBase {
 export interface ImageHandlerResult extends MediaHandlerResultBase {
   // `HTMLImageElement` or `HTMLCanvasElement`.
   element: HTMLImageElement | HTMLCanvasElement
-  // Raw information of the image file being processed. See [MediaFileHandlerRawData].(#MediaFileHandlerRawData).
+  // Raw information of the image file being processed. See [MediaFileHandlerRawData](#MediaFileHandlerRawData).
   raw: MediaFileHandlerRawData
 }
 

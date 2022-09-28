@@ -86,7 +86,7 @@ options|`ImageHandlerOptions`|no|[ImageHandlerOptions](#ImageHandlerOptions)を�
 パラメータ|型|必須|説明
 :--|:--|:--|:--
 file|`File`|yes|画像またはビデオファイル。
-options|`Partial<MediaFileHandlerOptions>`|no|[MediaFileHandlerOptions](#MediaFileHandlerOptions)を参照してください。
+options|`MediaFileHandlerOptions`|no|[MediaFileHandlerOptions](#MediaFileHandlerOptions)を参照してください。
 
 - @returns `Promise<MediaFileHandlerResult>` [MediaFileHandlerResult](#MediaFileHandlerResult)を参照してください。
 
@@ -177,7 +177,7 @@ raw|`MediaFileHandlerRawData`|yes|元画像の情報。[MediaFileHandlerRawData]
 interface ImageHandlerResult extends MediaHandlerResultBase {
   // `HTMLImageElement` or `HTMLCanvasElement`.
   element: HTMLImageElement | HTMLCanvasElement
-  // Raw information of the image file being processed. See [MediaFileHandlerRawData].(#MediaFileHandlerRawData).
+  // Raw information of the image file being processed. See [MediaFileHandlerRawData](#MediaFileHandlerRawData).
   raw: MediaFileHandlerRawData
 }
 ```

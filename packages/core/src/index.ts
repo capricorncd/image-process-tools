@@ -80,7 +80,7 @@ import { MediaFileHandlerOptions, MediaFileHandlerResult } from '../types'
  * @method handleMediaFile(file, options)
  * Image processing or video screenshot processing function.
  * @param file `File` Image or video file.
- * @param options? `Partial<MediaFileHandlerOptions>` See [MediaFileHandlerOptions](#MediaFileHandlerOptions).
+ * @param options? `MediaFileHandlerOptions` See [MediaFileHandlerOptions](#MediaFileHandlerOptions).
  * @returns `Promise<MediaFileHandlerResult>` See [MediaFileHandlerResult](#MediaFileHandlerResult).
  */
 export function handleMediaFile(

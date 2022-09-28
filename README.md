@@ -86,7 +86,7 @@ Image processing or video screenshot processing function.
 Param|Types|Required|Description
 :--|:--|:--|:--
 file|`File`|yes|Image or video file.
-options|`Partial<MediaFileHandlerOptions>`|no|See [MediaFileHandlerOptions](#MediaFileHandlerOptions).
+options|`MediaFileHandlerOptions`|no|See [MediaFileHandlerOptions](#MediaFileHandlerOptions).
 
 - @returns `Promise<MediaFileHandlerResult>` See [MediaFileHandlerResult](#MediaFileHandlerResult).
 
@@ -168,7 +168,7 @@ type|`string`|yes|The type of the image.
 size|`SizeInfo`|yes|The size information of the image. See [SizeInfo](#SizeInfo).
 url|`string`|yes|A blob url of the image.
 element|`HTMLImageElement`/`HTMLCanvasElement`|yes|`HTMLImageElement` or `HTMLCanvasElement`.
-raw|`MediaFileHandlerRawData`|yes|Raw information of the image file being processed. See [MediaFileHandlerRawData].(#MediaFileHandlerRawData).
+raw|`MediaFileHandlerRawData`|yes|Raw information of the image file being processed. See [MediaFileHandlerRawData](#MediaFileHandlerRawData).
 
 <details>
 <summary>Source Code</summary>
@@ -177,7 +177,7 @@ raw|`MediaFileHandlerRawData`|yes|Raw information of the image file being proces
 interface ImageHandlerResult extends MediaHandlerResultBase {
   // `HTMLImageElement` or `HTMLCanvasElement`.
   element: HTMLImageElement | HTMLCanvasElement
-  // Raw information of the image file being processed. See [MediaFileHandlerRawData].(#MediaFileHandlerRawData).
+  // Raw information of the image file being processed. See [MediaFileHandlerRawData](#MediaFileHandlerRawData).
   raw: MediaFileHandlerRawData
 }
 ```
@@ -234,7 +234,7 @@ type|`string`|yes|The type of the image.
 size|`SizeInfo`|yes|The size information of the image. See [SizeInfo](#SizeInfo).
 url|`string`|yes|A blob url of the image.
 element|`HTMLImageElement`/`HTMLCanvasElement`|yes|`HTMLImageElement` or `HTMLCanvasElement`.
-raw|`MediaFileHandlerRawData`|yes|Raw information of the image file being processed. See [MediaFileHandlerRawData].(#MediaFileHandlerRawData).
+raw|`MediaFileHandlerRawData`|yes|Raw information of the image file being processed. See [MediaFileHandlerRawData](#MediaFileHandlerRawData).
 videoInfo|`VideoInfo`|no|Video file information. See [VideoInfo](#videoinfo).
 
 <details>
@@ -392,7 +392,7 @@ type|`string`|yes|The type of the image.
 size|`SizeInfo`|yes|The size information of the image. See [SizeInfo](#SizeInfo).
 url|`string`|yes|A blob url of the image.
 element|`HTMLImageElement`/`HTMLCanvasElement`|yes|`HTMLImageElement` or `HTMLCanvasElement`.
-raw|`MediaFileHandlerRawData`|yes|Raw information of the image file being processed. See [MediaFileHandlerRawData].(#MediaFileHandlerRawData).
+raw|`MediaFileHandlerRawData`|yes|Raw information of the image file being processed. See [MediaFileHandlerRawData](#MediaFileHandlerRawData).
 videoInfo|`VideoInfo`|yes|When taking a screenshot of the video, the original video file information. See [VideoInfo](#VideoInfo).
 
 <details>

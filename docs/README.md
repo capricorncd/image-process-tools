@@ -116,7 +116,7 @@ perResize|`number`|no|原始图片与目标图片尺寸相差很大时，一次�
 quality|`number`|no|处理后返回的图片质量，取值`0-1`。详情请见[toDataURL](https://developer.mozilla.org/en-US/docs/Web/API/HTMLCanvasElement/toDataURL)。默认为`0.9`。
 width|`number`|no|处理后的图片宽度。默认为`0`。
 height|`number`|no|处理后的图片高度。默认为`0`。
-longestSide|`number`|no|处理后的图片较长边的像素值，仅在`width`和`height`都为`0`时有效。默认为`0`。
+longEdge|`number`|no|处理后的图片较长边的像素值，仅在`width`和`height`都为`0`时有效。默认为`0`。
 cropInfo|`OptionsCropInfo`|no|详情请见[OptionsCropInfo](#OptionsCropInfo)。
 
 <details>
@@ -145,8 +145,8 @@ interface ImageHandlerOptions {
   width?: number
   // The `height` of the processed image. Default is `0`.
   height?: number
-  // The size of the longest side. Valid when width and height are `0`. Default is `0`.
-  longestSide?: number
+  // The value of long edge. Valid when width and height are `0`. Default is `0`.
+  longEdge?: number
   // See [OptionsCropInfo](#OptionsCropInfo).
   cropInfo?: OptionsCropInfo
 }
@@ -360,7 +360,7 @@ perResize|`number`|no|原始图片与目标图片尺寸相差很大时，一次�
 quality|`number`|no|处理后返回的图片质量，取值`0-1`。详情请见[toDataURL](https://developer.mozilla.org/en-US/docs/Web/API/HTMLCanvasElement/toDataURL)。默认为`0.9`。
 width|`number`|no|处理后的图片宽度。默认为`0`。
 height|`number`|no|处理后的图片高度。默认为`0`。
-longestSide|`number`|no|处理后的图片较长边的像素值，仅在`width`和`height`都为`0`时有效。默认为`0`。
+longEdge|`number`|no|处理后的图片较长边的像素值，仅在`width`和`height`都为`0`时有效。默认为`0`。
 cropInfo|`OptionsCropInfo`|no|详情请见[OptionsCropInfo](#OptionsCropInfo)。
 currentTime|`number`|no|视频文件的截图时间点。超出视频播放时间时，将截取最后一帧。默认随机截取某一帧。
 

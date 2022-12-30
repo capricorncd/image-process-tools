@@ -22,8 +22,8 @@ export const DEFAULT_OPTIONS = {
   // The width of the processed image
   width: 0,
   height: 0,
-  // The size of the longest side. Valid when width and height are `0`.
-  longestSide: 0,
+  // The value of long edge. Valid when width and height are `0`.
+  longEdge: 0,
   // Image cropping parameters
   // cropInfo: {}
 }

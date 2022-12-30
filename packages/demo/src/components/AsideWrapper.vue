@@ -15,9 +15,9 @@
           :step="1"
         />
       </el-form-item>
-      <el-form-item :label="`longestSide: ${form.longestSide}`">
+      <el-form-item :label="`longEdge: ${form.longEdge}`">
         <el-slider
-          v-model="form.longestSide"
+          v-model="form.longEdge"
           :max="
             store.result
               ? Math.max(store.result.raw.width, store.result.raw.height)

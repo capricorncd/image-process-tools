@@ -116,7 +116,7 @@ perResize|`number`|no|画像をスケーリングするときにギザギザの�
 quality|`number`|no|処理後に返される画質。値の範囲は`0-1`である。詳細については、[toDataURL](https://developer.mozilla.org/en-US/docs/Web/API/HTMLCanvasElement/toDataURL) を参照してください。デフォルトは `0.9` である。
 width|`number`|no|画像の「幅」を設定する。デフォルトは`0`である。
 height|`number`|no|画像の「高さ」を設定する。デフォルトは`0`である。
-longestSide|`number`|no|画像の長辺を設定する。デフォルトは`0`である。
+longEdge|`number`|no|画像の長辺を設定する。デフォルトは`0`である。
 cropInfo|`OptionsCropInfo`|no|[OptionsCropInfo](#OptionsCropInfo)を参照してください。
 
 <details>
@@ -145,8 +145,8 @@ interface ImageHandlerOptions {
   width?: number
   // The `height` of the processed image. Default is `0`.
   height?: number
-  // The size of the longest side. Valid when width and height are `0`. Default is `0`.
-  longestSide?: number
+  // The value of long edge. Valid when width and height are `0`. Default is `0`.
+  longEdge?: number
   // See [OptionsCropInfo](#OptionsCropInfo).
   cropInfo?: OptionsCropInfo
 }
@@ -360,7 +360,7 @@ perResize|`number`|no|画像をスケーリングするときにギザギザの�
 quality|`number`|no|処理後に返される画質。値の範囲は`0-1`である。詳細については、[toDataURL](https://developer.mozilla.org/en-US/docs/Web/API/HTMLCanvasElement/toDataURL) を参照してください。デフォルトは `0.9` である。
 width|`number`|no|画像の「幅」を設定する。デフォルトは`0`である。
 height|`number`|no|画像の「高さ」を設定する。デフォルトは`0`である。
-longestSide|`number`|no|画像の長辺を設定する。デフォルトは`0`である。
+longEdge|`number`|no|画像の長辺を設定する。デフォルトは`0`である。
 cropInfo|`OptionsCropInfo`|no|[OptionsCropInfo](#OptionsCropInfo)を参照してください。
 currentTime|`number`|no|ビデオのスクショを撮る時点。デフォルトは、動画の長さの「ランダムな」タイムスタンプである。
 

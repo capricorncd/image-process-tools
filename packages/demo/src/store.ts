@@ -15,7 +15,7 @@ export const defaultOptions = {
   quality: 0.9,
   width: 0,
   height: 0,
-  longestSide: 1000,
+  longEdge: 1000,
   enableDevicePixelRatio: false,
   isForce: false,
   cropInfo: {

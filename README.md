@@ -116,7 +116,7 @@ perResize|`number`|no|Reduce the width each time. To prevent jagged edges when s
 quality|`number`|no|A Number between 0 and 1 indicating the image quality to use for image formats that use lossy compression such as image/jpeg and image/webp. If this argument is anything else, the default value for image quality is used. The default value is 0.92. Other arguments are ignored. See [toDataURL](https://developer.mozilla.org/en-US/docs/Web/API/HTMLCanvasElement/toDataURL). Default is `0.9`.
 width|`number`|no|The `width` of the processed image. Default is `0`.
 height|`number`|no|The `height` of the processed image. Default is `0`.
-longestSide|`number`|no|The size of the longest side. Valid when width and height are `0`. Default is `0`.
+longEdge|`number`|no|The value of long edge. Valid when width and height are `0`. Default is `0`.
 cropInfo|`OptionsCropInfo`|no|See [OptionsCropInfo](#OptionsCropInfo).
 
 <details>
@@ -145,8 +145,8 @@ interface ImageHandlerOptions {
   width?: number
   // The `height` of the processed image. Default is `0`.
   height?: number
-  // The size of the longest side. Valid when width and height are `0`. Default is `0`.
-  longestSide?: number
+  // The value of long edge. Valid when width and height are `0`. Default is `0`.
+  longEdge?: number
   // See [OptionsCropInfo](#OptionsCropInfo).
   cropInfo?: OptionsCropInfo
 }
@@ -360,7 +360,7 @@ perResize|`number`|no|Reduce the width each time. To prevent jagged edges when s
 quality|`number`|no|A Number between 0 and 1 indicating the image quality to use for image formats that use lossy compression such as image/jpeg and image/webp. If this argument is anything else, the default value for image quality is used. The default value is 0.92. Other arguments are ignored. See [toDataURL](https://developer.mozilla.org/en-US/docs/Web/API/HTMLCanvasElement/toDataURL). Default is `0.9`.
 width|`number`|no|The `width` of the processed image. Default is `0`.
 height|`number`|no|The `height` of the processed image. Default is `0`.
-longestSide|`number`|no|The size of the longest side. Valid when width and height are `0`. Default is `0`.
+longEdge|`number`|no|The value of long edge. Valid when width and height are `0`. Default is `0`.
 cropInfo|`OptionsCropInfo`|no|See [OptionsCropInfo](#OptionsCropInfo).
 currentTime|`number`|no|The `HTMLMediaElement` interface's `currentTime` property specifies the current playback time in seconds. If it is longer than the video duration, the last frame will be captured. The default is a `random` timestamp in the video duration.
 

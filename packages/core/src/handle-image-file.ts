@@ -39,6 +39,9 @@ export function handleImageFile(
     const _options: ImageHandlerOptions = {
       ...DEFAULT_OPTIONS,
       ...options,
+      // compatible processing
+      // @ts-ignore
+      longEdge: options?.longEdge ?? options?.longestSide,
     }
     // base64
     if (typeof file === 'string' && base64Reg.test(file)) {
@@ -93,7 +96,7 @@ function handleImageBase64(
       })
     } else if (options.width && options.height) {
       cropImage(raw, options, resolve, reject, initCropInfo(raw, options))
-    } else if (options.width || options.height || options.longestSide) {
+    } else if (options.width || options.height || options.longEdge) {
       proportionalZoom(raw, options, resolve, reject)
     } else {
       checkResult({ ...raw, raw }, options, resolve)
@@ -131,13 +134,13 @@ function cropImage(
 
     // Check if width or height is set
     if (!options.width && !options.height) {
-      // options.longestSide check
-      if (options.longestSide) {
+      // options.longEdge check
+      if (options.longEdge) {
         if (cropInfo.sw > cropInfo.sh) {
-          options.width = options.longestSide
+          options.width = options.longEdge
           options.height = (cropInfo.sh * options.width) / cropInfo.sw
         } else {
-          options.height = options.longestSide
+          options.height = options.longEdge
           options.width = (cropInfo.sw * options.height) / cropInfo.sh
         }
       } else {
@@ -182,11 +185,11 @@ function proportionalZoom(
   reject: ImageProcessReject
 ): void {
   try {
-    if (options.longestSide && !options.width && !options.height) {
+    if (options.longEdge && !options.width && !options.height) {
       if (raw.width >= raw.height) {
-        options.width = options.longestSide
+        options.width = options.longEdge
       } else {
-        options.height = options.longestSide
+        options.height = options.longEdge
       }
     }
 

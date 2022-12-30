@@ -31,8 +31,8 @@ export interface ImageHandlerOptions {
   width?: number
   // The `height` of the processed image. Default is `0`.
   height?: number
-  // The size of the longest side. Valid when width and height are `0`. Default is `0`.
-  longestSide?: number
+  // The value of long edge. Valid when width and height are `0`. Default is `0`.
+  longEdge?: number
   // See [OptionsCropInfo](#OptionsCropInfo).
   cropInfo?: OptionsCropInfo
 }

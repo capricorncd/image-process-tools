@@ -1,6 +1,6 @@
 {
   "name": "image-process",
-  "version": "4.3.1",
+  "version": "4.3.2",
   "description": "A Image clipping or scaling, support local or same domain video file screenshot. It's implemented in canvas.",
   "main": "dist/image-process.umd.js",
   "module": "dist/image-process.es.js",
@@ -8,7 +8,8 @@
   "exports": {
     ".": {
       "import": "./dist/image-process.es.js",
-      "require": "./dist/image-process.umd.js"
+      "require": "./dist/image-process.umd.js",
+      "types": "./types/index.d.ts"
     }
   },
   "keywords": [
@@ -21,7 +22,8 @@
   ],
   "files": [
     "dist",
-    "types"
+    "types",
+    "packages/core"
   ],
   "packageManager": "pnpm@7.5.1",
   "scripts": {

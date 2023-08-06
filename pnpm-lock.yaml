@@ -30,7 +30,7 @@ importers:
       eslint-plugin-import: 2.26.0_a4joqblmhia23nxa56icx3bc6u
       eslint-plugin-prettier: 4.2.1_7uxdfn2xinezdgvmbammh6ev5i
       inquirer: 8.2.4
-      pnpm: 7.5.1
+      pnpm: 7.33.4
       prettier: 2.7.1
       typescript: 4.7.3
       vite: 3.2.7_@types+node@17.0.45
@@ -2189,8 +2189,8 @@ packages:
     engines: {node: '>=8.6'}
     dev: true
 
-  /pnpm/7.5.1:
-    resolution: {integrity: sha512-/WbI4+V4QLJvMn4mp6dw4q+fbvwIyLTr7qmkoCpqs/xIYMpVXA3wdkvI5I9O9k1DJfYNuH8yY7Uf4vCCEdObJw==}
+  /pnpm/7.33.4:
+    resolution: {integrity: sha512-xEbf/tkwHpGM/GXq5U/sDSiE6ykLPho+o71PHNRWqkVLm6dJe4G/5Pg619Ow32ovekrr7pii5qtfamujB/+1bA==}
     engines: {node: '>=14.6'}
     hasBin: true
     dev: true
